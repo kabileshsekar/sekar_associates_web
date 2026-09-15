@@ -1,0 +1,985 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Casa Botanica — Sekar Associates</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --beige:      #e8e0d5;
+      --beige-mid:  #cfc5b5;
+      --ink:        #1a1714;
+      --ink-soft:   #3d3830;
+      --ink-muted:  #8a847a;
+      --white:      #faf8f5;
+      --accent:     #c4a882;
+      --font-serif: 'DM Serif Display', Georgia, serif;
+      --font-sans:  'DM Sans', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--beige);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; object-fit: cover; }
+
+    /* ============================================================
+       HEADER — fixed, transparent over hero, solid after
+    ============================================================ */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 48px;
+      transition: background .4s, border-color .4s, padding .4s;
+    }
+    .site-header.scrolled {
+      background: var(--beige);
+      border-bottom: 1px solid var(--beige-mid);
+      padding: 18px 48px;
+    }
+    .header-brand {
+      font-family: var(--font-serif);
+      font-size: clamp(14px, 1.3vw, 18px);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #fff;
+      transition: color .4s;
+    }
+    .site-header.scrolled .header-brand { color: var(--ink); }
+
+    .header-back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.8);
+      transition: color .3s, gap .3s;
+    }
+    .header-back:hover { gap: 14px; color: #fff; }
+    .site-header.scrolled .header-back { color: var(--ink-soft); }
+    .site-header.scrolled .header-back:hover { color: var(--ink); }
+    .header-back svg { transition: transform .3s; }
+    .header-back:hover svg { transform: translateX(-3px); }
+
+    /* ============================================================
+       HERO — fullscreen image with overlay + title reveal
+    ============================================================ */
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .hero__img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.08);
+      transition: transform 1.6s cubic-bezier(.16,1,.3,1);
+    }
+    .hero__img.loaded { transform: scale(1); }
+
+    .hero__overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,0) 50%),
+        linear-gradient(to bottom, rgba(0,0,0,.4) 0%, rgba(0,0,0,0) 30%),
+        rgba(0,0,0,.1);
+    }
+
+    .hero__content {
+      position: absolute;
+      bottom: 72px; left: 48px; right: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .hero__title-wrap { overflow: hidden; }
+    .hero__title {
+      font-family: var(--font-serif);
+      font-size: clamp(48px, 7vw, 96px);
+      font-weight: 400;
+      line-height: .95;
+      letter-spacing: -.03em;
+      color: #fff;
+      transform: translateY(100%);
+      transition: transform 1s cubic-bezier(.16,1,.3,1) .3s;
+    }
+    .hero__title.visible { transform: translateY(0); }
+    .hero__title em { font-style: italic; color: rgba(255,255,255,.7); }
+
+    .hero__meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity .8s ease .7s, transform .8s ease .7s;
+    }
+    .hero__meta.visible { opacity: 1; transform: translateY(0); }
+    .hero__meta-tag {
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.5);
+    }
+    .hero__meta-loc {
+      font-size: 13px;
+      color: rgba(255,255,255,.8);
+      letter-spacing: .06em;
+    }
+
+    .hero__scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeInUp 1s ease 1.2s forwards;
+    }
+    .hero__scroll-hint span {
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: rgba(255,255,255,.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: -100%; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(255,255,255,.8);
+      animation: scrollDown 1.5s ease 1.5s infinite;
+    }
+    @keyframes scrollDown {
+      from { top: -100%; }
+      to   { top: 100%; }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    /* ============================================================
+       INTRO STRIP — key project info
+    ============================================================ */
+    .intro-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--beige-mid);
+    }
+    .intro-strip__item {
+      padding: 40px 48px;
+      border-right: 1px solid var(--beige-mid);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .intro-strip__item:last-child { border-right: none; }
+    .intro-strip__item.in-view { opacity: 1; transform: translateY(0); }
+    .intro-strip__item:nth-child(2) { transition-delay: .1s; }
+    .intro-strip__item:nth-child(3) { transition-delay: .2s; }
+    .intro-strip__item:nth-child(4) { transition-delay: .3s; }
+    .intro-strip__label {
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 10px;
+    }
+    .intro-strip__value {
+      font-family: var(--font-serif);
+      font-size: clamp(16px, 1.6vw, 22px);
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    /* ============================================================
+       SECTION LAYOUT HELPERS
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+    /* ============================================================
+       OVERVIEW — large text + side note
+    ============================================================ */
+    .overview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      padding: 120px 48px;
+      border-bottom: 1px solid var(--beige-mid);
+      align-items: center;
+    }
+    .overview__heading {
+      font-family: var(--font-serif);
+      font-size: clamp(36px, 4.5vw, 68px);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -.03em;
+      color: var(--ink);
+    }
+    .overview__heading em { font-style: italic; color: var(--ink-muted); }
+    .overview__aside { padding-top: 8px; }
+    .overview__aside-label {
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 20px;
+    }
+    .overview__aside p {
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--ink-soft);
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+    .overview__aside p:last-child { margin-bottom: 0; }
+
+    /* ============================================================
+       FULL IMAGE — edge to edge
+    ============================================================ */
+    .full-image {
+      position: relative;
+      overflow: hidden;
+    }
+    .full-image img {
+      width: 100%;
+      height: 85vh;
+      object-fit: cover;
+      transform: scale(1.04);
+      transition: transform 1.2s cubic-bezier(.16,1,.3,1);
+    }
+    .full-image.in-view img { transform: scale(1); }
+    .full-image__caption {
+      position: absolute;
+      bottom: 24px; right: 32px;
+      font-size: 11px;
+      letter-spacing: .08em;
+      color: rgba(255,255,255,.5);
+    }
+
+    /* ============================================================
+       TWO-IMAGE ROW
+    ============================================================ */
+    .two-image {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .two-image__item {
+      position: relative;
+      overflow: hidden;
+    }
+    .two-image__item img {
+      height: 65vh;
+      object-fit: cover;
+      transform: scale(1.05);
+      transition: transform 1s cubic-bezier(.16,1,.3,1);
+    }
+    .two-image__item.in-view img { transform: scale(1); }
+
+    /* ============================================================
+       TEXT SECTION — wide paragraph with pull quote
+    ============================================================ */
+    .text-section {
+      padding: 120px 48px;
+      display: grid;
+      grid-template-columns: 180px 1fr 1fr;
+      gap: 80px;
+      border-bottom: 1px solid var(--beige-mid);
+      align-items: start;
+    }
+    .text-section__label {
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      padding-top: 6px;
+    }
+    .text-section__body p {
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--ink-soft);
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+    .text-section__body p:last-child { margin-bottom: 0; }
+    .text-section__quote {
+      border-left: 2px solid var(--beige-mid);
+      padding-left: 28px;
+    }
+    .text-section__quote blockquote {
+      font-family: var(--font-serif);
+      font-size: clamp(22px, 2.2vw, 32px);
+      font-weight: 400;
+      line-height: 1.3;
+      letter-spacing: -.01em;
+      color: var(--ink);
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    .text-section__quote cite {
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      font-style: normal;
+    }
+
+    /* ============================================================
+       ASYMMETRIC IMAGE + TEXT
+    ============================================================ */
+    .split-section {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      min-height: 80vh;
+      border-bottom: 1px solid var(--beige-mid);
+    }
+    .split-section.reverse { direction: rtl; }
+    .split-section.reverse > * { direction: ltr; }
+    .split-section__image {
+      position: relative;
+      overflow: hidden;
+    }
+    .split-section__image img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: scale(1.05);
+      transition: transform 1.2s cubic-bezier(.16,1,.3,1);
+    }
+    .split-section__image.in-view img { transform: scale(1); }
+    .split-section__text {
+      padding: 80px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 28px;
+      background: var(--beige);
+    }
+    .split-section__num {
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+    .split-section__heading {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 2.8vw, 42px);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+    }
+    .split-section__heading em { font-style: italic; color: var(--ink-muted); }
+    .split-section__body {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--ink-soft);
+      font-weight: 300;
+    }
+    .split-section__detail {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--beige-mid);
+    }
+    .split-section__detail-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--ink-muted);
+      letter-spacing: .04em;
+    }
+    .split-section__detail-item span:last-child { color: var(--ink); }
+
+    /* ============================================================
+       THREE-IMAGE GRID
+    ============================================================ */
+    .three-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 3px;
+      background: var(--beige-mid);
+    }
+    .three-grid__item {
+      position: relative;
+      overflow: hidden;
+      background: var(--beige);
+    }
+    .three-grid__item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: scale(1.04);
+      transition: transform 1s cubic-bezier(.16,1,.3,1);
+    }
+    .three-grid__item.in-view img { transform: scale(1); }
+    .three-grid__item:nth-child(1) {
+      grid-row: span 2;
+      min-height: 700px;
+    }
+    .three-grid__item:nth-child(2),
+    .three-grid__item:nth-child(3) { min-height: 340px; }
+
+    /* ============================================================
+       MATERIALS SECTION
+    ============================================================ */
+    .materials {
+      padding: 100px 48px;
+      border-bottom: 1px solid var(--beige-mid);
+    }
+    .materials__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 60px;
+    }
+    .materials__label {
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+    .materials__heading {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 3vw, 44px);
+      font-weight: 400;
+      letter-spacing: -.02em;
+    }
+    .materials__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+    .material-card {
+      background: var(--beige-mid);
+      aspect-ratio: 1;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      opacity: 0;
+      transform: scale(.96);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .material-card.in-view { opacity: 1; transform: scale(1); }
+    .material-card:nth-child(2) { transition-delay: .08s; }
+    .material-card:nth-child(3) { transition-delay: .16s; }
+    .material-card:nth-child(4) { transition-delay: .24s; }
+    .material-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s ease; }
+    .material-card:hover img { transform: scale(1.08); }
+    .material-card__label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 16px;
+      background: linear-gradient(to top, rgba(26,23,20,.6), transparent);
+      color: #fff;
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      transform: translateY(100%);
+      transition: transform .35s cubic-bezier(.16,1,.3,1);
+    }
+    .material-card:hover .material-card__label { transform: translateY(0); }
+
+    /* Always show label on touch devices */
+    @media (hover: none) {
+      .material-card__label { transform: translateY(0); }
+    }
+
+    /* ============================================================
+       NEXT PROJECT — teaser footer
+    ============================================================ */
+    .next-project {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 80px 48px;
+      background: var(--ink);
+      color: #fff;
+      cursor: pointer;
+      transition: background .3s;
+      text-decoration: none;
+    }
+    .next-project:hover { background: #0d0b09; }
+    .next-project__label {
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+      margin-bottom: 14px;
+    }
+    .next-project__title {
+      font-family: var(--font-serif);
+      font-size: clamp(32px, 4vw, 58px);
+      font-weight: 400;
+      letter-spacing: -.02em;
+      line-height: 1;
+    }
+    .next-project__title em { font-style: italic; color: rgba(255,255,255,.5); }
+    .next-project__arrow {
+      width: 64px; height: 64px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: transform .4s cubic-bezier(.16,1,.3,1), border-color .3s;
+    }
+    .next-project:hover .next-project__arrow {
+      transform: translateX(8px);
+      border-color: rgba(255,255,255,.5);
+    }
+
+    /* ============================================================
+       PAGE FOOTER
+    ============================================================ */
+    .pg-footer {
+      background: var(--ink);
+      color: var(--white);
+      padding: 40px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,.08);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .pg-footer__brand {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .pg-footer__copy { font-size: 11px; color: rgba(255,255,255,.25); }
+    .pg-footer__link {
+      font-size: 12px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-bottom: 1px solid rgba(196,168,130,.3);
+      padding-bottom: 2px;
+      transition: border-color .2s;
+    }
+    .pg-footer__link:hover { border-color: var(--accent); }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+
+    /* ---- Tablet landscape (≤1024px) ---- */
+    @media (max-width: 1024px) {
+      /* text-section: hide label col, body + quote side by side */
+      .text-section {
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        padding: 100px 48px;
+      }
+      .text-section__label { display: none; }
+      .materials__grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ---- Tablet portrait (≤768px) ---- */
+    @media (max-width: 768px) {
+      /* Header */
+      .site-header         { padding: 18px 24px; }
+      .site-header.scrolled{ padding: 13px 24px; }
+
+      /* Hero */
+      .hero__content {
+        bottom: 48px; left: 24px; right: 24px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .hero__meta { align-items: flex-start; }
+      .full-image img { height: 60vh; }
+
+      /* Intro strip — 2×2 grid */
+      .intro-strip         { grid-template-columns: 1fr 1fr; }
+      .intro-strip__item   { padding: 28px 24px; }
+
+      /* Overview */
+      .overview { grid-template-columns: 1fr; gap: 48px; padding: 72px 24px; align-items: start; }
+      .overview__aside { max-width: 620px; }
+
+      /* Text section — stack completely on tablet */
+      .text-section {
+        grid-template-columns: 1fr;
+        padding: 72px 24px;
+        gap: 40px;
+      }
+      .text-section__quote {
+        border-left: none;
+        border-top: 1px solid var(--beige-mid);
+        padding-left: 0;
+        padding-top: 40px;
+      }
+      .text-section__quote blockquote {
+        font-size: clamp(20px, 5vw, 28px);
+      }
+
+      /* Split sections — stack image then text */
+      .split-section        { grid-template-columns: 1fr; min-height: unset; }
+      .split-section.reverse{ direction: ltr; }
+      .split-section__image img { height: 60vw; min-height: 260px; }
+      .split-section__text  { padding: 48px 24px; }
+
+      /* Two images — stack */
+      .two-image            { grid-template-columns: 1fr; }
+      .two-image__item img  { height: 72vw; }
+
+      /* Three grid — large top, two below */
+      .three-grid { grid-template-columns: 1fr 1fr; }
+      .three-grid__item:nth-child(1) {
+        grid-row: span 1;
+        grid-column: span 2;
+        min-height: 58vw;
+      }
+      .three-grid__item:nth-child(2),
+      .three-grid__item:nth-child(3) { min-height: 44vw; }
+
+      /* Materials */
+      .materials            { padding: 64px 24px; }
+      .materials__header    { flex-direction: column; gap: 10px; }
+      .materials__grid      { grid-template-columns: 1fr 1fr; }
+
+      /* Next project */
+      .next-project         { padding: 56px 24px; }
+
+      /* Footer */
+      .pg-footer {
+        padding: 32px 24px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+    }
+
+    /* ---- Mobile (≤480px) ---- */
+    @media (max-width: 480px) {
+      /* Header */
+      .site-header          { padding: 14px 20px; }
+      .site-header.scrolled { padding: 12px 20px; }
+      .header-brand         { font-size: 12px; letter-spacing: .12em; }
+      .header-back          { font-size: 11px; }
+
+      /* Hero */
+      .hero__title          { font-size: clamp(36px, 11vw, 52px); }
+      .hero__content        { left: 20px; right: 20px; bottom: 40px; }
+      .full-image img       { height: 55vw; min-height: 220px; }
+
+      /* Intro strip */
+      .intro-strip          { grid-template-columns: 1fr 1fr; }
+      .intro-strip__item    { padding: 20px 16px; }
+      .intro-strip__value   { font-size: 16px; }
+
+      /* Overview */
+      .overview             { padding: 56px 20px; }
+      .overview__heading    { font-size: clamp(26px, 8vw, 40px); }
+      .overview__aside p    { font-size: 14px; }
+
+      /* Text section */
+      .text-section         { padding: 56px 20px; gap: 32px; }
+      .text-section__body p { font-size: 14px; line-height: 1.8; }
+      .text-section__quote blockquote { font-size: clamp(18px, 6vw, 24px); }
+
+      /* Split */
+      .split-section__text  { padding: 40px 20px; gap: 20px; }
+      .split-section__heading { font-size: clamp(22px, 7vw, 32px); }
+      .split-section__body  { font-size: 14px; }
+
+      /* Images */
+      .two-image__item img  { height: 80vw; }
+      .three-grid__item:nth-child(1)   { min-height: 65vw; }
+      .three-grid__item:nth-child(2),
+      .three-grid__item:nth-child(3)   { min-height: 50vw; }
+
+      /* Materials */
+      .materials            { padding: 48px 20px; }
+      .materials__grid      { grid-template-columns: 1fr 1fr; gap: 2px; }
+
+      /* Next */
+      .next-project         { padding: 48px 20px; }
+      .next-project__title  { font-size: 26px; }
+      .next-project__arrow  { width: 44px; height: 44px; }
+
+      /* Footer */
+      .pg-footer            { padding: 28px 20px; }
+      .pg-footer__brand     { font-size: 15px; }
+    }
+
+    /* ---- Very small (≤360px) ---- */
+    @media (max-width: 360px) {
+      .hero__title          { font-size: 32px; }
+      .intro-strip__item    { padding: 16px 12px; }
+      .intro-strip__value   { font-size: 14px; }
+      .overview__heading    { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header" id="siteHeader">
+    <a class="header-brand" href="index.html">Sekar Associates</a>
+    <a class="header-back" href="projects.html">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      All Projects
+    </a>
+  </header>
+
+  <!-- HERO — fullscreen -->
+  <section class="hero" id="hero">
+    <img class="hero__img" id="heroImg" src="assets/hero.png" alt="Casa Botanica">
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <div class="hero__title-wrap">
+        <h1 class="hero__title" id="heroTitle">Casa<br><em>Botanica</em></h1>
+      </div>
+      <div class="hero__meta" id="heroMeta">
+        <span class="hero__meta-tag">Residential · 2024</span>
+        <span class="hero__meta-loc">São Paulo, Brazil</span>
+      </div>
+    </div>
+    <div class="hero__scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- INTRO STRIP -->
+  <div class="intro-strip">
+    <div class="intro-strip__item reveal">
+      <p class="intro-strip__label">Category</p>
+      <p class="intro-strip__value">Residential</p>
+    </div>
+    <div class="intro-strip__item reveal">
+      <p class="intro-strip__label">Location</p>
+      <p class="intro-strip__value">São Paulo, BR</p>
+    </div>
+    <div class="intro-strip__item reveal">
+      <p class="intro-strip__label">Year</p>
+      <p class="intro-strip__value">2024</p>
+    </div>
+    <div class="intro-strip__item reveal">
+      <p class="intro-strip__label">Area</p>
+      <p class="intro-strip__value">420 m²</p>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="overview">
+    <h2 class="overview__heading reveal">
+      A residence where nature<br>
+      and <em>architecture</em> speak<br>
+      the same language.
+    </h2>
+    <div class="overview__aside reveal">
+      <p class="overview__aside-label">Overview</p>
+      <p>Casa Botanica was born from a desire to dissolve the boundary between interior and exterior. The brief asked for a home that felt simultaneously open to the tropical landscape and intimate enough for a family of four.</p>
+      <p>We responded with a layered sequence of spaces — each room a carefully composed frame for the garden beyond, connected by a choreography of light that shifts throughout the day.</p>
+    </div>
+  </div>
+
+  <!-- FULL-WIDTH IMAGE 1 -->
+  <div class="full-image reveal">
+    <img src="assets/hero.png" alt="Casa Botanica — Living Room">
+    <span class="full-image__caption">Living room, facing the garden</span>
+  </div>
+
+  <!-- TEXT + QUOTE -->
+  <div class="text-section">
+    <span class="text-section__label reveal">Concept</span>
+    <div class="text-section__body reveal">
+      <p>The material palette was assembled over eighteen months of sourcing — from hand-fired ceramic tiles imported from Portugal to solid Brazilian walnut harvested from certified forests in Mato Grosso.</p>
+      <p>Every surface was chosen for its ability to age well, to accumulate the memory of the people who inhabit it. The floors, for instance, will darken over decades, a living record of the life lived here.</p>
+    </div>
+    <div class="text-section__quote reveal">
+      <blockquote>"The best rooms are the ones you never want to leave — not because they hold you, but because they feel completely yours."</blockquote>
+      <cite>— Lead Designer, Sekar Associates</cite>
+    </div>
+  </div>
+
+  <!-- SPLIT — image left, text right -->
+  <div class="split-section">
+    <div class="split-section__image reveal">
+      <img src="assets/hero.png" alt="Master bedroom">
+    </div>
+    <div class="split-section__text">
+      <span class="split-section__num reveal">01 / Master Suite</span>
+      <h3 class="split-section__heading reveal">
+        A room designed for<br><em>deep rest.</em>
+      </h3>
+      <p class="split-section__body reveal">
+        The master suite occupies the entire eastern wing, opening onto a private courtyard garden accessible only from within. Blackout linen panels filter the morning light to a soft amber glow, while the en-suite bath is carved from a single slab of Calacatta marble.
+      </p>
+      <div class="split-section__detail reveal">
+        <div class="split-section__detail-item"><span>Area</span><span>62 m²</span></div>
+        <div class="split-section__detail-item"><span>Ceiling</span><span>3.4 m high</span></div>
+        <div class="split-section__detail-item"><span>Material</span><span>Walnut & Linen</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPLIT — image right, text left (reversed) -->
+  <div class="split-section reverse">
+    <div class="split-section__image reveal">
+      <img src="assets/hero.png" alt="Kitchen">
+    </div>
+    <div class="split-section__text">
+      <span class="split-section__num reveal">02 / Kitchen</span>
+      <h3 class="split-section__heading reveal">
+        Where the family<br><em>gathers.</em>
+      </h3>
+      <p class="split-section__body reveal">
+        At the heart of the home, the kitchen was designed as a living room unto itself. A twelve-metre island in honed Nero Marquina marble anchors the space, surrounded by custom joinery in smoked oak with unlacquered brass hardware that will develop its own patina over time.
+      </p>
+      <div class="split-section__detail reveal">
+        <div class="split-section__detail-item"><span>Area</span><span>48 m²</span></div>
+        <div class="split-section__detail-item"><span>Stone</span><span>Nero Marquina</span></div>
+        <div class="split-section__detail-item"><span>Joinery</span><span>Smoked Oak</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TWO IMAGES SIDE BY SIDE -->
+  <div class="two-image">
+    <div class="two-image__item reveal">
+      <img src="assets/hero.png" alt="Detail 1">
+    </div>
+    <div class="two-image__item reveal">
+      <img src="assets/hero.png" alt="Detail 2">
+    </div>
+  </div>
+
+  <!-- THREE IMAGE GRID -->
+  <div class="three-grid">
+    <div class="three-grid__item reveal">
+      <img src="assets/hero.png" alt="Garden view">
+    </div>
+    <div class="three-grid__item reveal">
+      <img src="assets/hero.png" alt="Staircase">
+    </div>
+    <div class="three-grid__item reveal">
+      <img src="assets/hero.png" alt="Study">
+    </div>
+  </div>
+
+  <!-- MATERIALS -->
+  <div class="materials">
+    <div class="materials__header">
+      <span class="materials__label reveal">Material Palette</span>
+      <h3 class="materials__heading reveal">Crafted with <em>intention.</em></h3>
+    </div>
+    <div class="materials__grid">
+      <div class="material-card reveal">
+        <img src="assets/hero.png" alt="Calacatta Marble">
+        <span class="material-card__label">Calacatta Marble</span>
+      </div>
+      <div class="material-card reveal">
+        <img src="assets/hero.png" alt="Brazilian Walnut">
+        <span class="material-card__label">Brazilian Walnut</span>
+      </div>
+      <div class="material-card reveal">
+        <img src="assets/hero.png" alt="Portuguese Ceramic">
+        <span class="material-card__label">Portuguese Ceramic</span>
+      </div>
+      <div class="material-card reveal">
+        <img src="assets/hero.png" alt="Unlacquered Brass">
+        <span class="material-card__label">Unlacquered Brass</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FULL WIDTH IMAGE 2 -->
+  <div class="full-image reveal">
+    <img src="assets/hero.png" alt="Casa Botanica — Exterior at dusk">
+    <span class="full-image__caption">Exterior terrace, dusk</span>
+  </div>
+
+  <!-- NEXT PROJECT -->
+  <a class="next-project" href="project-detail.html">
+    <div>
+      <p class="next-project__label">Next Project</p>
+      <h2 class="next-project__title">Atelier <em>Nord</em></h2>
+    </div>
+    <div class="next-project__arrow">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M4 10h12M12 5l5 5-5 5" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </a>
+
+  <!-- FOOTER -->
+  <footer class="pg-footer">
+    <span class="pg-footer__brand">Sekar Associates</span>
+    <span class="pg-footer__copy">© 2024 All rights reserved.</span>
+    <a class="pg-footer__link" href="projects.html">← All Projects</a>
+  </footer>
+
+  <script>
+    // ---- Hero image Ken Burns + title reveal ----
+    const heroImg   = document.getElementById('heroImg');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroMeta  = document.getElementById('heroMeta');
+
+    window.addEventListener('load', () => {
+      heroImg.classList.add('loaded');
+      setTimeout(() => heroTitle.classList.add('visible'), 200);
+      setTimeout(() => heroMeta.classList.add('visible'),  400);
+    });
+
+    // ---- Sticky header ----
+    const header = document.getElementById('siteHeader');
+    const hero   = document.getElementById('hero');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', hero.getBoundingClientRect().bottom <= 0);
+    }, { passive: true });
+
+    // ---- Scroll reveal ----
+    const revealEls = document.querySelectorAll('.reveal, .intro-strip__item, .full-image, .two-image__item, .three-grid__item, .material-card, .split-section__image');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => obs.observe(el));
+  </script>
+
+</body>
+</html>

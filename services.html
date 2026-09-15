@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Services — Sekar Associates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --beige: #e8e0d5; --bm: #cfc5b5; --ink: #1a1714;
+  --soft: #3d3830;  --muted: #8a847a; --white: #faf8f5;
+  --accent: #c4a882;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--beige); color: var(--ink); font-family: var(--sans); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ── HEADER ── */
+.hdr { position: fixed; top: 0; left: 0; right: 0; z-index: 300; display: flex; align-items: center; justify-content: space-between; padding: 26px 48px; background: var(--beige); border-bottom: 1px solid var(--bm); }
+.hdr-brand { font-family: var(--serif); font-size: clamp(13px,1.2vw,17px); letter-spacing: .18em; text-transform: uppercase; }
+.hdr-back { display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); transition: gap .25s, color .2s; }
+.hdr-back:hover { gap: 14px; color: var(--ink); }
+.hdr-back svg { transition: transform .2s; }
+.hdr-back:hover svg { transform: translateX(-3px); }
+
+/* ── HERO ── */
+.hero { padding: 155px 48px 96px; border-bottom: 1px solid var(--bm); position: relative; overflow: hidden; }
+.hero-eye { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
+.hero-title { font-family: var(--serif); font-size: clamp(56px,9vw,120px); font-weight: 400; line-height: .9; letter-spacing: -.035em; }
+.hero-title em { font-style: italic; color: var(--muted); }
+.hero-title .ln { overflow: hidden; display: block; }
+.hero-title .wd { display: inline-block; transform: translateY(110%); transition: transform 1s cubic-bezier(.16,1,.3,1); }
+.hero-title.go .wd { transform: translateY(0); }
+.hero-title .wd:nth-child(2) { transition-delay: .12s; }
+.hero-sub { max-width: 500px; margin-top: 44px; font-size: 16px; line-height: 1.8; color: var(--soft); font-weight: 300; opacity: 0; transform: translateY(14px); transition: opacity .9s ease .5s, transform .9s ease .5s; }
+.hero-sub.go { opacity: 1; transform: none; }
+.hero-ghost { position: absolute; right: 40px; bottom: -30px; font-family: var(--serif); font-size: 26vw; color: rgba(26,23,20,.035); line-height: 1; pointer-events: none; user-select: none; }
+
+/* ── STICKY NAV ── */
+.snav { position: sticky; top: 81px; z-index: 200; background: var(--beige); border-bottom: 1px solid var(--bm); display: flex; overflow-x: auto; scrollbar-width: none; }
+.snav::-webkit-scrollbar { display: none; }
+.sb { flex: 1 1 0; background: none; border: none; font-family: var(--sans); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: 17px 10px; cursor: pointer; position: relative; white-space: nowrap; text-align: center; transition: color .2s; }
+.sb::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform .35s cubic-bezier(.16,1,.3,1); }
+.sb.on { color: var(--ink); }
+.sb.on::after { transform: scaleX(1); }
+
+/* ── REVEAL ── */
+.rv { opacity: 0; transform: translateY(28px); transition: opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1); }
+.rv.go { opacity: 1; transform: none; }
+.rv.d1 { transition-delay: .1s; } .rv.d2 { transition-delay: .2s; } .rv.d3 { transition-delay: .32s; }
+.svc { border-bottom: 1px solid var(--bm); overflow: hidden; }
+
+/* ════════════════════════════════════
+   S01 — INTERIOR ARCHITECTURE
+   Snake light running along every wall
+   ════════════════════════════════════ */
+#s01 { background: var(--beige); }
+.s01-wrap { display: grid; grid-template-columns: 1fr 1fr; min-height: 88vh; }
+.s01-left { padding: 96px 60px; display: flex; flex-direction: column; gap: 40px; border-right: 1px solid var(--bm); }
+.svc-num { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.svc-h { font-family: var(--serif); font-size: clamp(40px,4.8vw,70px); font-weight: 400; line-height: 1; letter-spacing: -.03em; }
+.svc-h em { font-style: italic; color: var(--muted); }
+.svc-p { font-size: 15px; line-height: 1.85; color: var(--soft); font-weight: 300; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tg { border: 1px solid var(--bm); border-radius: 100px; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 6px 16px; }
+
+.s01-right {
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  padding: 56px; position: relative; overflow: hidden;
+}
+.s01-right::before {
+  content: 'FLOOR PLAN';
+  position: absolute; top: 28px; left: 32px;
+  font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(255,255,255,.2);
+}
+
+.fp { width: min(420px,100%); aspect-ratio: 1; }
+.fp svg { width: 100%; height: 100%; }
+
+/* Dim static walls */
+.fl {
+  stroke: rgba(255,255,255,.1);
+  stroke-width: 1;
+  fill: none;
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+.fl.go { opacity: 1; }
+.fl:nth-child(1)  { transition-delay: .00s; }
+.fl:nth-child(2)  { transition-delay: .14s; }
+.fl:nth-child(3)  { transition-delay: .26s; }
+.fl:nth-child(4)  { transition-delay: .38s; }
+.fl:nth-child(5)  { transition-delay: .50s; }
+.fl:nth-child(6)  { transition-delay: .60s; }
+.fl:nth-child(7)  { transition-delay: .70s; }
+
+/* Gold snake — travels on top of each wall */
+.fs {
+  stroke: var(--accent);
+  stroke-width: 2;
+  fill: none;
+  stroke-dasharray: 36 900;
+  stroke-dashoffset: 0;
+  opacity: 0;
+  transition: opacity .4s ease;
+  filter: drop-shadow(0 0 4px rgba(196,168,130,.8));
+}
+.fs.go { opacity: 1; }
+.fs:nth-child(8)  { animation: snake 5.0s linear infinite  0.0s; transition-delay: .05s; }
+.fs:nth-child(9)  { animation: snake 3.4s linear infinite -1.2s; transition-delay: .15s; }
+.fs:nth-child(10) { animation: snake 2.8s linear infinite -0.6s; transition-delay: .25s; }
+.fs:nth-child(11) { animation: snake 4.2s linear infinite -2.0s; transition-delay: .35s; }
+.fs:nth-child(12) { animation: snake 3.0s linear infinite -0.9s; transition-delay: .45s; }
+.fs:nth-child(13) { animation: snake 2.4s linear infinite -1.6s; transition-delay: .55s; }
+.fs:nth-child(14) { animation: snake 3.8s linear infinite -0.4s; transition-delay: .65s; }
+
+@keyframes snake {
+  from { stroke-dashoffset: 0;    }
+  to   { stroke-dashoffset: -940; }
+}
+
+/* Accent room — static gold fill only */
+.fa {
+  stroke: var(--accent);
+  stroke-width: 1;
+  fill: rgba(196,168,130,.07);
+  opacity: 0;
+  transition: opacity .6s ease 1.2s;
+}
+.fa.go { opacity: 1; }
+
+/* Intersection dots — pulse */
+.fd {
+  fill: var(--accent);
+  opacity: 0;
+  transition: opacity .5s ease 1.6s;
+}
+.fd.go {
+  opacity: 1;
+  animation: pulseDot 2.4s ease-in-out infinite 1.6s;
+}
+@keyframes pulseDot {
+  0%, 100% { opacity: 1;  r: 3.5; }
+  50%       { opacity: .3; r: 5.5; }
+}
+
+/* Room labels */
+.flbl {
+  fill: rgba(255,255,255,.28);
+  font-family: sans-serif;
+  font-size: 8.5px; letter-spacing: .08em; text-transform: uppercase;
+  opacity: 0;
+  transition: opacity .7s ease 2s;
+}
+.flbl.go { opacity: 1; }
+
+/* Compass */
+.compass {
+  position: absolute; bottom: 28px; right: 32px;
+  width: 36px; height: 36px;
+  opacity: 0;
+  transition: opacity .6s ease 2.4s;
+}
+.compass.go {
+  opacity: 1;
+  animation: nudgeCompass 8s ease-in-out infinite 2.4s;
+}
+@keyframes nudgeCompass {
+  0%, 85%, 100% { transform: rotate(0deg); }
+  90%           { transform: rotate(6deg); }
+  95%           { transform: rotate(-3deg); }
+}
+
+/* Scan light sweep */
+.fp-scan {
+  position: absolute; top: 0; left: -40%;
+  width: 40%; height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,.03), transparent);
+  pointer-events: none;
+  animation: scanLight 6s ease-in-out infinite;
+}
+@keyframes scanLight {
+  0%   { left: -40%; }
+  100% { left: 120%; }
+}
+
+/* ════════════════════════════════════
+   S02 — FURNITURE & OBJECTS
+   ════════════════════════════════════ */
+#s02 { background: var(--white); }
+.s02-wrap { display: grid; grid-template-columns: 1fr 1fr; min-height: 88vh; }
+.s02-img { overflow: hidden; position: relative; }
+.s02-img img { transform: scale(1.07); transition: transform 1.5s cubic-bezier(.16,1,.3,1); }
+.s02-img.go img { transform: scale(1); }
+.s02-img-tag { position: absolute; bottom: 24px; left: 24px; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.55); background: rgba(26,23,20,.4); padding: 6px 12px; border-radius: 2px; backdrop-filter: blur(4px); }
+.s02-right { padding: 96px 68px; display: flex; flex-direction: column; justify-content: center; gap: 44px; }
+
+.process { display: flex; flex-direction: column; border-top: 1px solid var(--bm); }
+.pr-row { display: grid; grid-template-columns: 28px 1fr 110px; align-items: center; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--bm); opacity: 0; transform: translateY(10px); transition: opacity .55s ease, transform .55s cubic-bezier(.16,1,.3,1); }
+.pr-row.go { opacity: 1; transform: none; }
+.pr-row:nth-child(1) { transition-delay: .00s; } .pr-row:nth-child(2) { transition-delay: .10s; }
+.pr-row:nth-child(3) { transition-delay: .20s; } .pr-row:nth-child(4) { transition-delay: .30s; }
+.pr-row:nth-child(5) { transition-delay: .40s; }
+.pr-n { font-size: 10px; letter-spacing: .14em; color: var(--muted); }
+.pr-bar { height: 2px; background: var(--bm); border-radius: 2px; overflow: hidden; }
+.pr-fill { height: 100%; background: linear-gradient(to right, var(--accent), var(--soft)); border-radius: 2px; width: 0; transition: width 1s cubic-bezier(.16,1,.3,1); }
+.pr-row.go .pr-fill { width: var(--w); }
+.pr-row:nth-child(1) .pr-fill { transition-delay: .10s; } .pr-row:nth-child(2) .pr-fill { transition-delay: .25s; }
+.pr-row:nth-child(3) .pr-fill { transition-delay: .40s; } .pr-row:nth-child(4) .pr-fill { transition-delay: .55s; }
+.pr-row:nth-child(5) .pr-fill { transition-delay: .70s; }
+.pr-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--soft); text-align: right; }
+
+/* ════════════════════════════════════
+   S03 — CONCEPT & STYLING
+   ════════════════════════════════════ */
+#s03 { background: var(--ink); color: #fff; }
+.s03-wrap { display: grid; grid-template-columns: 1fr 1fr; min-height: 88vh; }
+.s03-left { padding: 96px 60px; display: flex; flex-direction: column; gap: 40px; border-right: 1px solid rgba(255,255,255,.07); }
+.s03-num { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.3); }
+.s03-h { font-family: var(--serif); font-size: clamp(40px,4.8vw,70px); font-weight: 400; line-height: 1; letter-spacing: -.03em; color: #fff; }
+.s03-h em { font-style: italic; color: rgba(255,255,255,.35); }
+.s03-p { font-size: 15px; line-height: 1.85; color: rgba(255,255,255,.58); font-weight: 300; }
+.pillars { display: flex; flex-direction: column; gap: 14px; }
+.pl { display: flex; align-items: center; gap: 14px; opacity: 0; transform: translateX(-14px); transition: opacity .55s ease, transform .55s cubic-bezier(.16,1,.3,1); }
+.pl.go { opacity: 1; transform: none; }
+.pl:nth-child(2) { transition-delay: .09s; } .pl:nth-child(3) { transition-delay: .18s; } .pl:nth-child(4) { transition-delay: .27s; }
+.pl-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.pl-txt { font-size: 14px; color: rgba(255,255,255,.68); letter-spacing: .03em; }
+
+.moodboard { padding: 48px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px; overflow: hidden; }
+.mc { border-radius: 5px; overflow: hidden; position: relative; opacity: 0; transition: opacity .75s ease, transform .75s cubic-bezier(.16,1,.3,1); }
+.mc:nth-child(1) { transform: translate(-20px, 20px); transition-delay: .05s; }
+.mc:nth-child(2) { transform: translate(20px,-20px); transition-delay: .15s; grid-row: span 2; }
+.mc:nth-child(3) { transform: translate(-20px,-20px); transition-delay: .28s; }
+.mc.go { opacity: 1; transform: none; }
+.mc img { filter: brightness(.75); }
+.mc-swatch { width: 100%; height: 100%; min-height: 140px; display: flex; align-items: flex-end; padding: 14px; }
+.mc-swatch span { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.5); }
+.sw1 { background: linear-gradient(135deg,#7a6e63,#a69585); }
+.sw3 { background: linear-gradient(135deg,#2e2b27,#4a4540); }
+
+/* ════════════════════════════════════
+   S04 — PROJECT MANAGEMENT
+   ════════════════════════════════════ */
+#s04 { background: var(--beige); }
+.s04-wrap { display: grid; grid-template-columns: 1fr 1fr; align-items: start; }
+.s04-left { padding: 96px 64px; position: sticky; top: 160px; }
+.s04-right { padding: 96px 64px 96px 80px; border-left: 1px solid var(--bm); }
+
+.tl { position: relative; padding-left: 36px; }
+.tl::before { content: ''; position: absolute; left: 5px; top: 12px; width: 1px; background: var(--bm); height: 0; transition: height 1.4s cubic-bezier(.16,1,.3,1); }
+.tl.go::before { height: calc(100% - 24px); }
+.tl-item { position: relative; padding: 0 0 52px 28px; opacity: 0; transform: translateX(18px); transition: opacity .65s ease, transform .65s cubic-bezier(.16,1,.3,1); }
+.tl-item.go { opacity: 1; transform: none; }
+.tl-item:nth-child(1) { transition-delay: .10s; } .tl-item:nth-child(2) { transition-delay: .22s; }
+.tl-item:nth-child(3) { transition-delay: .34s; } .tl-item:nth-child(4) { transition-delay: .46s; }
+.tl-item:nth-child(5) { transition-delay: .58s; } .tl-item:nth-child(6) { transition-delay: .70s; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-dot { position: absolute; left: -31px; top: 7px; width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--bm); background: var(--beige); transition: background .4s, border-color .4s; }
+.tl-item.go .tl-dot { background: var(--ink); border-color: var(--ink); }
+.tl-ph { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+.tl-title { font-family: var(--serif); font-size: clamp(18px,1.8vw,26px); font-weight: 400; letter-spacing: -.01em; margin-bottom: 9px; }
+.tl-desc { font-size: 13px; line-height: 1.72; color: var(--muted); font-weight: 300; }
+
+/* ── CTA ── */
+.cta-block { background: var(--ink); padding: 96px 48px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+.cta-lbl { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 14px; }
+.cta-h { font-family: var(--serif); font-size: clamp(34px,4.5vw,62px); font-weight: 400; letter-spacing: -.03em; color: #fff; line-height: 1; }
+.cta-h em { font-style: italic; color: rgba(255,255,255,.38); }
+.cta-btn { display: inline-flex; align-items: center; gap: 16px; border: 1px solid rgba(255,255,255,.2); color: #fff; font-family: var(--sans); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; padding: 19px 36px; transition: background .3s, border-color .3s, gap .3s; flex-shrink: 0; white-space: nowrap; }
+.cta-btn:hover { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.5); gap: 22px; }
+
+/* ── FOOTER ── */
+.ft { background: var(--ink); padding: 34px 48px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,.07); flex-wrap: wrap; gap: 12px; }
+.ft-b { font-family: var(--serif); font-size: 16px; letter-spacing: .12em; text-transform: uppercase; color: #fff; }
+.ft-c { font-size: 11px; color: rgba(255,255,255,.22); }
+.ft-l { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .s04-wrap { grid-template-columns: 1fr; }
+  .s04-left { position: static; padding: 80px 24px 40px; }
+  .s04-right { padding: 0 24px 80px; border-left: none; border-top: 1px solid var(--bm); }
+}
+@media (max-width: 768px) {
+  .hdr { padding: 16px 24px; }
+  .hero { padding: 110px 24px 72px; }
+  .snav { top: 63px; }
+  .sb { font-size: 10px; padding: 14px 8px; }
+  .s01-wrap, .s02-wrap, .s03-wrap { grid-template-columns: 1fr; }
+  .s01-left { padding: 64px 24px; border-right: none; border-bottom: 1px solid var(--bm); }
+  .s01-right { min-height: 340px; padding: 36px; }
+  .s02-img img { height: 56vw; }
+  .s02-right { padding: 52px 24px; }
+  .s03-left { padding: 64px 24px; border-right: none; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .moodboard { padding: 28px; min-height: 280px; }
+  .cta-block { padding: 72px 24px; }
+  .ft { padding: 28px 24px; flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 480px) {
+  .hero-title { font-size: clamp(40px,13vw,62px); }
+  .sb { font-size: 9px; letter-spacing: .07em; padding: 13px 5px; }
+  .svc-h, .s03-h { font-size: clamp(32px,10vw,50px); }
+  .cta-h { font-size: 28px; }
+  .pr-label { display: none; }
+  .cta-block { flex-direction: column; align-items: flex-start; }
+  .cta-btn { width: 100%; justify-content: center; }
+}
+@media (max-width: 360px) {
+  .moodboard { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .mc:nth-child(2) { grid-row: auto; }
+  .mc-swatch { min-height: 100px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <a class="hdr-brand" href="index.html">Sekar Associates</a>
+  <a class="hdr-back" href="index.html">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Back to Home
+  </a>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eye">What we do</p>
+  <h1 class="hero-title" id="ht">
+    <span class="ln"><span class="wd">Our</span></span>
+    <span class="ln"><span class="wd"><em>Services.</em></span></span>
+  </h1>
+  <p class="hero-sub" id="hs">Four disciplines, one vision — to craft spaces that are deeply personal, carefully made, and built to endure.</p>
+  <div class="hero-ghost" aria-hidden="true">04</div>
+</div>
+
+<!-- STICKY NAV -->
+<nav class="snav">
+  <button class="sb on" data-t="s01">01 &nbsp;Interior Architecture</button>
+  <button class="sb" data-t="s02">02 &nbsp;Furniture & Objects</button>
+  <button class="sb" data-t="s03">03 &nbsp;Concept & Styling</button>
+  <button class="sb" data-t="s04">04 &nbsp;Project Management</button>
+</nav>
+
+<!-- ══ S01 — INTERIOR ARCHITECTURE ══ -->
+<section class="svc" id="s01">
+  <div class="s01-wrap">
+    <div class="s01-left">
+      <span class="svc-num rv">01</span>
+      <h2 class="svc-h rv d1">Interior<br><em>Architecture</em></h2>
+      <p class="svc-p rv d2">Complete spatial design from structural interventions to the finest finishing details. We reshape how space feels — not just how it looks. Each project begins with a deep understanding of how the people who live or work within it move, gather, and rest.</p>
+      <div class="tags rv d3">
+        <span class="tg">Spatial Planning</span>
+        <span class="tg">Structural Work</span>
+        <span class="tg">Lighting Design</span>
+        <span class="tg">Material Spec</span>
+        <span class="tg">Technical Drawings</span>
+      </div>
+    </div>
+
+    <div class="s01-right" id="fp-wrap">
+      <div class="fp">
+        <svg viewBox="0 0 440 440" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- ① dim static walls -->
+          <rect  class="fl" x="40" y="40" width="360" height="360" rx="2"/>
+          <line  class="fl" x1="40"  y1="230" x2="400" y2="230"/>
+          <line  class="fl" x1="40"  y1="150" x2="220" y2="150"/>
+          <line  class="fl" x1="220" y1="40"  x2="220" y2="260"/>
+          <line  class="fl" x1="310" y1="230" x2="310" y2="400"/>
+          <path  class="fl" d="M220,230 Q260,230 260,270"/>
+          <path  class="fl" d="M310,320 Q310,355 345,355"/>
+
+          <!-- ② gold snakes — same paths, travel on top -->
+          <rect  class="fs" x="40" y="40" width="360" height="360" rx="2"/>
+          <line  class="fs" x1="40"  y1="230" x2="400" y2="230"/>
+          <line  class="fs" x1="40"  y1="150" x2="220" y2="150"/>
+          <line  class="fs" x1="220" y1="40"  x2="220" y2="260"/>
+          <line  class="fs" x1="310" y1="230" x2="310" y2="400"/>
+          <path  class="fs" d="M220,230 Q260,230 260,270"/>
+          <path  class="fs" d="M310,320 Q310,355 345,355"/>
+
+          <!-- ③ accent room fill -->
+          <rect class="fa" x="221" y="151" width="178" height="78"/>
+
+          <!-- ④ dots -->
+          <circle class="fd" cx="220" cy="230" r="3.5"/>
+          <circle class="fd" cx="310" cy="230" r="3.5"/>
+          <circle class="fd" cx="220" cy="150" r="3.5"/>
+
+          <!-- ⑤ labels -->
+          <text class="flbl" x="90"  y="100">Living Room</text>
+          <text class="flbl" x="265" y="100">Bedroom</text>
+          <text class="flbl" x="258" y="198">Study</text>
+          <text class="flbl" x="82"  y="192">Kitchen</text>
+          <text class="flbl" x="85"  y="328">Dining</text>
+          <text class="flbl" x="322" y="308">Bath</text>
+        </svg>
+      </div>
+
+      <!-- compass -->
+      <div class="compass" id="compass">
+        <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="18" cy="18" r="17" stroke="rgba(255,255,255,.15)" stroke-width=".8"/>
+          <polygon points="18,4 21,18 18,15 15,18" fill="rgba(255,255,255,.6)"/>
+          <polygon points="18,32 21,18 18,21 15,18" fill="rgba(255,255,255,.2)"/>
+          <text x="18" y="9" text-anchor="middle" font-size="5" fill="rgba(255,255,255,.5)" font-family="sans-serif">N</text>
+        </svg>
+      </div>
+
+      <!-- scan light -->
+      <div class="fp-scan"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S02 — FURNITURE & OBJECTS ══ -->
+<section class="svc" id="s02">
+  <div class="s02-wrap">
+    <div class="s02-img" id="s02img">
+      <img src="assets/hero.png" alt="Handcrafted furniture">
+      <span class="s02-img-tag">Handcrafted · São Paulo Atelier</span>
+    </div>
+    <div class="s02-right">
+      <span class="svc-num rv">02</span>
+      <h2 class="svc-h rv d1">Furniture<br>& <em>Objects</em></h2>
+      <p class="svc-p rv d2">Bespoke pieces designed for each project and crafted entirely by hand. We work with master craftspeople across Brazil, Portugal, and Japan — objects that carry the fingerprint of their maker and grow more beautiful as they age.</p>
+      <div class="process" id="proc">
+        <div class="pr-row" style="--w:92%"><span class="pr-n">01</span><div class="pr-bar"><div class="pr-fill"></div></div><span class="pr-label">Brief & Sketch</span></div>
+        <div class="pr-row" style="--w:78%"><span class="pr-n">02</span><div class="pr-bar"><div class="pr-fill"></div></div><span class="pr-label">Material Select</span></div>
+        <div class="pr-row" style="--w:65%"><span class="pr-n">03</span><div class="pr-bar"><div class="pr-fill"></div></div><span class="pr-label">Prototyping</span></div>
+        <div class="pr-row" style="--w:88%"><span class="pr-n">04</span><div class="pr-bar"><div class="pr-fill"></div></div><span class="pr-label">Hand Crafting</span></div>
+        <div class="pr-row" style="--w:95%"><span class="pr-n">05</span><div class="pr-bar"><div class="pr-fill"></div></div><span class="pr-label">Delivery & Install</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S03 — CONCEPT & STYLING ══ -->
+<section class="svc" id="s03">
+  <div class="s03-wrap">
+    <div class="s03-left">
+      <span class="s03-num rv">03</span>
+      <h2 class="s03-h rv d1">Concept<br>& <em>Styling</em></h2>
+      <p class="s03-p rv d2">Curatorial direction — materials, art, light, and atmosphere. We compose the invisible layer that transforms a well-built space into one that genuinely moves you. Every object placed, every texture chosen, is part of a conversation about how a room makes you feel.</p>
+      <div class="pillars" id="pls">
+        <div class="pl"><span class="pl-dot"></span><span class="pl-txt">Mood & Atmosphere Curation</span></div>
+        <div class="pl"><span class="pl-dot"></span><span class="pl-txt">Art Direction & Sourcing</span></div>
+        <div class="pl"><span class="pl-dot"></span><span class="pl-txt">Textile & Surface Palette</span></div>
+        <div class="pl"><span class="pl-dot"></span><span class="pl-txt">Lighting Composition</span></div>
+      </div>
+    </div>
+    <div class="moodboard" id="mbd">
+      <div class="mc sw1"><div class="mc-swatch"><span>Warm Stone</span></div></div>
+      <div class="mc"><img src="assets/hero.png" alt="mood"></div>
+      <div class="mc sw3"><div class="mc-swatch"><span>Deep Oak</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S04 — PROJECT MANAGEMENT ══ -->
+<section class="svc" id="s04">
+  <div class="s04-wrap">
+    <div class="s04-left">
+      <div class="svc-num rv">04</div>
+      <h2 class="svc-h rv d1">Project<br><em>Management</em></h2>
+      <p class="svc-p rv d2">End-to-end oversight from first brief to final handover. We coordinate every contractor, supplier, and craftsperson so the client never has to. Rigorous, transparent, and surprisingly calm.</p>
+    </div>
+    <div class="s04-right">
+      <div class="tl" id="tl">
+        <div class="tl-item"><div class="tl-dot"></div><p class="tl-ph">Phase 01</p><h3 class="tl-title">Discovery & Brief</h3><p class="tl-desc">Deep conversations about how you live — your habits, what you love, and what you need the space to feel like.</p></div>
+        <div class="tl-item"><div class="tl-dot"></div><p class="tl-ph">Phase 02</p><h3 class="tl-title">Concept Development</h3><p class="tl-desc">Spatial layouts, mood boards, and material palettes — presented and refined until every instinct says yes.</p></div>
+        <div class="tl-item"><div class="tl-dot"></div><p class="tl-ph">Phase 03</p><h3 class="tl-title">Design Development</h3><p class="tl-desc">Full technical documentation, contractor briefs, bespoke furniture specifications, and lighting schemes.</p></div>
+        <div class="tl-item"><div class="tl-dot"></div><p class="tl-ph">Phase 04</p><h3 class="tl-title">Procurement</h3><p class="tl-desc">Sourcing, ordering, and scheduling every element — materials, furniture, art, fixtures, and plants.</p></div>
+        <div class="tl-item"><div class="tl-dot"></div><p class="tl-ph">Phase 05</p><h3 class="tl-title">On-Site Execution</h3><p class="tl-desc">Daily supervision and contractor coordination. We handle every detail so you never have to.</p></div>
+        <div class="tl-item"><div class="tl-dot"></div><p class="tl-ph">Phase 06</p><h3 class="tl-title">Handover & Styling</h3><p class="tl-desc">Final installation, snagging, and complete styling of every room before you walk through the door.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-block rv">
+  <div>
+    <p class="cta-lbl">Ready to begin?</p>
+    <h2 class="cta-h">Let's build something <em>extraordinary.</em></h2>
+  </div>
+  <a href="index.html#contact" class="cta-btn">
+    Get in Touch
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer class="ft">
+  <span class="ft-b">Sekar Associates</span>
+  <span class="ft-c">© 2024 All rights reserved.</span>
+  <a class="ft-l" href="index.html">← Home</a>
+</footer>
+
+<script>
+// Hero entrance
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('ht').classList.add('go');
+    document.getElementById('hs').classList.add('go');
+  }, 80);
+});
+
+// Scroll observer
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    if (el.classList.contains('rv'))  el.classList.add('go');
+    if (el.id === 'fp-wrap') {
+      el.querySelectorAll('.fl,.fs,.fa,.fd,.flbl').forEach(n => n.classList.add('go'));
+      document.getElementById('compass').classList.add('go');
+    }
+    if (el.id === 's02img') el.classList.add('go');
+    if (el.id === 'proc')   el.querySelectorAll('.pr-row').forEach(r => r.classList.add('go'));
+    if (el.id === 'mbd')    el.querySelectorAll('.mc').forEach(m => m.classList.add('go'));
+    if (el.id === 'pls')    el.querySelectorAll('.pl').forEach(p => p.classList.add('go'));
+    if (el.id === 'tl') {
+      el.classList.add('go');
+      el.querySelectorAll('.tl-item').forEach(i => i.classList.add('go'));
+    }
+    io.unobserve(el);
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.rv, #fp-wrap, #s02img, #proc, #mbd, #pls, #tl')
+  .forEach(el => io.observe(el));
+
+// Nav active on scroll
+const secs = ['s01','s02','s03','s04'].map(id => document.getElementById(id));
+const btns = document.querySelectorAll('.sb');
+const navIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const i = secs.indexOf(e.target);
+      btns.forEach((b,j) => b.classList.toggle('on', i === j));
+    }
+  });
+}, { threshold: 0.45 });
+secs.forEach(s => navIO.observe(s));
+
+// Nav click scroll
+btns.forEach(b => b.addEventListener('click', () => {
+  document.getElementById(b.dataset.t)?.scrollIntoView({ behavior: 'smooth' });
+}));
+</script>
+</body>
+</html>

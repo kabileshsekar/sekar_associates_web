@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Projects — Sekar Associates</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+
+    /* ============================================================
+       PROJECTS PAGE — page-level overrides + new components
+       ============================================================ */
+
+    body {
+      background: var(--beige);
+      overflow-x: hidden;
+    }
+
+    /* ---- Page Header ---- */
+    .pg-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 48px;
+      background: var(--beige);
+      border-bottom: 1px solid var(--beige-mid);
+    }
+    .pg-header .brand {
+      text-decoration: none;
+    }
+    .pg-header .brand-text {
+      font-family: var(--font-serif);
+      font-size: clamp(15px, 1.4vw, 20px);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      font-weight: 400;
+      white-space: nowrap;
+    }
+    .pg-header__back {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color .2s, gap .2s;
+    }
+    .pg-header__back:hover { color: var(--ink); gap: 14px; }
+    .pg-header__back svg { transition: transform .2s; }
+    .pg-header__back:hover svg { transform: translateX(-3px); }
+
+    /* ---- Hero Banner ---- */
+    .projects-hero {
+      padding: 160px 48px 80px;
+      border-bottom: 1px solid var(--beige-mid);
+    }
+    .projects-hero__eyebrow {
+      font-size: 11px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 24px;
+    }
+    .projects-hero__title {
+      font-family: var(--font-serif);
+      font-size: clamp(48px, 7vw, 100px);
+      font-weight: 400;
+      line-height: .95;
+      letter-spacing: -.03em;
+      color: var(--ink);
+      overflow: hidden;
+    }
+    .projects-hero__title em { font-style: italic; color: var(--ink-muted); }
+    .projects-hero__title .word {
+      display: inline-block;
+      transform: translateY(110%);
+      transition: transform .9s cubic-bezier(.16,1,.3,1);
+    }
+    .projects-hero__title .word:nth-child(2) { transition-delay: .08s; }
+    .projects-hero__title .word:nth-child(3) { transition-delay: .16s; }
+    .projects-hero__title.is-visible .word { transform: translateY(0); }
+
+    .projects-hero__meta {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin-top: 48px;
+    }
+    .projects-hero__count {
+      font-size: 13px;
+      color: var(--ink-muted);
+      letter-spacing: .08em;
+    }
+    .projects-hero__count strong {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      color: var(--ink);
+      font-weight: 400;
+      letter-spacing: -.02em;
+    }
+
+    /* ---- Filter Bar ---- */
+    .projects-filters {
+      display: flex;
+      align-items: stretch;
+      padding: 0 48px;
+      border-bottom: 1px solid var(--beige-mid);
+      position: sticky;
+      top: 85px;
+      background: var(--beige);
+      z-index: 50;
+      /* horizontal scroll safety net */
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .projects-filters::-webkit-scrollbar { display: none; }
+
+    .filter-btn {
+      flex: 1 1 0;           /* equal share of full width */
+      min-width: 0;
+      background: none;
+      border: none;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      padding: 20px 8px;
+      cursor: pointer;
+      position: relative;
+      transition: color .2s;
+      white-space: nowrap;
+      text-align: center;
+    }
+    /* Underline — spans full button width */
+    .filter-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0; right: 0;
+      height: 2px;
+      background: var(--ink);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .35s cubic-bezier(.16,1,.3,1);
+    }
+    .filter-btn:hover { color: var(--ink); }
+    .filter-btn.is-active { color: var(--ink); }
+    .filter-btn.is-active::after { transform: scaleX(1); }
+
+    /* ---- Projects Grid ---- */
+    .projects-grid {
+      padding: 80px 48px 120px;
+      columns: 3;
+      column-gap: 24px;
+    }
+
+    .proj-card {
+      break-inside: avoid;
+      margin-bottom: 24px;
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      /* entrance animation */
+      opacity: 0;
+      transform: translateY(32px);
+      transition:
+        opacity .7s cubic-bezier(.16,1,.3,1),
+        transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    .proj-card.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .proj-card.is-hidden {
+      display: none;
+    }
+
+    .proj-card__image {
+      position: relative;
+      overflow: hidden;
+      border-radius: 3px;
+      background: var(--beige-mid);
+    }
+    .proj-card__image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 1s cubic-bezier(.16,1,.3,1);
+    }
+    .proj-card:hover .proj-card__image img {
+      transform: scale(1.06);
+    }
+
+    /* Aspect ratios — varied for visual rhythm */
+    .proj-card:nth-child(3n+1) .proj-card__image { aspect-ratio: 4/5; }
+    .proj-card:nth-child(3n+2) .proj-card__image { aspect-ratio: 3/4; }
+    .proj-card:nth-child(3n+3) .proj-card__image { aspect-ratio: 5/6; }
+
+    /* Hover overlay */
+    .proj-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,23,20,.75) 0%, rgba(26,23,20,0) 55%);
+      opacity: 0;
+      transition: opacity .4s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 28px;
+      gap: 4px;
+    }
+    .proj-card:hover .proj-card__overlay { opacity: 1; }
+    .proj-card__overlay-num {
+      font-size: 10px;
+      letter-spacing: .12em;
+      color: rgba(255,255,255,.5);
+    }
+    .proj-card__overlay-name {
+      font-family: var(--font-serif);
+      font-size: clamp(20px, 2vw, 28px);
+      color: #fff;
+      font-weight: 400;
+      transform: translateY(10px);
+      transition: transform .4s cubic-bezier(.16,1,.3,1) .05s;
+    }
+    .proj-card:hover .proj-card__overlay-name { transform: translateY(0); }
+    .proj-card__overlay-meta {
+      font-size: 12px;
+      color: rgba(255,255,255,.6);
+      transform: translateY(10px);
+      transition: transform .4s cubic-bezier(.16,1,.3,1) .1s;
+    }
+    .proj-card:hover .proj-card__overlay-meta { transform: translateY(0); }
+    .proj-card__overlay-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.8);
+      margin-top: 12px;
+      border-bottom: 1px solid rgba(255,255,255,.3);
+      padding-bottom: 2px;
+      transform: translateY(10px);
+      transition: transform .4s cubic-bezier(.16,1,.3,1) .15s, color .2s;
+    }
+    .proj-card:hover .proj-card__overlay-link { transform: translateY(0); color: #fff; }
+
+    /* Below-image info (shown always) */
+    .proj-card__info {
+      padding: 14px 4px 0;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .proj-card__name {
+      font-family: var(--font-serif);
+      font-size: clamp(16px, 1.5vw, 20px);
+      font-weight: 400;
+      letter-spacing: -.01em;
+      color: var(--ink);
+    }
+    .proj-card__meta {
+      font-size: 11px;
+      color: var(--ink-muted);
+      white-space: nowrap;
+    }
+
+    /* ---- Load More ---- */
+    .load-more-wrap {
+      display: flex;
+      justify-content: center;
+      padding: 0 48px 120px;
+    }
+    .load-more-btn {
+      background: none;
+      border: 1px solid var(--beige-mid);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      padding: 16px 48px;
+      cursor: pointer;
+      transition: background .25s, border-color .25s, color .25s;
+      border-radius: 2px;
+    }
+    .load-more-btn:hover {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #fff;
+    }
+
+    /* ---- Footer ---- */
+    .pg-footer {
+      background: var(--ink);
+      color: var(--white);
+      padding: 60px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .pg-footer__brand {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .pg-footer__copy {
+      font-size: 12px;
+      color: rgba(255,255,255,.3);
+      letter-spacing: .05em;
+    }
+    .pg-footer__back {
+      font-size: 12px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(196,168,130,.3);
+      padding-bottom: 2px;
+      transition: border-color .2s;
+    }
+    .pg-footer__back:hover { border-color: var(--accent); }
+
+    /* ---- Responsive ---- */
+
+    /* Tablet (≤900px) */
+    @media (max-width: 900px) {
+      .pg-header        { padding: 18px 24px; }
+      .projects-hero    { padding: 110px 24px 56px; }
+      .projects-filters { padding: 0 24px; top: 68px; }
+      .filter-btn       { font-size: 11px; letter-spacing: .1em; padding: 18px 6px; }
+      .projects-grid    { padding: 40px 24px 80px; columns: 2; column-gap: 16px; }
+      .proj-card        { margin-bottom: 16px; }
+      .pg-footer        { padding: 40px 24px; flex-direction: column; align-items: flex-start; gap: 14px; }
+    }
+
+    /* Mobile (≤600px) */
+    @media (max-width: 600px) {
+      .pg-header        { padding: 14px 20px; }
+      .pg-header .brand-text { font-size: 13px; letter-spacing: .1em; }
+      .projects-hero    { padding: 84px 20px 40px; }
+      .projects-hero__title { font-size: clamp(34px, 10vw, 54px); }
+
+      .projects-filters { padding: 0 20px; top: 57px; }
+      .filter-btn       { font-size: 10px; letter-spacing: .07em; padding: 15px 4px; }
+
+      .projects-grid    { columns: 1; padding: 28px 20px 60px; }
+      /* Always show overlay on touch — no hover */
+      .proj-card__overlay { opacity: 1; }
+      .proj-card__overlay-name,
+      .proj-card__overlay-meta { transform: translateY(0); }
+      .proj-card__overlay-link { display: none; }
+
+      .pg-footer        { padding: 32px 20px; }
+    }
+
+    /* Small phones (≤400px) */
+    @media (max-width: 400px) {
+      .pg-header .brand-text { font-size: 12px; }
+      .projects-hero__title  { font-size: 30px; }
+      .filter-btn            { font-size: 9px; letter-spacing: .04em; padding: 13px 2px; }
+    }
+
+    /* Touch devices — always show overlay (no hover state) */
+    @media (hover: none) {
+      .proj-card__overlay { opacity: 1; }
+      .proj-card__overlay-name,
+      .proj-card__overlay-meta { transform: translateY(0); }
+    }
+
+    /* Fix load-more padding on mobile */
+    @media (max-width: 600px) {
+      .load-more-wrap { padding: 0 20px 60px; }
+      .load-more-btn  { width: 100%; }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="pg-header">
+    <a class="brand" href="index.html">
+      <span class="brand-text">Sekar Associates</span>
+    </a>
+    <a class="pg-header__back" href="index.html">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to Home
+    </a>
+  </header>
+
+  <!-- HERO BANNER -->
+  <div class="projects-hero">
+    <p class="projects-hero__eyebrow">Selected Work</p>
+    <h1 class="projects-hero__title" id="heroTitle">
+      <span class="word">All</span>&nbsp;<span class="word"><em>Projects</em></span>
+    </h1>
+    <div class="projects-hero__meta">
+      <div class="projects-hero__count"><strong>12</strong> &nbsp;Projects</div>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="projects-filters" id="filters">
+    <button class="filter-btn is-active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="residential">Residential</button>
+    <button class="filter-btn" data-filter="hospitality">Hospitality</button>
+    <button class="filter-btn" data-filter="commercial">Commercial</button>
+    <button class="filter-btn" data-filter="cultural">Cultural</button>
+  </div>
+
+  <!-- PROJECTS GRID -->
+  <div class="projects-grid" id="projectsGrid">
+
+    <a class="proj-card" href="project-detail.html" data-category="residential">
+      <div class="proj-card__image">
+        <img src="assets/hero.png" alt="Casa Botanica">
+        <div class="proj-card__overlay">
+          <span class="proj-card__overlay-num">01</span>
+          <span class="proj-card__overlay-name">Casa Botanica</span>
+          <span class="proj-card__overlay-meta">Residential · São Paulo, 2024</span>
+          <span class="proj-card__overlay-link">View Project →</span>
+        </div>
+      </div>
+      <div class="proj-card__info">
+        <span class="proj-card__name">Casa Botanica</span>
+        <span class="proj-card__meta">São Paulo, 2024</span>
+      </div>
+    </a>
+
+    <a class="proj-card" href="project-detail.html" data-category="hospitality">
+      <div class="proj-card__image">
+        <img src="assets/hero.png" alt="Atelier Nord">
+        <div class="proj-card__overlay">
+          <span class="proj-card__overlay-num">02</span>
+          <span class="proj-card__overlay-name">Atelier Nord</span>
+          <span class="proj-card__overlay-meta">Hospitality · Rio de Janeiro, 2023</span>
+          <span class="proj-card__overlay-link">View Project →</span>
+        </div>
+      </div>
+      <div class="proj-card__info">
+        <span class="proj-card__name">Atelier Nord</span>
+        <span class="proj-card__meta">Rio de Janeiro, 2023</span>
+      </div>
+    </a>
+
+    <a class="proj-card" href="project-detail.html" data-category="residential">
+      <div class="proj-card__image">
+        <img src="assets/hero.png" alt="Loft Clarice">
+        <div class="proj-card__overlay">
+          <span class="proj-card__overlay-num">03</span>
+          <span class="proj-card__overlay-name">Loft Clarice</span>
+          <span class="proj-card__overlay-meta">Residential · Lisbon, 2024</span>
+          <span class="proj-card__overlay-link">View Project →</span>
+        </div>
+      </div>
+      <div class="proj-card__info">
+        <span class="proj-card__name">Loft Clarice</span>
+        <span class="proj-card__meta">Lisbon, 2024</span>
+      </div>
+    </a>
+
+    <a class="proj-card" href="project-detail.html" data-category="residential">
+      <div class="proj-card__image">
+        <img src="assets/hero.png" alt="Villa Verde">
+        <div class="proj-card__overlay">
+          <span class="proj-card__overlay-num">04</span>
+          <span class="proj-card__overlay-name">Villa Verde</span>
+          <span class="proj-card__overlay-meta">Residential · São Paulo, 2022</span>
+          <span class="proj-card__overlay-link">View Project →</span>
+        </div>
+      </div>
+      <div class="proj-card__info">
+        <span class="proj-card__name">Villa Verde</span>
+        <span class="proj-card__meta">São Paulo, 2022</span>
+      </div>
+    </a>
+
+    <a class="proj-card" href="project-detail.html" data-category="commercial">
+      <div class="proj-card__image">
+        <img src="assets/hero.png" alt="Studio Mira">
+        <div class="proj-card__overlay">
+          <span class="proj-card__overlay-num">05</span>
+          <span class="proj-card__overlay-name">Studio Mira</span>
+          <span class="proj-card__overlay-meta">Commercial · Brasília, 2023</span>
+          <span class="proj-card__overlay-link">View Project →</span>
+        </div>
+      </div>
+      <div class="proj-card__info">
+        <span class="proj-card__name">Studio Mira</span>
+        <span class="proj-card__meta">Brasília, 2023</span>
+      </div>
+    </a>
+
+    <a class="proj-card" href="project-detail.html" data-category="cultural">
+      <div class="proj-card__image">
+        <img src="assets/hero.png" alt="Museu das Formas">
+        <div class="proj-card__overlay">
+          <span class="proj-card__overlay-num">06</span>
+          <span class="proj-card__overlay-name">Museu das Formas</span>
+          <span class="proj-card__overlay-meta">Cultural · São Paulo, 2023</span>
+          <span class="proj-card__overlay-link">View Project →</span>
+        </div>
+      </div>
+      <div class="proj-card__info">
+        <span class="proj-card__name">Museu das Formas</span>
+        <span class="proj-card__meta">São Paulo, 2023</span>
+      </div>
+    </a>
+
+    <a class="proj-card" href="project-detail.html" data-category="hospitality">
+      <div class="proj-card__image">
+        <img src="assets/hero.png" alt="Hotel Serra">
+        <div class="proj-card__overlay">
+          <span class="proj-card__overlay-num">07</span>
+          <span class="proj-card__overlay-name">Hotel Serra</span>
+          <span class="proj-card__overlay-meta">Hospitality · Campos do Jordão, 2022</span>
+          <span class="proj-card__overlay-link">View Project →</span>
+        </div>
+      </div>
+      <div class="proj-card__info">
+        <span class="proj-card__name">Hotel Serra</span>
+        <span class="proj-card__meta">Campos do Jordão, 2022</span>
+      </div>
+    </a>
+
+    <a class="proj-card" href="project-detail.html" data-category="residential">
+      <div class="proj-card__image">
+        <img src="assets/hero.png" alt="Casa Lua">
+        <div class="proj-card__overlay">
+          <span class="proj-card__overlay-num">08</span>
+          <span class="proj-card__overlay-name">Casa Lua</span>
+          <span class="proj-card__overlay-meta">Residential · Porto Alegre, 2024</span>
+          <span class="proj-card__overlay-link">View Project →</span>
+        </div>
+      </div>
+      <div class="proj-card__info">
+        <span class="proj-card__name">Casa Lua</span>
+        <span class="proj-card__meta">Porto Alegre, 2024</span>
+      </div>
+    </a>
+
+    <a class="proj-card" href="project-detail.html" data-category="commercial">
+      <div class="proj-card__image">
+        <img src="assets/hero.png" alt="Escritório Pinheiros">
+        <div class="proj-card__overlay">
+          <span class="proj-card__overlay-num">09</span>
+          <span class="proj-card__overlay-name">Escritório Pinheiros</span>
+          <span class="proj-card__overlay-meta">Commercial · São Paulo, 2023</span>
+          <span class="proj-card__overlay-link">View Project →</span>
+        </div>
+      </div>
+      <div class="proj-card__info">
+        <span class="proj-card__name">Escritório Pinheiros</span>
+        <span class="proj-card__meta">São Paulo, 2023</span>
+      </div>
+    </a>
+
+    <a class="proj-card" href="project-detail.html" data-category="cultural">
+      <div class="proj-card__image">
+        <img src="assets/hero.png" alt="Galeria Branca">
+        <div class="proj-card__overlay">
+          <span class="proj-card__overlay-num">10</span>
+          <span class="proj-card__overlay-name">Galeria Branca</span>
+          <span class="proj-card__overlay-meta">Cultural · Curitiba, 2022</span>
+          <span class="proj-card__overlay-link">View Project →</span>
+        </div>
+      </div>
+      <div class="proj-card__info">
+        <span class="proj-card__name">Galeria Branca</span>
+        <span class="proj-card__meta">Curitiba, 2022</span>
+      </div>
+    </a>
+
+    <a class="proj-card" href="project-detail.html" data-category="residential">
+      <div class="proj-card__image">
+        <img src="assets/hero.png" alt="Cobertura Jardins">
+        <div class="proj-card__overlay">
+          <span class="proj-card__overlay-num">11</span>
+          <span class="proj-card__overlay-name">Cobertura Jardins</span>
+          <span class="proj-card__overlay-meta">Residential · São Paulo, 2021</span>
+          <span class="proj-card__overlay-link">View Project →</span>
+        </div>
+      </div>
+      <div class="proj-card__info">
+        <span class="proj-card__name">Cobertura Jardins</span>
+        <span class="proj-card__meta">São Paulo, 2021</span>
+      </div>
+    </a>
+
+    <a class="proj-card" href="project-detail.html" data-category="hospitality">
+      <div class="proj-card__image">
+        <img src="assets/hero.png" alt="Restaurante Âmbar">
+        <div class="proj-card__overlay">
+          <span class="proj-card__overlay-num">12</span>
+          <span class="proj-card__overlay-name">Restaurante Âmbar</span>
+          <span class="proj-card__overlay-meta">Hospitality · São Paulo, 2024</span>
+          <span class="proj-card__overlay-link">View Project →</span>
+        </div>
+      </div>
+      <div class="proj-card__info">
+        <span class="proj-card__name">Restaurante Âmbar</span>
+        <span class="proj-card__meta">São Paulo, 2024</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="pg-footer">
+    <span class="pg-footer__brand">Sekar Associates</span>
+    <span class="pg-footer__copy">© 2024 All rights reserved.</span>
+    <a class="pg-footer__back" href="index.html">← Back to Home</a>
+  </footer>
+
+  <script>
+    // ---- Hero title animation ----
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const title = document.getElementById('heroTitle');
+        if (title) title.classList.add('is-visible');
+      }, 100);
+    });
+
+    // ---- Card entrance on scroll ----
+    const cards = document.querySelectorAll('.proj-card');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          const delay = (Array.from(cards).indexOf(entry.target) % 3) * 100;
+          setTimeout(() => entry.target.classList.add('is-visible'), delay);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    cards.forEach(c => obs.observe(c));
+
+    // ---- Filter ----
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const countEl    = document.querySelector('.projects-hero__count strong');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active button
+        filterBtns.forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+
+        const filter = btn.dataset.filter;
+
+        // Show / hide cards
+        let visible = 0;
+        cards.forEach((card, i) => {
+          const match = filter === 'all' || card.dataset.category === filter;
+          if (match) {
+            card.classList.remove('is-hidden');
+            // re-animate
+            card.classList.remove('is-visible');
+            const delay = (visible % 3) * 80;
+            setTimeout(() => card.classList.add('is-visible'), delay + 50);
+            visible++;
+          } else {
+            card.classList.add('is-hidden');
+          }
+        });
+
+        // Update count
+        if (countEl) countEl.textContent = visible;
+      });
+    });
+  </script>
+
+</body>
+</html>
