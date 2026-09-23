@@ -6,7 +6,8 @@
 <title>Services — Sekar Associates</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="wordmark.css?v=2" />
 <style>
 :root {
   --beige: #e8e0d5; --bm: #cfc5b5; --ink: #1a1714;
@@ -16,14 +17,16 @@
   --sans:  'DM Sans', system-ui, sans-serif;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scrollbar-width: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
 body { background: var(--beige); color: var(--ink); font-family: var(--sans); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
 img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* ── HEADER ── */
 .hdr { position: fixed; top: 0; left: 0; right: 0; z-index: 300; display: flex; align-items: center; justify-content: space-between; padding: 26px 48px; background: var(--beige); border-bottom: 1px solid var(--bm); }
-.hdr-brand { font-family: var(--serif); font-size: clamp(13px,1.2vw,17px); letter-spacing: .18em; text-transform: uppercase; }
+.hdr-brand { display: flex; align-items: center; color: var(--ink); }
+.hdr-brand .wordmark-logo { filter: brightness(0); }
 .hdr-back { display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); transition: gap .25s, color .2s; }
 .hdr-back:hover { gap: 14px; color: var(--ink); }
 .hdr-back svg { transition: transform .2s; }
@@ -43,7 +46,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .hero-ghost { position: absolute; right: 40px; bottom: -30px; font-family: var(--serif); font-size: 26vw; color: rgba(26,23,20,.035); line-height: 1; pointer-events: none; user-select: none; }
 
 /* ── STICKY NAV ── */
-.snav { position: sticky; top: 81px; z-index: 200; background: var(--beige); border-bottom: 1px solid var(--bm); display: flex; overflow-x: auto; scrollbar-width: none; }
+.snav { position: sticky; top: var(--hdr-h, 81px); z-index: 200; background: var(--beige); border-bottom: 1px solid var(--bm); display: flex; overflow-x: auto; scrollbar-width: none; }
 .snav::-webkit-scrollbar { display: none; }
 .sb { flex: 1 1 0; background: none; border: none; font-family: var(--sans); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: 17px 10px; cursor: pointer; position: relative; white-space: nowrap; text-align: center; transition: color .2s; }
 .sb::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform .35s cubic-bezier(.16,1,.3,1); }
@@ -293,7 +296,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 @media (max-width: 768px) {
   .hdr { padding: 16px 24px; }
   .hero { padding: 110px 24px 72px; }
-  .snav { top: 63px; }
+  .snav { top: var(--hdr-h, 63px); }
   .sb { font-size: 10px; padding: 14px 8px; }
   .s01-wrap, .s02-wrap, .s03-wrap { grid-template-columns: 1fr; }
   .s01-left { padding: 64px 24px; border-right: none; border-bottom: 1px solid var(--bm); }
@@ -325,7 +328,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 <!-- HEADER -->
 <header class="hdr">
-  <a class="hdr-brand" href="index.html">Sekar Associates</a>
+  <a class="hdr-brand" href="index.html" aria-label="Sekar Associates"><span class="wordmark">Sekar Associa<svg class="brand-cross" viewBox="0 0 441 703" aria-hidden="true"><rect x="158" y="0" width="125" height="703"/><rect x="0" y="158" width="441" height="105"/></svg>es</span><img class="wordmark-logo" src="assets/logo.png" alt=""></a>
   <a class="hdr-back" href="index.html">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
       <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -512,6 +515,17 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 </footer>
 
 <script>
+// Keep sticky bars flush under the fixed header, whatever its height
+// (the logo swaps text <-> image at 992px, and padding changes by breakpoint).
+(() => {
+  const hdr = document.querySelector('.hdr');
+  if (!hdr) return;
+  const set = () => document.documentElement.style.setProperty('--hdr-h', hdr.getBoundingClientRect().height + 'px');
+  set();
+  if ('ResizeObserver' in window) new ResizeObserver(set).observe(hdr);
+  else addEventListener('resize', set);
+})();
+
 // Hero entrance
 window.addEventListener('load', () => {
   setTimeout(() => {

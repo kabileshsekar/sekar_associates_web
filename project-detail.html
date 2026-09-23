@@ -6,7 +6,8 @@
   <title>Casa Botanica — Sekar Associates</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="wordmark.css?v=2" />
   <style>
     :root {
       --beige:      #e8e0d5;
@@ -21,7 +22,8 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scrollbar-width: none; }
+    html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
     body {
       background: var(--beige);
       color: var(--ink);
@@ -51,14 +53,15 @@
       padding: 18px 48px;
     }
     .header-brand {
-      font-family: var(--font-serif);
-      font-size: clamp(14px, 1.3vw, 18px);
-      letter-spacing: .18em;
-      text-transform: uppercase;
+      display: flex;
+      align-items: center;
       color: #fff;
       transition: color .4s;
     }
     .site-header.scrolled .header-brand { color: var(--ink); }
+    /* logo.png is white: keep it white over the hero, black once scrolled */
+    .header-brand .wordmark-logo { filter: brightness(0) invert(1); transition: filter .4s; }
+    .site-header.scrolled .header-brand .wordmark-logo { filter: brightness(0); }
 
     .header-back {
       display: flex;
@@ -690,7 +693,6 @@
       /* Header */
       .site-header          { padding: 14px 20px; }
       .site-header.scrolled { padding: 12px 20px; }
-      .header-brand         { font-size: 12px; letter-spacing: .12em; }
       .header-back          { font-size: 11px; }
 
       /* Hero */
@@ -751,7 +753,7 @@
 
   <!-- HEADER -->
   <header class="site-header" id="siteHeader">
-    <a class="header-brand" href="index.html">Sekar Associates</a>
+    <a class="header-brand" href="index.html" aria-label="Sekar Associates"><span class="wordmark">Sekar Associa<svg class="brand-cross" viewBox="0 0 441 703" aria-hidden="true"><rect x="158" y="0" width="125" height="703"/><rect x="0" y="158" width="441" height="105"/></svg>es</span><img class="wordmark-logo" src="assets/logo.png" alt=""></a>
     <a class="header-back" href="projects.html">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>

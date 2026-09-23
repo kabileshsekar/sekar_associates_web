@@ -60,6 +60,8 @@ page.style.overflow = '';
     setTimeout(() => {
       logoInner.classList.add('is-exit');
 
+      page.style.willChange = 'transform';   // cleared when the curtain finishes
+
       let start = null;
       const logoWrap = document.querySelector('.intro__logo');
       let logoHidden = false;
@@ -99,7 +101,8 @@ page.style.overflow = '';
         } else {
           // Animation done — restore page to normal document flow
        page.style.position = 'relative';
-page.style.transform = 'translateY(0)';
+page.style.transform = 'none';   // not translateY(0): any transform here
+page.style.willChange = 'auto';  // would trap position:fixed children
 page.style.overflow = '';
           document.body.classList.remove('no-scroll');
           document.body.style.top = '';
@@ -213,7 +216,9 @@ function closeMenu() {
   mobMenu.classList.remove('is-open');
   document.body.classList.remove('no-scroll');
   document.body.style.top = '';
-  window.scrollTo(0, scrollY);
+  // Restore on the next frame: while the lock is on, the page can't scroll
+  // that far, so restoring immediately lands short of where the user was.
+  requestAnimationFrame(() => window.scrollTo(0, scrollY));
 }
 
 if (menuCloseBtn) {

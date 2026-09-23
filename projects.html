@@ -6,8 +6,9 @@
   <title>Projects — Sekar Associates</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="wordmark.css?v=2" />
+  <link rel="stylesheet" href="style.css?v=15" />
   <style>
 
     /* ============================================================
@@ -17,6 +18,10 @@
     body {
       background: var(--beige);
       overflow-x: hidden;
+      /* style.css sets html, body { height: 100% } for the home intro.
+         Here that caps <body> at one screen, and the sticky filter bar
+         (whose container is <body>) would stop sticking after it. */
+      height: auto;
     }
 
     /* ---- Page Header ---- */
@@ -34,15 +39,8 @@
     .pg-header .brand {
       text-decoration: none;
     }
-    .pg-header .brand-text {
-      font-family: var(--font-serif);
-      font-size: clamp(15px, 1.4vw, 20px);
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--ink);
-      font-weight: 400;
-      white-space: nowrap;
-    }
+    .pg-header .brand-text { color: var(--ink); }
+    .pg-header .wordmark-logo { filter: brightness(0); }
     .pg-header__back {
       font-family: var(--font-sans);
       font-size: 13px;
@@ -116,7 +114,7 @@
       padding: 0 48px;
       border-bottom: 1px solid var(--beige-mid);
       position: sticky;
-      top: 85px;
+      top: var(--hdr-h, 85px);
       background: var(--beige);
       z-index: 50;
       /* horizontal scroll safety net */
@@ -348,7 +346,7 @@
     @media (max-width: 900px) {
       .pg-header        { padding: 18px 24px; }
       .projects-hero    { padding: 110px 24px 56px; }
-      .projects-filters { padding: 0 24px; top: 68px; }
+      .projects-filters { padding: 0 24px; top: var(--hdr-h, 68px); }
       .filter-btn       { font-size: 11px; letter-spacing: .1em; padding: 18px 6px; }
       .projects-grid    { padding: 40px 24px 80px; columns: 2; column-gap: 16px; }
       .proj-card        { margin-bottom: 16px; }
@@ -358,11 +356,10 @@
     /* Mobile (≤600px) */
     @media (max-width: 600px) {
       .pg-header        { padding: 14px 20px; }
-      .pg-header .brand-text { font-size: 13px; letter-spacing: .1em; }
       .projects-hero    { padding: 84px 20px 40px; }
       .projects-hero__title { font-size: clamp(34px, 10vw, 54px); }
 
-      .projects-filters { padding: 0 20px; top: 57px; }
+      .projects-filters { padding: 0 20px; top: var(--hdr-h, 57px); }
       .filter-btn       { font-size: 10px; letter-spacing: .07em; padding: 15px 4px; }
 
       .projects-grid    { columns: 1; padding: 28px 20px 60px; }
@@ -377,7 +374,6 @@
 
     /* Small phones (≤400px) */
     @media (max-width: 400px) {
-      .pg-header .brand-text { font-size: 12px; }
       .projects-hero__title  { font-size: 30px; }
       .filter-btn            { font-size: 9px; letter-spacing: .04em; padding: 13px 2px; }
     }
@@ -402,8 +398,9 @@
 
   <!-- HEADER -->
   <header class="pg-header">
-    <a class="brand" href="index.html">
-      <span class="brand-text">Sekar Associates</span>
+    <a class="brand" href="index.html" aria-label="Sekar Associates">
+      <span class="brand-text wordmark">Sekar Associa<svg class="brand-cross" viewBox="0 0 441 703" aria-hidden="true"><rect x="158" y="0" width="125" height="703"/><rect x="0" y="158" width="441" height="105"/></svg>es</span>
+      <img class="wordmark-logo" src="assets/logo.png" alt="">
     </a>
     <a class="pg-header__back" href="index.html">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -638,6 +635,17 @@
   </footer>
 
   <script>
+// Keep sticky bars flush under the fixed header, whatever its height
+// (the logo swaps text <-> image at 992px, and padding changes by breakpoint).
+(() => {
+  const hdr = document.querySelector('.pg-header');
+  if (!hdr) return;
+  const set = () => document.documentElement.style.setProperty('--hdr-h', hdr.getBoundingClientRect().height + 'px');
+  set();
+  if ('ResizeObserver' in window) new ResizeObserver(set).observe(hdr);
+  else addEventListener('resize', set);
+})();
+
     // ---- Hero title animation ----
     window.addEventListener('load', () => {
       setTimeout(() => {

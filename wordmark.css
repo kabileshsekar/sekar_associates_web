@@ -1,0 +1,51 @@
+/* ============================================================
+   SEKAR ASSOCIATES WORDMARK — shared by every page.
+   Markup (colour comes from the page's header):
+     <a ... aria-label="Sekar Associates">
+       <span class="wordmark">Sekar Associa<svg class="brand-cross" …>…</svg>es</span>
+       <img class="wordmark-logo" src="assets/logo.png" alt="">
+     </a>
+   ============================================================ */
+.wordmark {
+  font-family: 'Avenir', 'Nunito Sans', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 1em;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+/* Cross in place of the "t" in "associates".
+   Drawn to Nunito Sans *700* metrics: ascender height (.703em),
+   stem .125em, crossbar .105em (as the bold "t"), so it carries the
+   same weight as the letters. Fill follows the text colour.
+   Spacing: SVGs don't get letter-spacing, and unlike glyphs they have
+   no side bearings. The margins set the visible gap on each side to
+   the wordmark's measured average letter gap (1.006em). If you change
+   the weight or letter-spacing, re-measure these. */
+.brand-cross {
+  display: inline-block;
+  width: .441em;
+  height: .703em;
+  margin-left: -.042em;
+  margin-right: 1.006em;
+  vertical-align: baseline;
+  fill: currentColor;
+}
+
+/* The spaced wordmark is ~520px wide. Tablets keep it (the nav collapses
+   to a MENU button instead); only below 720px, where it no longer fits,
+   does it swap for the SA logo image.
+   logo.png is white; each page sets the filter for its header colour. */
+.wordmark-logo {
+  display: none;
+  width: 64px;
+  height: auto;
+}
+@media (max-width: 719px) {
+  .wordmark { display: none; }
+  .wordmark-logo { display: block; }
+}
+@media (max-width: 576px) {
+  .wordmark-logo { width: 58px; }
+}

@@ -31,6 +31,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 body.no-scroll { overflow: hidden; }
+
+/* Hide the page scrollbar. The intro locks scrolling, so the bar would
+   otherwise pop in (and shift the layout) when the animation ends.
+   Scrolling itself still works — wheel, touchpad, keys, touch. */
+html { scrollbar-width: none; }
+html::-webkit-scrollbar,
+body::-webkit-scrollbar { display: none; }
 img { display: block; width: 100%; height: 100%; object-fit: cover; }
 a { color: inherit; text-decoration: none; }
 
@@ -132,7 +139,11 @@ a { color: inherit; text-decoration: none; }
   100% { opacity:0; }
 }
 
-.page { will-change: transform; }
+/* NOTE: no `will-change: transform` / `transform` here once the intro is
+   done — either one makes .page a containing block for fixed children,
+   which would anchor .mob-menu to the page instead of the viewport.
+   script1.js sets will-change only while the curtain animates. */
+.page { }
 
 
 /* ============================================================
@@ -174,6 +185,32 @@ a { color: inherit; text-decoration: none; }
   transform: none !important;
 }
 
+/* Gradient scrims over the hero video.
+   The footage changes luminance as it loops, so a flat wash either
+   crushes the video or lets the text wash out on bright frames.
+   Two directional scrims instead: one behind the header, one carrying
+   the headline + caption strip, transparent through the middle so the
+   video still reads. Tinted with --ink rather than pure black. */
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background:
+    linear-gradient(to top,
+      rgba(26,23,20,.78)   0%,
+      rgba(26,23,20,.58)  20%,
+      rgba(26,23,20,.28)  38%,
+      rgba(26,23,20,.05)  55%,
+      rgba(26,23,20,0)    70%),
+    linear-gradient(to bottom,
+      rgba(26,23,20,.66)   0%,
+      rgba(26,23,20,.58)  14%,
+      rgba(26,23,20,.14)  30%,
+      rgba(26,23,20,0)    44%),
+    rgba(26,23,20,.08);
+}
+
 
 /* ============================================================
    SITE HEADER — RESPONSIVE
@@ -202,12 +239,7 @@ a { color: inherit; text-decoration: none; }
 
 /* Desktop text logo */
 .brand-text {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  letter-spacing: 1em;   /* reduced from 1em (too wide) */
-  text-transform: lowercase;
-  color: #fff;
-  white-space: nowrap;
+  color: #fff;   /* typography lives in wordmark.css (shared by all pages) */
 }
 
 .brand-mark {
@@ -238,11 +270,12 @@ a { color: inherit; text-decoration: none; }
 }
 
 .desktop-nav a {
-  font-family: var(--font-sans);
+  font-family: 'Avenir','Nunito Sans', sans-serif;
+  font-weight: 400;
   font-size: 16px;
   letter-spacing: .20em;
   text-transform: lowercase;
-  color: rgba(255,255,255,.8);
+  color: #fff;
   transition: color .2s ease;
 }
 
@@ -267,16 +300,10 @@ a { color: inherit; text-decoration: none; }
    RESPONSIVE BREAKPOINT
    ============================================================ */
 
-@media (max-width: 992px) {
-
-  .brand-text {
-    display: none;
-  }
-
-  .brand-mark {
-    display: block;
-    width: 64px;   /* larger, clearer mark on phones/tablets */
-  }
+/* Tablets: the wordmark (~520px) and the nav links (~394px) collide
+   below ~1080px, so the nav collapses to the MENU button first and the
+   wordmark stays — the brand name reads at tablet size. */
+@media (max-width: 1079px) {
 
   .desktop-nav {
     display: none;
@@ -284,6 +311,19 @@ a { color: inherit; text-decoration: none; }
 
   .menu-btn {
     display: block;
+  }
+}
+
+/* Phones: the wordmark no longer fits, so the SA mark takes over. */
+@media (max-width: 719px) {
+
+  .brand-text {
+    display: none;
+  }
+
+  .brand-mark {
+    display: block;
+    width: 64px;   /* larger, clearer mark on phones */
   }
 }
 
@@ -332,18 +372,18 @@ a { color: inherit; text-decoration: none; }
   justify-content: space-between;
   align-items: flex-end;
   padding: 20px 48px 32px;
-  border-top: 1px solid rgba(255,255,255,.12);
+  border-top: 1px solid rgba(255,255,255,.2);
 }
 .hero__caption {
   display: flex; align-items: center; gap: 10px;
   font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
-  color: rgba(255,255,255,.5);
+  color: rgba(255,255,255,.8);
 }
 .hero__caption .sep { opacity: .3; }
-.hero__scroll { display:flex; align-items:center; gap:12px; color:rgba(255,255,255,.5); }
+.hero__scroll { display:flex; align-items:center; gap:12px; color:rgba(255,255,255,.8); }
 .scroll-dot {
   display: block; width:6px; height:6px;
-  border-radius:50%; border:1px solid rgba(255,255,255,.5);
+  border-radius:50%; border:1px solid rgba(255,255,255,.75);
   animation: dotPulse 2s ease-in-out infinite;
 }
 @keyframes dotPulse {
@@ -351,7 +391,7 @@ a { color: inherit; text-decoration: none; }
   50%      { transform:scale(1.5); opacity:1; }
 }
 .scroll-label { font-size:11px; letter-spacing:.1em; text-transform:uppercase; }
-.hero__tagline { font-size:13px; color:rgba(255,255,255,.45); font-style:italic; max-width:220px; text-align:right; }
+.hero__tagline { font-size:13px; color:rgba(255,255,255,.7); font-style:italic; max-width:220px; text-align:right; }
 
 
 /* ============================================================
@@ -389,9 +429,13 @@ a { color: inherit; text-decoration: none; }
   white-space: nowrap;
 }
 .marquee-track {
-  display: inline-flex; gap: 32px; align-items: center;
-  animation: marqueeScroll 28s linear infinite;
+  display: inline-flex; align-items: center;
+  animation: marqueeScroll 88s linear infinite; /* ~33px/s; scale with track length */
 }
+/* Spacing on each item (not flex `gap`) so the track is exactly two
+   equal halves — the loop slides -50%, and `gap` would leave it half a
+   gap short, causing a visible jump every cycle. */
+.marquee-track > span { margin-right: 32px; }
 .marquee-track span { font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-muted); }
 .marquee-track .dot { color:var(--accent); font-size:20px; line-height:1; }
 @keyframes marqueeScroll {
@@ -522,7 +566,7 @@ a { color: inherit; text-decoration: none; }
 
   display: flex;
   flex-direction: column;
-  padding: 32px 28px;
+  padding: 32px 48px;   /* matches .site-header so the logo doesn't shift */
 
   transform: translateY(-100%);
   transition: transform .6s cubic-bezier(.16,1,.3,1);
@@ -542,7 +586,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .mob-menu__logo {
-  width: 42px;
+  width: 64px;   /* same as .brand-mark — the logo shouldn't resize on open */
   filter: brightness(0) invert(1);
 }
 
@@ -617,4 +661,12 @@ body.no-scroll .page > *:not(.mob-menu) {
 .services__name a:hover {
   color: var(--ink);
   border-bottom: 1px solid var(--beige-mid);
+}
+
+/* Small phones — must come after the .mob-menu rules above to win.
+   Keeps the menu's logo identical in size and position to the header's,
+   so it doesn't jump when the menu opens. */
+@media (max-width: 576px) {
+  .mob-menu { padding: 22px 24px; }
+  .mob-menu__logo { width: 58px; }
 }
