@@ -108,7 +108,7 @@ a { color: inherit; text-decoration: none; }
   animation: logoIn var(--popDur) cubic-bezier(.16,1,.3,1) forwards;
 }
 @keyframes logoIn {
-  0%   { opacity:0; transform: translateY(16px) scale(.96); filter: brightness(0) invert(1) blur(1px); }
+  0%   { opacity:0; transform: translateY(16px) scale(.96); filter: brightness(0) invert(1); }
   60%  { opacity:1; transform: translateY(0) scale(1.02);   filter: brightness(0) invert(1); }
   100% { opacity:1; transform: translateY(0) scale(1);      filter: brightness(0) invert(1); }
 }
