@@ -176,6 +176,16 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
 }
 
+/* Still frame of the video's opening, shown while the clip downloads.
+   The video fades in over it so the handover isn't a visible snap. */
+.hero__poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .hero__bg-video {
   position: absolute;
   inset: 0;
@@ -183,7 +193,10 @@ a { color: inherit; text-decoration: none; }
   height: 100%;
   object-fit: cover;
   transform: none !important;
+  opacity: 0;
+  transition: opacity .6s ease;
 }
+.hero__bg-video.is-playing { opacity: 1; }
 
 /* Gradient scrims over the hero video.
    The footage changes luminance as it loops, so a flat wash either
