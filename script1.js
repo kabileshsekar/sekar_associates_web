@@ -26,12 +26,10 @@
     source.src = 'assets/interior-720.mp4';
     v.load();
   }
-  // Reveal as soon as the first frame is decoded — not on 'playing'.
-  // The element carries the <video autoplay> attribute, so this normally
-  // happens behind the intro curtain; waiting for playback meant the hero
-  // was revealed empty and the video appeared a beat later. 'loadeddata'
-  // also covers the case where autoplay is refused: the first frame still
-  // shows, painted by the video pipeline so nothing shifts.
+  // Reveal as soon as the first frame is decoded. preload="auto" buffers
+  // the clip behind the intro curtain, and a loaded <video> paints its
+  // first frame while still paused — so the hero is never empty, but
+  // nothing moves until the intro hands over and calls play().
   const reveal = () => v.classList.add('is-playing');
   if (v.readyState >= 2) reveal();
   v.addEventListener('loadeddata', reveal, { once: true });
@@ -135,9 +133,10 @@ page.style.overflow = '';
           // Start hero video after intro completes
 const heroVideo = document.getElementById('heroBgVideo');
 if (heroVideo) {
-  // autoplay has usually started it under the curtain; only rewind if it
-  // has barely begun, so the reveal never lands on a re-buffer.
-  if (heroVideo.paused) heroVideo.play().catch(() => {});
+  // The intro is over and the page is up — now start it, from the frame
+  // that has been showing all along.
+  heroVideo.currentTime = 0;
+  heroVideo.play().catch(() => {});
 }
 
           const heroContent = document.querySelector('.hero__content');
