@@ -26,9 +26,16 @@
     source.src = 'assets/interior-720.mp4';
     v.load();
   }
-  // Reveal only once frames are actually rendering, so the fade covers
-  // the poster-to-video handover rather than a blank element.
-  v.addEventListener('playing', () => v.classList.add('is-playing'), { once: true });
+  // Reveal as soon as the first frame is decoded — not on 'playing'.
+  // The element carries the <video autoplay> attribute, so this normally
+  // happens behind the intro curtain; waiting for playback meant the hero
+  // was revealed empty and the video appeared a beat later. 'loadeddata'
+  // also covers the case where autoplay is refused: the first frame still
+  // shows, painted by the video pipeline so nothing shifts.
+  const reveal = () => v.classList.add('is-playing');
+  if (v.readyState >= 2) reveal();
+  v.addEventListener('loadeddata', reveal, { once: true });
+  v.addEventListener('playing', reveal, { once: true });
 })();
 
 // Always start at top on refresh
@@ -128,8 +135,9 @@ page.style.overflow = '';
           // Start hero video after intro completes
 const heroVideo = document.getElementById('heroBgVideo');
 if (heroVideo) {
-  heroVideo.currentTime = 0;
-  heroVideo.play().catch(() => {});
+  // autoplay has usually started it under the curtain; only rewind if it
+  // has barely begun, so the reveal never lands on a re-buffer.
+  if (heroVideo.paused) heroVideo.play().catch(() => {});
 }
 
           const heroContent = document.querySelector('.hero__content');
