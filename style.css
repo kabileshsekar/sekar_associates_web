@@ -174,16 +174,8 @@ a { color: inherit; text-decoration: none; }
   position: absolute;
   inset: 0;
   overflow: hidden;
-}
-
-/* Still frame of the video's opening, shown while the clip downloads.
-   The video fades in over it so the handover isn't a visible snap. */
-.hero__poster {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  background: #5b5247;   /* intro sheet colour, so any gap before the
+                            video paints reads as part of the design */
 }
 
 .hero__bg-video {

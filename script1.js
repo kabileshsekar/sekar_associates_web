@@ -24,8 +24,6 @@
   const devicePixels = window.innerWidth * (window.devicePixelRatio || 1);
   if (devicePixels <= 1400) {
     source.src = 'assets/interior-720.mp4';
-    const poster = document.getElementById('heroPoster');
-    if (poster) poster.src = 'assets/hero-poster-720.webp';
     v.load();
   }
   // Reveal only once frames are actually rendering, so the fade covers
