@@ -23,7 +23,7 @@
   if (!source) return;
   const devicePixels = window.innerWidth * (window.devicePixelRatio || 1);
   if (devicePixels <= 1400) {
-    source.src = 'assets/interior-720.mp4';
+    source.src = 'assets/SA_HERO-720.mp4';
     v.load();
   }
   // Reveal as soon as the first frame is decoded. preload="auto" buffers
