@@ -152,6 +152,10 @@ a { color: inherit; text-decoration: none; }
 .hero {
   position: relative;
   height: 100vh;
+  /* svh = viewport height WITH the mobile address bar showing, and it does
+     not change when that bar hides on scroll. Plain vh (and dvh) do, which
+     resized the hero and the video mid-scroll — a visible jump. */
+  height: 100svh;
   overflow: hidden;
 }
 
