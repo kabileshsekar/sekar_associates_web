@@ -6,15 +6,15 @@
 <title>Services — Sekar Associates</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="wordmark.css?v=2" />
-<link rel="stylesheet" href="footer.css?v=2" />
+<link rel="stylesheet" href="footer.css?v=3" />
 <style>
 :root {
   --beige: #e8e0d5; --bm: #cfc5b5; --ink: #1a1714;
   --soft: #3d3830;  --muted: #8a847a; --white: #faf8f5;
   --accent: #c4a882;
-  --serif: 'DM Serif Display', Georgia, serif;
+  --serif: 'Cormorant Garamond', Georgia, serif;
   --sans:  'DM Sans', system-ui, sans-serif;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,7 +36,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 /* ── HERO ── */
 .hero { padding: 155px 48px 96px; border-bottom: 1px solid var(--bm); position: relative; overflow: hidden; }
 .hero-eye { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
-.hero-title { font-family: var(--serif); font-size: clamp(56px,9vw,120px); font-weight: 400; line-height: .9; letter-spacing: -.035em; }
+.hero-title { font-family: var(--serif); font-size: clamp(56px,9vw,120px); font-weight: 500; line-height: .9; letter-spacing: -.015em; }
 .hero-title em { font-style: italic; color: var(--muted); }
 .hero-title .ln { overflow: hidden; display: block; }
 .hero-title .wd { display: inline-block; transform: translateY(110%); transition: transform 1s cubic-bezier(.16,1,.3,1); }
@@ -68,7 +68,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .s01-wrap { display: grid; grid-template-columns: 1fr 1fr; min-height: 88vh; }
 .s01-left { padding: 96px 60px; display: flex; flex-direction: column; gap: 40px; border-right: 1px solid var(--bm); }
 .svc-num { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
-.svc-h { font-family: var(--serif); font-size: clamp(40px,4.8vw,70px); font-weight: 400; line-height: 1; letter-spacing: -.03em; }
+.svc-h { font-family: var(--serif); font-size: clamp(40px,4.8vw,70px); font-weight: 500; line-height: 1; letter-spacing: -.015em; }
 .svc-h em { font-style: italic; color: var(--muted); }
 .svc-p { font-size: 15px; line-height: 1.85; color: var(--soft); font-weight: 300; }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -229,7 +229,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .s03-wrap { display: grid; grid-template-columns: 1fr 1fr; min-height: 88vh; }
 .s03-left { padding: 96px 60px; display: flex; flex-direction: column; gap: 40px; border-right: 1px solid rgba(255,255,255,.07); }
 .s03-num { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.3); }
-.s03-h { font-family: var(--serif); font-size: clamp(40px,4.8vw,70px); font-weight: 400; line-height: 1; letter-spacing: -.03em; color: #fff; }
+.s03-h { font-family: var(--serif); font-size: clamp(40px,4.8vw,70px); font-weight: 500; line-height: 1; letter-spacing: -.015em; color: #fff; }
 .s03-h em { font-style: italic; color: rgba(255,255,255,.35); }
 .s03-p { font-size: 15px; line-height: 1.85; color: rgba(255,255,255,.58); font-weight: 300; }
 .pillars { display: flex; flex-direction: column; gap: 14px; }
@@ -271,13 +271,13 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .tl-dot { position: absolute; left: -31px; top: 7px; width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--bm); background: var(--beige); transition: background .4s, border-color .4s; }
 .tl-item.go .tl-dot { background: var(--ink); border-color: var(--ink); }
 .tl-ph { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
-.tl-title { font-family: var(--serif); font-size: clamp(18px,1.8vw,26px); font-weight: 400; letter-spacing: -.01em; margin-bottom: 9px; }
+.tl-title { font-family: var(--serif); font-size: clamp(18px,1.8vw,26px); font-weight: 500; letter-spacing: -.015em; margin-bottom: 9px; }
 .tl-desc { font-size: 13px; line-height: 1.72; color: var(--muted); font-weight: 300; }
 
 /* ── CTA ── */
 .cta-block { background: var(--ink); padding: 96px 48px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
 .cta-lbl { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 14px; }
-.cta-h { font-family: var(--serif); font-size: clamp(34px,4.5vw,62px); font-weight: 400; letter-spacing: -.03em; color: #fff; line-height: 1; }
+.cta-h { font-family: var(--serif); font-size: clamp(34px,4.5vw,62px); font-weight: 500; letter-spacing: -.015em; color: #fff; line-height: 1; }
 .cta-h em { font-style: italic; color: rgba(255,255,255,.38); }
 .cta-btn { display: inline-flex; align-items: center; gap: 16px; border: 1px solid rgba(255,255,255,.2); color: #fff; font-family: var(--sans); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; padding: 19px 36px; transition: background .3s, border-color .3s, gap .3s; flex-shrink: 0; white-space: nowrap; }
 .cta-btn:hover { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.5); gap: 22px; }
