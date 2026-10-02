@@ -119,14 +119,23 @@
       font-family: var(--font-serif);
       font-size: clamp(48px, 7vw, 96px);
       font-weight: 500;
-      line-height: .95;
-      letter-spacing: -.015em;
+      /* lowercase Cormorant wants air, not compression: the negative
+         tracking below suited capitals and made the letters touch */
+      text-transform: lowercase;
+      line-height: 1.24;
+      letter-spacing: .02em;
       color: #fff;
       transform: translateY(100%);
       transition: transform 1s cubic-bezier(.16,1,.3,1) .3s;
     }
     .hero__title.visible { transform: translateY(0); }
-    .hero__title em { font-style: italic; color: rgba(255,255,255,.7); }
+    /* second line steps in, so the eye travels diagonally rather than straight down */
+    .hero__title em {
+      font-style: italic;
+      color: rgba(255,255,255,.62);
+      display: inline-block;
+      margin-left: 1.5em;
+    }
 
     .hero__meta {
       display: flex;
