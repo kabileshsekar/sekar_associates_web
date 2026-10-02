@@ -126,7 +126,7 @@
       letter-spacing: .02em;
       color: #fff;
       transform: translateY(100%);
-      transition: transform 1s cubic-bezier(.16,1,.3,1) .3s;
+      transition: transform .75s cubic-bezier(.16,1,.3,1);
     }
     .hero__title.visible { transform: translateY(0); }
     /* second line steps in, so the eye travels diagonally rather than straight down */
@@ -144,7 +144,7 @@
       gap: 8px;
       opacity: 0;
       transform: translateY(16px);
-      transition: opacity .8s ease .7s, transform .8s ease .7s;
+      transition: opacity .6s ease .25s, transform .6s ease .25s;
     }
     .hero__meta.visible { opacity: 1; transform: translateY(0); }
     .hero__meta-tag {
@@ -905,11 +905,20 @@
     const heroTitle = document.getElementById('heroTitle');
     const heroMeta  = document.getElementById('heroMeta');
 
-    window.addEventListener('load', () => {
+    // Fire as soon as the hero image itself is ready. Waiting for
+    // window.load meant waiting for every image further down the page
+    // (~870KB), which left the title sitting off-screen for seconds.
+    function revealHero() {
       heroImg.classList.add('loaded');
-      setTimeout(() => heroTitle.classList.add('visible'), 200);
-      setTimeout(() => heroMeta.classList.add('visible'),  400);
-    });
+      heroTitle.classList.add('visible');
+      setTimeout(() => heroMeta.classList.add('visible'), 180);
+    }
+    if (heroImg.complete && heroImg.naturalWidth) revealHero();
+    else {
+      heroImg.addEventListener('load', revealHero, { once: true });
+      heroImg.addEventListener('error', revealHero, { once: true });
+      setTimeout(revealHero, 2000);   // never leave the title hidden
+    }
 
     // ---- Sticky header ----
     const header = document.getElementById('siteHeader');
