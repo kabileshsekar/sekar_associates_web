@@ -364,7 +364,7 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--font-serif);
   font-size: clamp(56px, 8vw, 120px);
   font-weight: 500;
-  line-height: .98;      /* Cormorant has longer ascenders than DM Serif */
+  line-height: 1.15;     /* Cormorant's descenders and ascenders overlap below this */
   letter-spacing: -.015em;  /* -.03em collides in this lighter face */
   color: #fff;
 }
