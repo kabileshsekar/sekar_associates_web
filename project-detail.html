@@ -113,6 +113,8 @@
       align-items: flex-end;
     }
     .hero__title-wrap { overflow: hidden; }
+    /* mask released once the title has slid up, so descenders aren't cut */
+    .hero__title-wrap:has(.hero__title.visible) { overflow: visible; }
     .hero__title {
       font-family: var(--font-serif);
       font-size: clamp(48px, 7vw, 96px);

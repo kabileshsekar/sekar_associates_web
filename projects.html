@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="wordmark.css?v=2" />
   <link rel="stylesheet" href="footer.css?v=3" />
-  <link rel="stylesheet" href="style.css?v=24" />
+  <link rel="stylesheet" href="style.css?v=25" />
   <style>
 
     /* ============================================================
@@ -77,8 +77,12 @@
       line-height: .95;
       letter-spacing: -.015em;
       color: var(--ink);
+      /* Masks the words sliding up on load. Released once they land —
+         Cormorant's italic descenders (the j in "Projects") fall 28px
+         below the baseline and were being clipped. */
       overflow: hidden;
     }
+    .projects-hero__title.is-visible { overflow: visible; }
     .projects-hero__title em { font-style: italic; color: var(--ink-muted); }
     .projects-hero__title .word {
       display: inline-block;
