@@ -165,13 +165,16 @@
     /* ---- Projects Grid ---- */
     .projects-grid {
       padding: 80px 48px 120px;
-      columns: 3;
-      column-gap: 24px;
+      /* grid, not CSS columns: columns fill downwards, so 01 02 03 ran
+         down the first column instead of across the top row */
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: start;
     }
 
     .proj-card {
       break-inside: avoid;
-      margin-bottom: 24px;
       cursor: pointer;
       display: block;
       text-decoration: none;
@@ -353,7 +356,7 @@
       .projects-hero    { padding: 110px 24px 56px; }
       .projects-filters { padding: 0 24px; top: var(--hdr-h, 68px); }
       .filter-btn       { font-size: 11px; letter-spacing: .1em; padding: 18px 6px; }
-      .projects-grid    { padding: 40px 24px 80px; columns: 2; column-gap: 16px; }
+      .projects-grid    { padding: 40px 24px 80px; grid-template-columns: repeat(2, 1fr); gap: 16px; }
       .proj-card        { margin-bottom: 16px; }
       .pg-footer        { padding: 40px 24px; flex-direction: column; align-items: flex-start; gap: 14px; }
     }
@@ -367,7 +370,7 @@
       .projects-filters { padding: 0 20px; top: var(--hdr-h, 57px); }
       .filter-btn       { font-size: 10px; letter-spacing: .07em; padding: 15px 4px; }
 
-      .projects-grid    { columns: 1; padding: 28px 20px 60px; }
+      .projects-grid    { grid-template-columns: 1fr; padding: 28px 20px 60px; }
       /* Always show overlay on touch — no hover */
       .proj-card__overlay { opacity: 1; }
       .proj-card__overlay-name,
