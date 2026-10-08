@@ -335,6 +335,19 @@
       border-bottom: 1px solid var(--beige-mid);
       align-items: start;
     }
+    /* text block with no pull quote — used between the two full-width
+       images. Double class so the media queries below, which reset
+       .text-section's columns, don't flatten it. */
+    .text-section.text-section--solo {
+      grid-template-columns: 180px minmax(0, 1fr);
+    }
+    .text-section.text-section--solo .text-section__body { max-width: 62ch; }
+    /* the 1024px breakpoint hides the label, so the body would drop into
+       the label's narrow column — give it the full width from there down */
+    @media (max-width: 1024px) {
+      .text-section.text-section--solo { grid-template-columns: minmax(0, 1fr); }
+    }
+
     .text-section__label {
       font-size: 9px;
       letter-spacing: .2em;
@@ -830,6 +843,14 @@
   <div class="full-image reveal">
     <img src="assets/projects/project_3/IMG_2.webp" alt="Project 3">
     <!-- <span class="full-image__caption">Living room, facing the garden</span> -->
+  </div>
+
+  <!-- TEXT BETWEEN THE FULL-WIDTH IMAGES -->
+  <div class="text-section text-section--solo">
+    <span class="text-section__label reveal">Detail</span>
+    <div class="text-section__body reveal">
+      <p>Copy to follow.</p>
+    </div>
   </div>
 
   <!-- FULL-WIDTH IMAGE 2 -->
