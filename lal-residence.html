@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Joseph Illam — Sekar Associates</title>
+  <title>Lal residence — Sekar Associates</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
@@ -335,6 +335,19 @@
       border-bottom: 1px solid var(--beige-mid);
       align-items: start;
     }
+    /* text block with no pull quote — used between the two full-width
+       images. Double class so the media queries below, which reset
+       .text-section's columns, don't flatten it. */
+    .text-section.text-section--solo {
+      grid-template-columns: 180px minmax(0, 1fr);
+    }
+    .text-section.text-section--solo .text-section__body { max-width: 62ch; }
+    /* the 1024px breakpoint hides the label, so the body would drop into
+       the label's narrow column — give it the full width from there down */
+    @media (max-width: 1024px) {
+      .text-section.text-section--solo { grid-template-columns: minmax(0, 1fr); }
+    }
+
     .text-section__label {
       font-size: 9px;
       letter-spacing: .2em;
@@ -776,11 +789,11 @@
 
   <!-- HERO — fullscreen -->
   <section class="hero" id="hero">
-    <img class="hero__img" id="heroImg" src="assets/projects/joseph_illam/SA_IMAGE_1.webp" alt="Joseph illam">
+    <img class="hero__img" id="heroImg" src="assets/projects/lal_residence/IMG_1.webp" alt="Lal residence">
     <div class="hero__overlay"></div>
     <div class="hero__content">
       <div class="hero__title-wrap">
-        <h1 class="hero__title" id="heroTitle">Joseph<br><em>Illam</em></h1>
+        <h1 class="hero__title" id="heroTitle">Lal<br><em>residence</em></h1>
       </div>
       <div class="hero__meta" id="heroMeta">
         <span class="hero__meta-tag">Residential · 2023</span>
@@ -801,47 +814,59 @@
     </div>
     <div class="intro-strip__item reveal">
       <p class="intro-strip__label">Location</p>
-      <p class="intro-strip__value">Perungalathur, Chennai</p>
+      <p class="intro-strip__value">&mdash;</p>
     </div>
     <div class="intro-strip__item reveal">
       <p class="intro-strip__label">Year</p>
-      <p class="intro-strip__value">2023</p>
+      <p class="intro-strip__value">&mdash;</p>
     </div>
     <div class="intro-strip__item reveal">
       <p class="intro-strip__label">Area</p>
-      <p class="intro-strip__value">690 sq.ft</p>
+      <p class="intro-strip__value">&mdash;</p>
     </div>
   </div>
 
   <!-- OVERVIEW -->
   <div class="overview">
     <h2 class="overview__heading reveal">
-      A home where light,<br>
-      texture and <em>warmth</em><br>
-      are layered.
+      Project heading<br>
+      to <em>follow.</em>
     </h2>
     <div class="overview__aside reveal">
       <p class="overview__aside-label">Overview</p>
-      <p>The brief was a family home that feels generous without feeling cold. Living, dining and kitchen share a single open volume, held together by a restrained palette &mdash; travertine underfoot, warm oak joinery, and upholstery in sand and clay.</p>
-      <p>Light does most of the detailing. Cove lighting is traced through the ceiling, niches in the joinery are lit from within, and sheer drapery softens the afternoon sun. Furniture is kept low and rounded so the eye travels the room uninterrupted.</p>
+      <p>Overview copy to follow.</p>
+      <p>Second paragraph to follow.</p>
     </div>
   </div>
 
   <!-- FULL-WIDTH IMAGE 1 -->
   <div class="full-image reveal">
-    <img src="assets/projects/joseph_illam/SA_IMAGE_2.webp" alt="Joseph illam — Living Room">
+    <img src="assets/projects/lal_residence/IMG_2.webp" alt="Lal residence">
     <!-- <span class="full-image__caption">Living room, facing the garden</span> -->
+  </div>
+
+  <!-- TEXT BETWEEN THE FULL-WIDTH IMAGES -->
+  <div class="text-section text-section--solo">
+    <span class="text-section__label reveal">Detail</span>
+    <div class="text-section__body reveal">
+      <p>Copy to follow.</p>
+    </div>
+  </div>
+
+  <!-- FULL-WIDTH IMAGE 2 -->
+  <div class="full-image reveal">
+    <img src="assets/projects/lal_residence/IMG_3.webp" alt="Lal residence">
   </div>
 
   <!-- TEXT + QUOTE -->
   <div class="text-section">
     <span class="text-section__label reveal">Concept</span>
     <div class="text-section__body reveal">
-      <p>The concept began with a single decision: let light be a material. Instead of lighting the room from above, we shaped the ceiling and the joinery to carry it — a continuous cove tracing the perimeter, warm strips set inside each niche — so the space is lit by its own surfaces.</p>
-      <p>A tactile palette does the rest. Fluted panelling and handwoven macramé against smooth stone, boucle beside aged leather, dark metal holding the composition together. Nothing competes for attention; the interest lies in how the textures meet.</p>
+      <p>Concept copy to follow.</p>
+      <p>Second paragraph to follow.</p>
     </div>
     <div class="text-section__quote reveal">
-      <blockquote>&ldquo;Light was the first material we chose. Everything after it &mdash; the stone, the oak, the linen &mdash; was selected to answer it.&rdquo;</blockquote>
+      <blockquote>&ldquo;Quote to follow.&rdquo;</blockquote>
       <cite>&mdash; Lead Architect, Sekar Ayyasamy</cite>
     </div>
   </div>
@@ -849,15 +874,15 @@
   <!-- SPLIT — image left, text right -->
   <div class="split-section">
     <div class="split-section__image reveal">
-      <img src="assets/projects/joseph_illam/SA_IMAGE_3.webp" alt="Dining area">
+      <img src="assets/projects/lal_residence/IMG_4.webp" alt="Lal residence">
     </div>
     <div class="split-section__text">
-      <span class="split-section__num reveal">01 / Dining</span>
+      <span class="split-section__num reveal">01 / Section</span>
       <h3 class="split-section__heading reveal">
-        Built around<br><em>the table.</em>
+        Section heading<br><em>to follow.</em>
       </h3>
       <p class="split-section__body reveal">
-        The dining table sits in its own light, drawn from the full-height window and softened by sheer drapery. A dark stone top anchors the room against the pale floor, with tan leather seating on slim black frames to keep the arrangement visually light. Behind it, a run of counter handles serving and everyday use, and a compact wash niche is set into the wall where it is wanted rather than where it would be noticed.
+        Section copy to follow.
       </p>
     </div>
   </div>
@@ -865,24 +890,34 @@
   <!-- SPLIT — image right, text left (reversed) -->
   <div class="split-section reverse">
     <div class="split-section__image reveal">
-      <img src="assets/projects/joseph_illam/SA_IMAGE_4.webp" alt="Kitchen">
+      <img src="assets/projects/lal_residence/IMG_5.webp" alt="Lal residence">
     </div>
     <div class="split-section__text">
-      <span class="split-section__num reveal">02 / Kitchen</span>
+      <span class="split-section__num reveal">02 / Section</span>
       <h3 class="split-section__heading reveal">
-        Everything within<br><em>arm's reach.</em>
+        Section heading<br><em>to follow.</em>
       </h3>
       <p class="split-section__body reveal">
-        A U-shaped plan keeps sink, hob and storage a step apart, with the tall unit carrying the oven and refrigerator out of the work zone. Marble runs from counter to backsplash so the surface reads as one piece, lit from beneath the wood upper cabinets. The window is kept clear above the counter, and glazed doors at the end of the run hold what deserves to be seen.
+        Section copy to follow.
       </p>
     </div>
   </div>
 
+  <!-- TWO IMAGES SIDE BY SIDE -->
+  <div class="two-image">
+    <div class="two-image__item reveal">
+      <img src="assets/projects/lal_residence/IMG_6.webp" alt="Lal residence">
+    </div>
+    <div class="two-image__item reveal">
+      <img src="assets/projects/lal_residence/IMG_7.webp" alt="Lal residence">
+    </div>
+  </div>
+
   <!-- NEXT PROJECT -->
-  <a class="next-project" href="project-3.html">
+  <a class="next-project" href="joseph-illam.html">
     <div>
       <p class="next-project__label">Next Project</p>
-      <h2 class="next-project__title">Lal <em>residence</em></h2>
+      <h2 class="next-project__title">Joseph <em>illam</em></h2>
     </div>
     <div class="next-project__arrow">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
