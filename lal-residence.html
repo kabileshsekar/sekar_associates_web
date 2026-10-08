@@ -122,7 +122,9 @@
       /* lowercase Cormorant wants air, not compression: the negative
          tracking below suited capitals and made the letters touch */
       text-transform: lowercase;
-      line-height: 1.24;
+      /* "lal" carries no descender, so the 1.24 leading that suits
+         "joseph" opens a 48px hole here. 0.98 leaves a 23px gap. */
+      line-height: 0.98;
       letter-spacing: .02em;
       color: #fff;
       transform: translateY(100%);
@@ -134,7 +136,9 @@
       font-style: italic;
       color: rgba(255,255,255,.62);
       display: inline-block;
-      margin-left: 1.5em;
+      /* "lal" is exactly 1em wide: indenting by that much starts
+         "residence" where it ends, so the two words step cleanly */
+      margin-left: 1.05em;
     }
 
     .hero__meta {
