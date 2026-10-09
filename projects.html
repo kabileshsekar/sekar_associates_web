@@ -194,6 +194,18 @@
       display: none;
     }
 
+    /* ---- shared-element transition between the projects grid and the
+       Lal residence hero. The card image and the hero image are the same
+       file, so the browser morphs one into the other across the
+       navigation. Browsers without support simply navigate as before. */
+    @view-transition { navigation: auto; }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition { navigation: none; }
+    }
+
+    /* only this one card morphs; a view-transition-name must be unique */
+    .proj-card--morph .proj-card__image img { view-transition-name: lal-hero; }
+
     .proj-card__image {
       position: relative;
       overflow: hidden;
@@ -469,7 +481,7 @@
         <span class="proj-card__meta">São Paulo, 2022</span>
       </div>
     </a>
-    <a class="proj-card" href="lal-residence.html" data-category="residential">
+    <a class="proj-card proj-card--morph" href="lal-residence.html" data-category="residential">
       <div class="proj-card__image">
         <img src="assets/projects/cards/lal_residence.webp" alt="Lal residence">
         <div class="proj-card__overlay">

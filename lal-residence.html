@@ -88,7 +88,17 @@
       height: 100svh;   /* stays put when the mobile address bar hides */
       overflow: hidden;
     }
+    /* ---- shared-element transition between the projects grid and the
+       Lal residence hero. The card image and the hero image are the same
+       file, so the browser morphs one into the other across the
+       navigation. Browsers without support simply navigate as before. */
+    @view-transition { navigation: auto; }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition { navigation: none; }
+    }
+
     .hero__img {
+      view-transition-name: lal-hero;
       width: 100%; height: 100%;
       object-fit: cover;
       object-position: center;
