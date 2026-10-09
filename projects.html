@@ -203,6 +203,26 @@
       @view-transition { navigation: none; }
     }
 
+    /* The default transition is 250ms and cross-fades the two snapshots
+       while they move, which reads as a flicker. Let the group do the
+       moving and resizing on its own, slowly, with nothing fading. */
+    ::view-transition-group(lal-hero) {
+      animation-duration: .9s;
+      animation-timing-function: cubic-bezier(.22, 1, .36, 1);
+    }
+    ::view-transition-old(lal-hero),
+    ::view-transition-new(lal-hero) {
+      animation: none;              /* no cross-fade between them */
+      mix-blend-mode: normal;
+      height: 100%;
+      object-fit: cover;            /* keeps the crop steady as it grows */
+    }
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: .7s;
+      animation-timing-function: cubic-bezier(.22, 1, .36, 1);
+    }
+
     /* only this one card morphs; a view-transition-name must be unique */
     .proj-card--morph .proj-card__image img { view-transition-name: lal-hero; }
 

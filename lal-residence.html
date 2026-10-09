@@ -97,6 +97,26 @@
       @view-transition { navigation: none; }
     }
 
+    /* The default transition is 250ms and cross-fades the two snapshots
+       while they move, which reads as a flicker. Let the group do the
+       moving and resizing on its own, slowly, with nothing fading. */
+    ::view-transition-group(lal-hero) {
+      animation-duration: .9s;
+      animation-timing-function: cubic-bezier(.22, 1, .36, 1);
+    }
+    ::view-transition-old(lal-hero),
+    ::view-transition-new(lal-hero) {
+      animation: none;              /* no cross-fade between them */
+      mix-blend-mode: normal;
+      height: 100%;
+      object-fit: cover;            /* keeps the crop steady as it grows */
+    }
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: .7s;
+      animation-timing-function: cubic-bezier(.22, 1, .36, 1);
+    }
+
     .hero__img {
       view-transition-name: lal-hero;
       width: 100%; height: 100%;
@@ -142,7 +162,7 @@
       letter-spacing: .02em;
       color: #fff;
       transform: translateY(100%);
-      transition: transform .75s cubic-bezier(.16,1,.3,1);
+      transition: transform .95s cubic-bezier(.22,1,.36,1);
     }
     .hero__title.visible { transform: translateY(0); }
     /* second line steps in, so the eye travels diagonally rather than straight down */
@@ -161,7 +181,7 @@
       gap: 8px;
       opacity: 0;
       transform: translateY(16px);
-      transition: opacity .6s ease .25s, transform .6s ease .25s;
+      transition: opacity .8s ease, transform .8s ease;
     }
     .hero__meta.visible { opacity: 1; transform: translateY(0); }
     .hero__meta-tag {
@@ -960,10 +980,25 @@
     // Fire as soon as the hero image itself is ready. Waiting for
     // window.load meant waiting for every image further down the page
     // (~870KB), which left the title sitting off-screen for seconds.
+    // When the page is entered by clicking the card, the hero image is
+    // still growing into place. Hold the text until that has finished,
+    // otherwise it pops in over a moving picture.
+    let arrival = Promise.resolve();
+    if ('PageRevealEvent' in window) {
+      arrival = new Promise(done => {
+        window.addEventListener('pagereveal', e => {
+          if (e.viewTransition) e.viewTransition.finished.then(done); else done();
+        }, { once: true });
+        setTimeout(done, 1600);     // never hold the text hostage
+      });
+    }
+
     function revealHero() {
       heroImg.classList.add('loaded');
-      heroTitle.classList.add('visible');
-      setTimeout(() => heroMeta.classList.add('visible'), 180);
+      arrival.then(() => {
+        heroTitle.classList.add('visible');
+        setTimeout(() => heroMeta.classList.add('visible'), 260);
+      });
     }
     if (heroImg.complete && heroImg.naturalWidth) revealHero();
     else {
