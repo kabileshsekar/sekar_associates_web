@@ -260,13 +260,17 @@ document.addEventListener('keydown', (e) => {
 document.querySelectorAll('.mob-menu__link').forEach(link => {
   link.addEventListener('click', function (e) {
 
+    const targetId = this.getAttribute('href') || '';
+
+    // Only in-page anchors are intercepted, so the menu can close before
+    // scrolling. Links to other pages (careers.html) must navigate
+    // normally — preventing that left them doing nothing at all.
+    if (targetId.charAt(0) !== '#') return;
+
     e.preventDefault(); // prevent instant jump
 
-    const targetId = this.getAttribute('href');
     // Guard: href="#" or empty would make querySelector throw.
-    const target = (targetId && targetId.length > 1)
-      ? document.querySelector(targetId)
-      : null;
+    const target = targetId.length > 1 ? document.querySelector(targetId) : null;
 
     closeMenu();
 
