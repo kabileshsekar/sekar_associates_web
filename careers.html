@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Careers — Sekar Associates</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="wordmark.css?v=2" />
+  <link rel="stylesheet" href="footer.css?v=3" />
+  <link rel="stylesheet" href="style.css?v=25" />
+  <style>
+    body { background: var(--beige); overflow-x: hidden; height: auto; }
+
+    /* ---- Header (matches the projects page) ---- */
+    .pg-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 48px;
+      background: var(--beige); border-bottom: 1px solid var(--beige-mid);
+    }
+    .pg-header .brand { text-decoration: none; }
+    .pg-header .brand-text { color: var(--ink); }
+    .pg-header .wordmark-logo { filter: brightness(0); }
+    .pg-header__back {
+      font-family: var(--font-sans); font-size: 13px; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--ink-soft); text-decoration: none;
+      display: flex; align-items: center; gap: 8px; transition: color .2s, gap .2s;
+    }
+    .pg-header__back:hover { color: var(--ink); gap: 14px; }
+    .pg-header__back svg { transition: transform .2s; }
+    .pg-header__back:hover svg { transform: translateX(-3px); }
+
+    /* ---- Hero ---- */
+    .careers-hero { padding: 160px 48px 72px; border-bottom: 1px solid var(--beige-mid); }
+    .careers-hero__eyebrow {
+      font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--ink-muted); margin-bottom: 24px;
+    }
+    .careers-hero__title {
+      font-family: var(--font-serif); font-size: clamp(48px, 7vw, 100px);
+      font-weight: 500; line-height: 1.05; letter-spacing: -.015em; color: var(--ink);
+    }
+    .careers-hero__title em { font-style: italic; color: var(--ink-muted); }
+    .careers-hero__lead {
+      max-width: 62ch; margin-top: 40px;
+      font-size: 16px; line-height: 1.85; color: var(--ink-soft); font-weight: 300;
+    }
+
+    /* ---- Open positions ---- */
+    .roles { padding: 72px 48px 110px; }
+    .roles__label {
+      font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--ink-muted); margin-bottom: 40px;
+    }
+    .role {
+      display: grid; grid-template-columns: 60px 1fr auto; gap: 32px;
+      align-items: start; padding: 34px 0;
+      border-top: 1px solid var(--beige-mid);
+    }
+    .role:last-of-type { border-bottom: 1px solid var(--beige-mid); }
+    .role__num { font-size: 11px; letter-spacing: .1em; color: var(--ink-muted); padding-top: 8px; }
+    .role__title {
+      font-family: var(--font-serif); font-size: clamp(22px, 2.4vw, 32px);
+      font-weight: 500; letter-spacing: -.015em; color: var(--ink);
+    }
+    .role__meta {
+      margin-top: 8px; font-size: 11px; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--ink-muted);
+    }
+    .role__desc {
+      margin-top: 14px; max-width: 56ch;
+      font-size: 15px; line-height: 1.8; color: var(--ink-soft); font-weight: 300;
+    }
+    .role__apply {
+      align-self: center;
+      background: none; border: 1px solid var(--beige-mid);
+      font-family: var(--font-sans); font-size: 11px; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--ink-soft);
+      padding: 15px 34px; cursor: pointer; border-radius: 2px; white-space: nowrap;
+      transition: background .25s, border-color .25s, color .25s;
+    }
+    .role__apply:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+    .roles__note {
+      margin-top: 56px; max-width: 62ch;
+      font-size: 15px; line-height: 1.8; color: var(--ink-soft); font-weight: 300;
+    }
+    .roles__note a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--beige-mid); }
+    .roles__note a:hover { border-color: var(--ink); }
+
+    /* ---- Confirmation banner ---- */
+    .sent {
+      display: none; margin: 0 48px;
+      padding: 18px 24px; border: 1px solid var(--accent);
+      background: rgba(196,168,130,.12);
+      font-size: 14px; color: var(--ink-soft);
+    }
+    .sent.is-shown { display: block; }
+
+    /* ---- Application dialog ---- */
+    .apply[open] { display: flex; }
+    .apply {
+      border: none; padding: 0; background: transparent;
+      width: min(680px, calc(100vw - 32px)); max-height: calc(100dvh - 32px);
+    }
+    .apply::backdrop { background: rgba(26,23,20,.55); }
+    .apply__panel {
+      background: var(--beige); border: 1px solid var(--beige-mid);
+      padding: 40px; width: 100%; overflow-y: auto;
+    }
+    .apply__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+    .apply__label { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-muted); }
+    .apply__role {
+      font-family: var(--font-serif); font-size: clamp(24px, 3vw, 34px);
+      font-weight: 500; letter-spacing: -.015em; color: var(--ink); margin-top: 6px;
+    }
+    .apply__close {
+      background: none; border: none; cursor: pointer;
+      font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-muted);
+    }
+    .apply__close:hover { color: var(--ink); }
+
+    .field { margin-top: 24px; }
+    .field label {
+      display: block; font-size: 10px; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--ink-muted); margin-bottom: 8px;
+    }
+    .field input[type=text],
+    .field input[type=email],
+    .field input[type=tel],
+    .field input[type=url],
+    .field textarea {
+      width: 100%; background: transparent;
+      border: none; border-bottom: 1px solid var(--beige-mid);
+      font-family: var(--font-sans); font-size: 15px; color: var(--ink);
+      padding: 8px 0; transition: border-color .2s;
+    }
+    .field input:focus, .field textarea:focus { outline: none; border-color: var(--ink); }
+    .field textarea { resize: vertical; min-height: 84px; line-height: 1.7; }
+    .field input[type=file] {
+      width: 100%; font-family: var(--font-sans); font-size: 13px; color: var(--ink-soft);
+    }
+    .field input[type=file]::file-selector-button {
+      font-family: var(--font-sans); font-size: 11px; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--ink-soft);
+      background: none; border: 1px solid var(--beige-mid); border-radius: 2px;
+      padding: 10px 20px; margin-right: 14px; cursor: pointer;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+    .field input[type=file]::file-selector-button:hover {
+      background: var(--ink); border-color: var(--ink); color: #fff;
+    }
+    .field__hint { margin-top: 8px; font-size: 12px; color: var(--ink-muted); }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .field__optional { text-transform: none; letter-spacing: 0; }
+
+    .apply__submit {
+      margin-top: 36px; width: 100%;
+      background: var(--ink); border: 1px solid var(--ink); color: #fff;
+      font-family: var(--font-sans); font-size: 12px; letter-spacing: .15em;
+      text-transform: uppercase; padding: 17px 24px; cursor: pointer;
+      border-radius: 2px; transition: opacity .2s;
+    }
+    .apply__submit:hover { opacity: .88; }
+    .apply__small { margin-top: 16px; font-size: 12px; line-height: 1.7; color: var(--ink-muted); }
+
+    /* off-screen but still submitted — catches bots that fill every field */
+    .vh { position: absolute; left: -9999px; }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 900px) {
+      .pg-header     { padding: 18px 24px; }
+      .careers-hero  { padding: 110px 24px 56px; }
+      .roles         { padding: 56px 24px 80px; }
+      .sent          { margin: 0 24px; }
+      .role          { grid-template-columns: 40px 1fr; gap: 20px; }
+      .role__apply   { grid-column: 2; justify-self: start; margin-top: 18px; }
+    }
+    @media (max-width: 600px) {
+      .pg-header     { padding: 14px 20px; }
+      .careers-hero  { padding: 84px 20px 40px; }
+      .careers-hero__title { font-size: clamp(34px, 10vw, 54px); }
+      .roles         { padding: 40px 20px 64px; }
+      .sent          { margin: 0 20px; }
+      .apply__panel  { padding: 28px 20px; }
+      .field-row     { grid-template-columns: 1fr; gap: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="pg-header">
+    <a class="brand" href="index.html" aria-label="Sekar Associates">
+      <span class="brand-text wordmark">Sekar Associa<svg class="brand-cross" viewBox="0 0 441 703" aria-hidden="true"><rect x="158" y="0" width="125" height="703"/><rect x="0" y="158" width="441" height="105"/></svg>es</span>
+      <img class="wordmark-logo" src="assets/logo.png" alt="">
+    </a>
+    <a class="pg-header__back" href="index.html">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to Home
+    </a>
+  </header>
+
+  <!-- HERO -->
+  <section class="careers-hero">
+    <p class="careers-hero__eyebrow">Careers</p>
+    <h1 class="careers-hero__title">Come and build<br><em>with us.</em></h1>
+    <p class="careers-hero__lead">
+      We are a studio of architects, interior designers and engineers in Chennai, working on homes,
+      farmhouses, apartments, resorts, commercial complexes and institutional projects. If you draw
+      carefully, detail honestly and want to see your work built, we would like to meet you.
+    </p>
+  </section>
+
+  <!-- CONFIRMATION (shown when a submission redirects back here) -->
+  <div class="sent" id="sent">
+    Thank you &mdash; your application has been sent. We read everything that comes in, and will reply if there is a fit.
+  </div>
+
+  <!-- OPEN POSITIONS -->
+  <section class="roles">
+    <p class="roles__label">Open positions</p>
+
+    <article class="role">
+      <span class="role__num">01</span>
+      <div>
+        <h2 class="role__title">Junior Architect</h2>
+        <p class="role__meta">Full-time &middot; Chennai</p>
+        <p class="role__desc">
+          Working across residential and commercial projects from concept through to site. You should be
+          comfortable in AutoCAD and SketchUp, able to produce clean working drawings, and willing to
+          spend time on site watching what you have drawn get built.
+        </p>
+      </div>
+      <button class="role__apply" data-role="Junior Architect">Apply</button>
+    </article>
+
+    <article class="role">
+      <span class="role__num">02</span>
+      <div>
+        <h2 class="role__title">Interior Designer</h2>
+        <p class="role__meta">Full-time &middot; Chennai</p>
+        <p class="role__desc">
+          Detailing interiors from first layout to final handover &mdash; joinery, lighting, materials and
+          finishes. Strong 3D visualisation and a real interest in how things are made will matter more
+          to us than years of experience.
+        </p>
+      </div>
+      <button class="role__apply" data-role="Interior Designer">Apply</button>
+    </article>
+
+    <article class="role">
+      <span class="role__num">03</span>
+      <div>
+        <h2 class="role__title">Architectural Intern</h2>
+        <p class="role__meta">6 months &middot; Chennai</p>
+        <p class="role__desc">
+          For students in their final years. You will sit with the team, draw, make models, visit sites
+          and take on real parts of live projects rather than fetching prints.
+        </p>
+      </div>
+      <button class="role__apply" data-role="Architectural Intern">Apply</button>
+    </article>
+
+    <p class="roles__note">
+      Nothing here that fits? Send your portfolio anyway &mdash;
+      <a href="#" class="js-open-general">apply speculatively</a> and we will keep it on file.
+    </p>
+  </section>
+
+  <!-- APPLICATION FORM -->
+  <dialog class="apply" id="applyDialog" aria-labelledby="applyRole">
+    <div class="apply__panel">
+      <div class="apply__head">
+        <div>
+          <p class="apply__label">Apply for</p>
+          <p class="apply__role" id="applyRole">Junior Architect</p>
+        </div>
+        <button type="button" class="apply__close" id="applyClose">Close</button>
+      </div>
+
+      <form action="https://formsubmit.co/sekarassociates.chennai@gmail.com"
+            method="POST" enctype="multipart/form-data" id="applyForm">
+        <!-- FormSubmit settings -->
+        <input type="hidden" name="_subject" id="applySubject" value="Application">
+        <input type="hidden" name="Position" id="applyPosition" value="">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" id="applyNext" value="">
+        <input type="text" name="_honey" class="vh" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="field-row">
+          <div class="field">
+            <label for="fName">Full name</label>
+            <input type="text" id="fName" name="Name" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="fEmail">Email</label>
+            <input type="email" id="fEmail" name="Email" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="fPhone">Phone</label>
+            <input type="tel" id="fPhone" name="Phone" required autocomplete="tel">
+          </div>
+          <div class="field">
+            <label for="fPortfolioUrl">Portfolio link <span class="field__optional">(optional)</span></label>
+            <input type="url" id="fPortfolioUrl" name="Portfolio link" placeholder="https://">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="fResume">Resume</label>
+          <input type="file" id="fResume" name="attachment" accept=".pdf,.doc,.docx" required>
+          <p class="field__hint">PDF or Word.</p>
+        </div>
+
+        <div class="field">
+          <label for="fPortfolio">Portfolio</label>
+          <input type="file" id="fPortfolio" name="attachment" accept=".pdf,.zip">
+          <p class="field__hint">PDF or ZIP. Keep both files under 5MB in total, or send a link instead.</p>
+        </div>
+
+        <div class="field">
+          <label for="fMessage">Anything you would like to tell us</label>
+          <textarea id="fMessage" name="Message" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="apply__submit">Send application</button>
+        <p class="apply__small">
+          Your details go straight to our inbox. We do not share them with anyone.
+        </p>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- FOOTER -->
+  <section class="contact" id="contact">
+    <div class="contact__inner">
+      <div class="contact__left">
+        <div class="contact__label">Get in touch</div>
+        <h2 class="contact__heading">Let's build something<br><em>extraordinary.</em></h2>
+        <a href="mailto:sekarassociates.chennai@gmail.com" class="contact__email">sekarassociates.chennai@gmail.com</a>
+      </div>
+      <div class="contact__right">
+        <div class="contact__info">
+          <div class="contact__block"><span>Instagram</span><a href="https://www.instagram.com/sekar_associates/" target="_blank" rel="noopener">@sekar_associates</a></div>
+          <div class="contact__block"><span>LinkedIn</span><a href="https://www.linkedin.com/company/sekar-associates/" target="_blank" rel="noopener">Sekar Associates</a></div>
+          <div class="contact__block">
+            <span>Location</span>
+            <a href="https://maps.google.com/?cid=12779060345757557262" target="_blank" rel="noopener">C.I.T Nagar</a>
+            <a href="https://maps.google.com/?cid=13587906091229665784" target="_blank" rel="noopener">Saidapet</a>
+          </div>
+          <div class="contact__block">
+            <span>Phone</span>
+            <a href="tel:+919381023544">+91 9381023544</a>
+            <a href="tel:+919566275502">+91 9566275502</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2024 Sekar Associates. All rights reserved.</span>
+      <span>Privacy Policy</span>
+    </div>
+  </section>
+
+  <script>
+    const dialog   = document.getElementById('applyDialog');
+    const roleName = document.getElementById('applyRole');
+    const subject  = document.getElementById('applySubject');
+    const position = document.getElementById('applyPosition');
+
+    // after FormSubmit has the submission, come back here with a flag
+    document.getElementById('applyNext').value =
+      location.origin + location.pathname + '?sent=1';
+
+    function openFor(role) {
+      roleName.textContent = role;
+      subject.value  = 'Application — ' + role;
+      position.value = role;
+      dialog.showModal();
+      document.getElementById('fName').focus();
+    }
+
+    document.querySelectorAll('.role__apply').forEach(btn => {
+      btn.addEventListener('click', () => openFor(btn.dataset.role));
+    });
+    document.querySelector('.js-open-general').addEventListener('click', e => {
+      e.preventDefault();
+      openFor('Speculative application');
+    });
+    document.getElementById('applyClose').addEventListener('click', () => dialog.close());
+    // clicking the backdrop closes it; Esc already does
+    dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+
+    // show the thank-you if we have just come back from a submission
+    if (new URLSearchParams(location.search).has('sent')) {
+      const banner = document.getElementById('sent');
+      banner.classList.add('is-shown');
+      banner.scrollIntoView({ block: 'center' });
+      history.replaceState(null, '', location.pathname);
+    }
+  </script>
+
+</body>
+</html>
