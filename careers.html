@@ -74,8 +74,22 @@
       font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
       color: var(--ink-muted); padding-top: 6px;
     }
-    .team__list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px 40px; }
+    .team__list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px 40px; }
     .team__person { border-top: 1px solid var(--beige-mid); padding-top: 22px; }
+    .team__photo {
+      position: relative; aspect-ratio: 4 / 5; overflow: hidden;
+      background: #bdb2a1; margin-bottom: 20px;
+    }
+    /* sits under the portrait; all that shows if the file is missing or fails */
+    .team__initials {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      font-family: var(--font-serif); font-size: 40px; font-weight: 500;
+      letter-spacing: .05em; color: var(--beige);
+    }
+    .team__photo img {
+      position: absolute; inset: 0; display: block;
+      width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%;
+    }
     .team__name {
       font-family: var(--font-serif); font-size: clamp(21px, 1.9vw, 27px);
       font-weight: 500; letter-spacing: -.01em; color: var(--ink);
@@ -268,6 +282,8 @@
       .team { grid-template-columns: 1fr; gap: 32px; }
       .team__label { padding-top: 0; }
       .team__list { grid-template-columns: repeat(2, 1fr); }
+      /* keep portraits at their desktop size rather than growing in two columns */
+      .team__photo { max-width: 340px; }
     }
     @media (max-width: 900px) {
       .pg-header     { padding: 18px 24px; }
@@ -286,7 +302,8 @@
       .careers-hero  { padding: 100px 20px 48px; }
       .ethos         { padding: 48px 20px; grid-template-columns: 1fr; gap: 32px; }
       .team          { padding: 48px 20px; }
-      .team__list    { grid-template-columns: 1fr; gap: 32px; }
+      .team__list    { grid-template-columns: 1fr; gap: 36px; }
+      .team__photo   { max-width: 240px; }
       .roles         { padding: 48px 20px 64px; }
       .sent          { margin: 0 20px; }
       .apply__panel  { padding: 32px 22px; }
@@ -352,9 +369,24 @@
     <p class="team__label reveal">The team</p>
     <div class="team__list">
       <div class="team__person reveal">
+        <div class="team__photo">
+          <span class="team__initials" aria-hidden="true">SA</span>
+          <img src="assets/team/sekar-ayyasamy.webp" alt="Sekar Ayyasamy"
+               loading="lazy" decoding="async" onerror="this.remove()">
+        </div>
         <p class="team__name">Sekar Ayyasamy</p>
         <p class="team__role">Lead Architect</p>
         <p class="team__bio">Founded the practice in 1998 and has led its work across Chennai and Tamil Nadu since.</p>
+      </div>
+      <div class="team__person reveal" style="--d:90ms">
+        <div class="team__photo">
+          <span class="team__initials" aria-hidden="true">PS</span>
+          <img src="assets/team/pradeep-sekar.webp" alt="Pradeep Sekar"
+               loading="lazy" decoding="async" onerror="this.remove()">
+        </div>
+        <p class="team__name">Pradeep Sekar</p>
+        <p class="team__role">Senior Architect &middot; Interior Designer</p>
+        <p class="team__bio">Works across both the architecture and the interiors on the practice&rsquo;s projects.</p>
       </div>
     </div>
   </section>
