@@ -314,6 +314,9 @@
       margin: 0 0 clamp(64px, 8vw, 128px);
     }
     .projects-grid.is-editorial .proj-card:last-of-type { margin-bottom: 0; }
+    /* display:grid above outranks .proj-card.is-hidden, which is only two
+       classes, so without this the filtered-out projects came back as rows */
+    .projects-grid.is-editorial .proj-card.is-hidden { display: none; }
 
     /* every second row turns around. The track widths swap with it, otherwise
        order alone drops the photograph into the narrower of the two columns
