@@ -194,6 +194,13 @@
       display: none;
     }
 
+    /* cards with no project page behind them are buttons, not links */
+    button.proj-card {
+      background: none; border: 0; padding: 0;
+      width: 100%; font: inherit; text-align: left;
+    }
+    button.proj-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+
     .proj-card__image {
       position: relative;
       overflow: hidden;
@@ -286,6 +293,53 @@
       font-size: 11px;
       color: var(--ink-muted);
       white-space: nowrap;
+    }
+
+    /* ---- Lightbox ---- */
+    .lightbox {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%; max-width: 100%; max-height: 100%;
+      border: 0; padding: 0; background: transparent; overflow: hidden;
+    }
+    .lightbox::backdrop { background: rgba(26,23,20,.94); }
+    .lightbox[open] { display: grid; place-items: center; }
+    .lightbox__fig {
+      position: relative; display: grid; place-items: center;
+      width: 100%; height: 100%; padding: 76px 48px 88px;
+    }
+    .lightbox__img {
+      display: block; width: auto; height: auto;
+      max-width: 100%; max-height: 100%;
+      object-fit: contain; border-radius: 2px;
+      opacity: 0; transform: scale(.985);
+      transition: opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1);
+    }
+    .lightbox.is-ready .lightbox__img { opacity: 1; transform: scale(1); }
+    .lightbox__cap {
+      position: absolute; left: 48px; bottom: 36px;
+      font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(250,248,245,.78);
+    }
+    .lightbox__cap b {
+      font-family: var(--font-serif); font-size: 19px; font-weight: 500;
+      letter-spacing: -.01em; text-transform: none; color: var(--white);
+      display: block; margin-bottom: 7px;
+    }
+    .lightbox__close {
+      position: absolute; top: 30px; right: 48px;
+      background: none; border: 0; cursor: pointer; padding: 6px 0;
+      font-family: var(--font-sans); font-size: 10px; letter-spacing: .18em;
+      text-transform: uppercase; color: rgba(250,248,245,.7);
+      transition: color .2s;
+    }
+    .lightbox__close:hover { color: var(--white); }
+    @media (prefers-reduced-motion: reduce) {
+      .lightbox__img { transition: none; }
+    }
+    @media (max-width: 720px) {
+      .lightbox__fig   { padding: 64px 20px 92px; }
+      .lightbox__cap   { left: 20px; right: 20px; bottom: 28px; }
+      .lightbox__close { top: 22px; right: 20px; }
     }
 
     /* ---- Load More ---- */
@@ -484,21 +538,24 @@
         <span class="proj-card__meta">2026</span>
       </div>
     </a>
-    <a class="proj-card" data-category="commercial">
+    <button type="button" class="proj-card" data-category="commercial"
+            data-full="assets/projects/cards/proj_4.webp" data-title="Project 04">
       <div class="proj-card__image">
         <img src="assets/projects/cards/proj_4.webp" alt="Project 04" loading="lazy" decoding="async">
         <div class="proj-card__overlay">
           <span class="proj-card__overlay-num">04</span>
           <span class="proj-card__overlay-name">Project 04</span>
           <span class="proj-card__overlay-meta">Commercial</span>
+          <span class="proj-card__overlay-link">View image →</span>
         </div>
       </div>
       <div class="proj-card__info">
         <span class="proj-card__name">Project 04</span>
         <span class="proj-card__meta">Commercial</span>
       </div>
-    </a>
-    <a class="proj-card" data-category="commercial">
+    </button>
+    <button type="button" class="proj-card" data-category="commercial"
+            data-full="assets/projects/cards/proj_5.webp" data-title="Project 05">
       <div class="proj-card__image">
         <img src="assets/projects/cards/proj_5.webp" alt="Project 05" loading="lazy" decoding="async"
              style="object-position: 72% 50%">
@@ -506,27 +563,30 @@
           <span class="proj-card__overlay-num">05</span>
           <span class="proj-card__overlay-name">Project 05</span>
           <span class="proj-card__overlay-meta">Commercial</span>
+          <span class="proj-card__overlay-link">View image →</span>
         </div>
       </div>
       <div class="proj-card__info">
         <span class="proj-card__name">Project 05</span>
         <span class="proj-card__meta">Commercial</span>
       </div>
-    </a>
-    <a class="proj-card" data-category="commercial">
+    </button>
+    <button type="button" class="proj-card" data-category="commercial"
+            data-full="assets/projects/cards/proj_6.webp" data-title="Project 06">
       <div class="proj-card__image">
         <img src="assets/projects/cards/proj_6.webp" alt="Project 06" loading="lazy" decoding="async">
         <div class="proj-card__overlay">
           <span class="proj-card__overlay-num">06</span>
           <span class="proj-card__overlay-name">Project 06</span>
           <span class="proj-card__overlay-meta">Commercial</span>
+          <span class="proj-card__overlay-link">View image →</span>
         </div>
       </div>
       <div class="proj-card__info">
         <span class="proj-card__name">Project 06</span>
         <span class="proj-card__meta">Commercial</span>
       </div>
-    </a>
+    </button>
     <a class="proj-card" href="joseph-illam.html" data-category="residential">
       <div class="proj-card__image">
         <img src="assets/hero.png" alt="Cobertura Jardins">
@@ -577,6 +637,15 @@
     </div>
   </section>
 
+  <!-- FULL IMAGE -->
+  <dialog class="lightbox" id="lightbox" aria-label="Project image">
+    <figure class="lightbox__fig">
+      <button type="button" class="lightbox__close" id="lightboxClose">Close</button>
+      <img class="lightbox__img" id="lightboxImg" src="" alt="">
+      <figcaption class="lightbox__cap"><b id="lightboxTitle"></b>Commercial</figcaption>
+    </figure>
+  </dialog>
+
   <script>
 // Keep sticky bars flush under the fixed header, whatever its height
 // (the logo swaps text <-> image at 992px, and padding changes by breakpoint).
@@ -609,6 +678,38 @@
       });
     }, { threshold: 0.1 });
     cards.forEach(c => obs.observe(c));
+
+    // ---- Full image ----
+    // These three have no project page yet, so the card opens the photograph.
+    const lightbox   = document.getElementById('lightbox');
+    const lightboxImg   = document.getElementById('lightboxImg');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+
+    function closeLightbox() {
+      lightbox.classList.remove('is-ready');
+      document.body.classList.remove('no-scroll');
+      lightbox.close();
+    }
+
+    document.querySelectorAll('.proj-card[data-full]').forEach(card => {
+      card.addEventListener('click', () => {
+        lightboxImg.src = card.dataset.full;
+        lightboxImg.alt = card.dataset.title;
+        lightboxTitle.textContent = card.dataset.title;
+        lightbox.showModal();
+        document.body.classList.add('no-scroll');
+        requestAnimationFrame(() => lightbox.classList.add('is-ready'));
+      });
+    });
+
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    // the figure fills the dialog, so a click on the dialog itself is a click outside the image
+    lightbox.addEventListener('click', e => { if (e.target !== lightboxImg) closeLightbox(); });
+    // covers Esc as well as the two above
+    lightbox.addEventListener('close', () => {
+      document.body.classList.remove('no-scroll');
+      lightbox.classList.remove('is-ready');
+    });
 
     // ---- Filter ----
     const filterBtns = document.querySelectorAll('.filter-btn');
