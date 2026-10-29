@@ -313,7 +313,8 @@
       width: 100%;
       margin: 0 0 clamp(64px, 8vw, 128px);
     }
-    .projects-grid.is-editorial .proj-card:last-of-type { margin-bottom: 0; }
+    .projects-grid.is-editorial .proj-card:last-child,
+    .projects-grid.is-editorial .proj-card.is-last { margin-bottom: 0; }
     /* display:grid above outranks .proj-card.is-hidden, which is only two
        classes, so without this the filtered-out projects came back as rows */
     .projects-grid.is-editorial .proj-card.is-hidden { display: none; }
@@ -371,6 +372,10 @@
       .projects-grid.is-editorial .proj-card.is-flipped {
         grid-template-columns: 1fr; gap: 26px; margin-bottom: 72px;
       }
+      /* and again for the last card, which the rule above would otherwise
+         give a trailing margin on one tab but not the other */
+      .projects-grid.is-editorial .proj-card.is-last,
+      .projects-grid.is-editorial .proj-card.is-flipped.is-last { margin-bottom: 0; }
       /* stacked, the photograph always leads */
       .projects-grid.is-editorial .proj-card.is-flipped .proj-card__image { order: 0; }
       .projects-grid.is-editorial .proj-card.is-flipped .proj-card__panel { order: 0; }
@@ -904,12 +909,14 @@
       // around is decided on the visible cards, not on their position in the
       // document, so it stays right as projects are added.
       grid.classList.add('is-editorial');
-      let shown = 0;
+      let shown = 0, lastShown = null;
       cards.forEach(card => {
         const on = !card.classList.contains('is-hidden');
         card.classList.toggle('is-flipped', on && shown % 2 === 1);
-        if (on) shown++;
+        card.classList.remove('is-last');
+        if (on) { shown++; lastShown = card; }
       });
+      if (lastShown) lastShown.classList.add('is-last');
 
       if (countEl) countEl.textContent = visible;
     }
