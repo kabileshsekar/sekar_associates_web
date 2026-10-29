@@ -563,14 +563,13 @@
       <span class="word">All</span>&nbsp;<span class="word"><em>Projects</em></span>
     </h1>
     <div class="projects-hero__meta">
-      <div class="projects-hero__count"><strong>12</strong> &nbsp;Projects</div>
+      <div class="projects-hero__count"><strong>4</strong> &nbsp;Projects</div>
     </div>
   </div>
 
   <!-- FILTER BAR -->
   <div class="projects-filters" id="filters">
-    <button class="filter-btn is-active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="residential">Residential</button>
+    <button class="filter-btn is-active" data-filter="residential">Residential</button>
     <button class="filter-btn" data-filter="commercial">Commercial</button>
   </div>
 
@@ -835,47 +834,50 @@
     const filterBtns = document.querySelectorAll('.filter-btn');
     const countEl    = document.querySelector('.projects-hero__count strong');
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Update active button
-        filterBtns.forEach(b => b.classList.remove('is-active'));
-        btn.classList.add('is-active');
+    const grid = document.querySelector('.projects-grid');
 
-        const filter = btn.dataset.filter;
+    // `animate` is off for the opening call: the cards have not been seen yet,
+    // and the scroll observer is already going to bring them in. Re-animating
+    // them here would fight it.
+    function applyFilter(filter, animate) {
+      filterBtns.forEach(b => b.classList.toggle('is-active', b.dataset.filter === filter));
 
-        // Show / hide cards
-        let visible = 0;
-        cards.forEach((card, i) => {
-          const match = filter === 'all' || card.dataset.category === filter;
-          if (match) {
-            card.classList.remove('is-hidden');
-            // re-animate
+      let visible = 0;
+      cards.forEach(card => {
+        if (card.dataset.category === filter) {
+          card.classList.remove('is-hidden');
+          if (animate) {
             card.classList.remove('is-visible');
             const delay = (visible % 3) * 80;
             setTimeout(() => card.classList.add('is-visible'), delay + 50);
-            visible++;
-          } else {
-            card.classList.add('is-hidden');
           }
-        });
-
-        // The Commercial tab lays its projects out as full rows instead of a grid.
-        // Which rows turn around is decided on the visible cards, not on their
-        // position in the document, so it stays right as projects are added.
-        const grid = document.querySelector('.projects-grid');
-        const editorial = filter === 'commercial';
-        grid.classList.toggle('is-editorial', editorial);
-        let shown = 0;
-        cards.forEach(card => {
-          const on = !card.classList.contains('is-hidden');
-          card.classList.toggle('is-flipped', editorial && on && shown % 2 === 1);
-          if (on) shown++;
-        });
-
-        // Update count
-        if (countEl) countEl.textContent = visible;
+          visible++;
+        } else {
+          card.classList.add('is-hidden');
+        }
       });
+
+      // The Commercial tab lays its projects out as full rows instead of a grid.
+      // Which rows turn around is decided on the visible cards, not on their
+      // position in the document, so it stays right as projects are added.
+      const editorial = filter === 'commercial';
+      grid.classList.toggle('is-editorial', editorial);
+      let shown = 0;
+      cards.forEach(card => {
+        const on = !card.classList.contains('is-hidden');
+        card.classList.toggle('is-flipped', editorial && on && shown % 2 === 1);
+        if (on) shown++;
+      });
+
+      if (countEl) countEl.textContent = visible;
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => applyFilter(btn.dataset.filter, true));
     });
+
+    // There is no All tab any more, so the page has to open on one of the two.
+    applyFilter('residential', false);
   </script>
 
 </body>
