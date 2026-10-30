@@ -641,6 +641,19 @@
       }
       .text-section__label { display: none; }
       .materials__grid { grid-template-columns: repeat(2, 1fr); }
+
+      /* Tablet portrait kept the splits as two columns against a 80vh floor,
+         so each column came out roughly half as wide as it was tall and a
+         landscape photograph was cropped to about a third of itself, beside a
+         240px measure of text. Stack them here instead, and once stacked show
+         the whole photograph rather than a band cut out of it. */
+      .split-section         { grid-template-columns: 1fr; min-height: unset; }
+      .split-section.reverse { direction: ltr; }
+      .split-section__image img { width: 100%; height: auto; }
+      .split-section__text   { padding: 56px 40px; }
+      /* full width would run the copy to 944px on a 12.9in screen, far past
+         a comfortable line; hold it to a readable measure */
+      .split-section__body   { max-width: 62ch; }
     }
 
     /* ---- Tablet portrait (≤768px) ---- */
@@ -686,7 +699,7 @@
       /* Split sections — stack image then text */
       .split-section        { grid-template-columns: 1fr; min-height: unset; }
       .split-section.reverse{ direction: ltr; }
-      .split-section__image img { height: 60vw; min-height: 260px; }
+      .split-section__image img { height: auto; min-height: 0; }
       .split-section__text  { padding: 48px 24px; }
 
       /* Two images — stack */
