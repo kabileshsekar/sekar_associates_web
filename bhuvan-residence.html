@@ -621,17 +621,19 @@
       }
       .text-section__label { display: none; }
       .materials__grid { grid-template-columns: repeat(2, 1fr); }
+    }
 
-      /* Tablet portrait kept the splits as two columns against a 80vh floor,
-         so each column came out roughly half as wide as it was tall and a
-         landscape photograph was cropped to about a third of itself, beside a
-         240px measure of text. Stack them here instead, and once stacked show
-         the whole photograph rather than a band cut out of it. */
+    /* A two-column split against the 80vh floor makes each column about half
+       as wide as it is tall, which crops a landscape photograph to roughly a
+       third of itself. That happens on any portrait screen, so key on the
+       orientation rather than on a width: an iPad Pro 13 is 1032 points wide
+       in portrait and a 1024 breakpoint misses it by eight. */
+    @media (max-width: 1100px), (orientation: portrait) {
       .split-section         { grid-template-columns: 1fr; min-height: unset; }
       .split-section.reverse { direction: ltr; }
       .split-section__image img { width: 100%; height: auto; }
       .split-section__text   { padding: 56px 40px; }
-      /* full width would run the copy to 944px on a 12.9in screen, far past
+      /* full width would run the copy past 900px on a 13in screen, far beyond
          a comfortable line; hold it to a readable measure */
       .split-section__body   { max-width: 62ch; }
     }
