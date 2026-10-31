@@ -301,9 +301,9 @@
       overflow: hidden;
     }
     .full-image img {
+      display: block;
       width: 100%;
-      height: 85vh;
-      object-fit: cover;
+      height: auto;
       transform: scale(1.04);
       transition: transform 1.2s cubic-bezier(.16,1,.3,1);
     }
@@ -676,7 +676,6 @@
         gap: 12px;
       }
       .hero__meta { align-items: flex-start; }
-      .full-image img { height: 60vh; }
 
       /* Intro strip — 2×2 grid */
       .intro-strip         { grid-template-columns: 1fr 1fr; }
@@ -749,7 +748,6 @@
       /* Hero */
       .hero__title          { font-size: clamp(36px, 11vw, 52px); }
       .hero__content        { left: 20px; right: 20px; bottom: 40px; }
-      .full-image img       { height: 55vw; min-height: 220px; }
 
       /* Intro strip */
       .intro-strip          { grid-template-columns: 1fr 1fr; }
@@ -815,7 +813,7 @@
 
   <!-- HERO — fullscreen -->
   <section class="hero" id="hero">
-    <img class="hero__img" id="heroImg" src="../assets/projects/cards/commercial/commer_3.webp"
+    <img class="hero__img" id="heroImg" src="../assets/projects/pranav_hospital/img_1.webp"
          alt="Pranav Multispeciality Hospital — reception">
     <div class="hero__overlay"></div>
     <div class="hero__content">
@@ -856,47 +854,37 @@
   <!-- OVERVIEW -->
   <div class="overview">
     <h2 class="overview__heading reveal">
-      A waiting room<br>
-      that doesn&rsquo;t read<br>
-      <em>as one.</em>
+      Warm where it can be,<br>
+      clinical where it<br>
+      <em>has to be.</em>
     </h2>
     <div class="overview__aside reveal">
       <p class="overview__aside-label">Overview</p>
       <p>Reception does the explaining. The desk faces the entrance across an open floor, and the two departments most people arrive looking for &mdash; consulting and emergency &mdash; are named and lit on either side of it, so the first question a visitor has is answered before they have to ask it.</p>
-      <p>Seating is arranged as a lounge rather than as rows: low modular benches set around a planted island, spaced far enough apart for a trolley or a wheelchair to pass between them. The palette stays warm and narrow, and every light is concealed, because a room people wait in should have nothing glaring overhead.</p>
+      <p>Seating is arranged as a lounge rather than as rows: low modular benches set around a planted island, spaced far enough apart for a trolley or a wheelchair to pass between them.</p>
+      <p>Past that point the detailing changes job. The corridor keeps the timber and the concealed light because it is still a public room; the wards give both up for a wipeable wall, a services rail and a curtain track, because they are not. The floor and the palette carry through all of it, so the building still reads as one place rather than as a front of house with a hospital behind it.</p>
     </div>
   </div>
 
-  <!-- FULL-WIDTH IMAGE 1 — no photograph yet. Drop one into
-       assets/projects/pranav_hospital/ and uncomment.
-
+  <!-- FULL-WIDTH IMAGE -->
   <div class="full-image reveal">
-    <img src="../assets/projects/pranav_hospital/image_2.webp" alt="Pranav Multispeciality Hospital">
+    <img src="../assets/projects/pranav_hospital/img_2.webp" alt="Pranav Multispeciality Hospital — the corridor toward consulting and emergency">
   </div>
-  -->
 
-  <!-- TEXT BETWEEN THE FULL-WIDTH IMAGES -->
+  <!-- TEXT -->
   <div class="text-section text-section--solo">
     <span class="text-section__label reveal">Materials</span>
     <div class="text-section__body reveal">
-      <p>Large-format stone runs wall to wall and straight through the thresholds, so there is no lip for a trolley wheel to catch and nothing to interrupt the floor. Against it the joinery is oak: fluted at full height beside the signage, flat and quiet on the department doors, each one given a slim glazed slot so a closed door is still readable from across the room. Upholstery is cream with sage, and the only hard contrast in the room is the dark linear pendant hung over the desk.</p>
+      <p>Large-format stone runs wall to wall and straight through the thresholds, so there is no lip for a trolley wheel to catch and nothing to interrupt the floor. Against it the joinery is oak: fluted at full height beside the signage, flat and quiet on the department doors, each one given a slim glazed slot so a closed door is still readable from across the room. Upholstery is cream with sage, and the only hard contrast in the room is the dark linear pendant hung over the desk. In the wards that same floor continues but the walls change hands: a washable finish, a rail at trolley height, and the services collected into one run behind each bed.</p>
     </div>
   </div>
-
-  <!-- FULL-WIDTH IMAGE 2 — no photograph yet. Drop one into
-       assets/projects/pranav_hospital/ and uncomment.
-
-  <div class="full-image reveal">
-    <img src="../assets/projects/pranav_hospital/image_3.webp" alt="Pranav Multispeciality Hospital">
-  </div>
-  -->
 
   <!-- TEXT + QUOTE -->
   <div class="text-section">
     <span class="text-section__label reveal">Concept</span>
     <div class="text-section__body reveal">
       <p>Light does the wayfinding. The ceiling coves curve in concentric bands that draw toward the desk, the signage wall is washed from behind rather than lit from the front, and both the counter and the planter are lit at their base so they lift clear of the floor.</p>
-      <p>Nothing is lit from directly overhead. In a building where people arrive anxious, often at night, and spend most of the visit looking up from a seat, that is as much a clinical decision as an aesthetic one.</p>
+      <p>In the public rooms nothing is lit from directly overhead. For people who arrive anxious, often at night, and spend much of the visit looking up from a seat, that is as much a clinical decision as an aesthetic one. The wards are the deliberate exception: there the light has to be even, bright, and switchable at the bed.</p>
     </div>
     <div class="text-section__quote reveal">
       <blockquote>&ldquo;Light should tell people where to go before anyone has to.&rdquo;</blockquote>
@@ -904,11 +892,56 @@
     </div>
   </div>
 
-  <!-- SPLITS AND THE SIDE-BY-SIDE PAIR — these need four more
-       photographs. Drop them into assets/projects/pranav_hospital/ as
-       image_4 to image_7 and restore the blocks from lal-residence.html,
-       which this page was built from. The two splits carry a number and a
-       heading each; the pair carries none. -->
+  <!-- SPLIT — image left, text right -->
+  <div class="split-section">
+    <div class="split-section__image reveal">
+      <img src="../assets/projects/pranav_hospital/img_3.webp" alt="Pranav Multispeciality Hospital — a ward bay">
+    </div>
+    <div class="split-section__text">
+      <span class="split-section__num reveal">01 / Ward</span>
+      <h3 class="split-section__heading reveal">
+        Everything gathered<br><em>behind the bed.</em>
+      </h3>
+      <p class="split-section__body reveal">
+        Each bay carries its services on a single horizontal run at the
+        headboard &mdash; outlets, the monitor, the light switch for that bed
+        alone &mdash; so the floor around the bed stays clear for a trolley and
+        for the people working at it. Curtains hang from a ceiling track rather
+        than off frames, which leaves nothing standing on the floor to move
+        when the bed has to come out.
+      </p>
+    </div>
+  </div>
+
+  <!-- SPLIT — image right, text left (reversed) -->
+  <div class="split-section reverse">
+    <div class="split-section__image reveal">
+      <img src="../assets/projects/pranav_hospital/img_4.webp" alt="Pranav Multispeciality Hospital — the ward along the window wall">
+    </div>
+    <div class="split-section__text">
+      <span class="split-section__num reveal">02 / Daylight</span>
+      <h3 class="split-section__heading reveal">
+        Every bay keeps<br><em>its window.</em>
+      </h3>
+      <p class="split-section__body reveal">
+        The bays run along the glazed wall rather than backing onto the
+        corridor, so not one of them is an interior room. Venetian blinds let
+        the light be set bay by bay, which matters when one patient is asleep
+        and the next is being examined, and the curtains divide the ward
+        without ever closing a bed off from the window.
+      </p>
+    </div>
+  </div>
+
+  <!-- TWO IMAGES SIDE BY SIDE -->
+  <div class="two-image">
+    <div class="two-image__item reveal">
+      <img src="../assets/projects/pranav_hospital/img_5.webp" alt="Pranav Multispeciality Hospital — a consulting room">
+    </div>
+    <div class="two-image__item reveal">
+      <img src="../assets/projects/pranav_hospital/img_6.webp" alt="Pranav Multispeciality Hospital — a second consulting room">
+    </div>
+  </div>
 
   <!-- NEXT PROJECT -->
   <a class="next-project" href="joseph-illam.html">
