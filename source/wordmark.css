@@ -3,7 +3,7 @@
    Markup (colour comes from the page's header):
      <a ... aria-label="Sekar Associates">
        <span class="wordmark">Sekar Associa<svg class="brand-cross" …>…</svg>es</span>
-       <img class="wordmark-logo" src="assets/logo.png" alt="">
+       <img class="wordmark-logo" src="../assets/logo.png" alt="">
      </a>
    ============================================================ */
 .wordmark {
