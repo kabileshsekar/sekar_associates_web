@@ -263,8 +263,8 @@ document.querySelectorAll('.mob-menu__link').forEach(link => {
     const targetId = this.getAttribute('href') || '';
 
     // Only in-page anchors are intercepted, so the menu can close before
-    // scrolling. Links to other pages (careers.html) must navigate
-    // normally — preventing that left them doing nothing at all.
+    // scrolling. Links to another page (projects.html, careers.html) must
+    // navigate normally — preventing that left them doing nothing at all.
     if (targetId.charAt(0) !== '#') return;
 
     e.preventDefault(); // prevent instant jump
