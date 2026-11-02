@@ -993,8 +993,36 @@
       if (countEl) countEl.textContent = visible;
     }
 
+    // Clicking a tab means "show me this list", so land at the start of it
+    // rather than staying wherever the previous list had been scrolled to.
+    //
+    // The target is measured off the grid, which is never sticky, so its rect
+    // is its real position in the document. The filter bar cannot be used for
+    // this: it is position:sticky, and Blink folds the sticky shift into both
+    // offsetTop and the rect, so once the bar is stuck it reports wherever it
+    // is painted instead of where it belongs. Only its HEIGHT is safe to read.
+    const filterBar = document.getElementById('filters');
+    const pgHeader  = document.querySelector('.pg-header');
+    const gridEl    = document.getElementById('projectsGrid');
+
+    function scrollToListStart() {
+      const hdrH = pgHeader  ? pgHeader.getBoundingClientRect().height  : 0;
+      const barH = filterBar ? filterBar.getBoundingClientRect().height : 0;
+      // where the grid starts, less the two bars that sit over it, so the
+      // first card comes to rest directly under the stuck filter bar
+      const gridTop = gridEl.getBoundingClientRect().top + window.scrollY;
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({
+        top: Math.max(0, gridTop - hdrH - barH),
+        behavior: reduced ? 'auto' : 'smooth'
+      });
+    }
+
     filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => applyFilter(btn.dataset.filter, true));
+      btn.addEventListener('click', () => {
+        applyFilter(btn.dataset.filter, true);
+        scrollToListStart();
+      });
     });
 
     // There is no All tab any more, so the page has to open on one of the two.
