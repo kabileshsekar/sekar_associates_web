@@ -778,14 +778,33 @@
         </span>
       </div>
     </button>
-    <button type="button" class="proj-card" data-category="commercial"
-            data-full="../assets/projects/cards/commercial/commer_6.webp" data-title="Commercial 06">
+    <a class="proj-card" href="convention-centre.html" data-category="commercial">
       <div class="proj-card__image">
-        <img src="../assets/projects/cards/commercial/commer_6.webp" alt="Commercial 06" loading="lazy" decoding="async">
+        <img src="../assets/projects/cards/commercial/commer_6.webp" alt="Convention Centre" loading="lazy" decoding="async">
       </div>
       <div class="proj-card__panel">
         <span class="panel__num">06</span>
-        <h3 class="panel__name">Commercial 06</h3>
+        <h3 class="panel__name">Convention Centre</h3>
+        <p class="panel__meta">Commercial &middot; Events</p>
+        <p class="panel__text">Banquet halls, a seminar room and a board room sized separately
+          rather than partitioned out of one space &mdash; and a roof terrace that needs
+          none of them.</p>
+        <span class="panel__cta">Full details inside
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+    </a>
+    <button type="button" class="proj-card" data-category="commercial"
+            data-full="../assets/projects/cards/commercial/commer_7.webp" data-title="Commercial 07">
+      <div class="proj-card__image">
+        <img src="../assets/projects/cards/commercial/commer_7.webp" alt="Commercial 07" loading="lazy" decoding="async">
+      </div>
+      <div class="proj-card__panel">
+        <span class="panel__num">07</span>
+        <h3 class="panel__name">Commercial 07</h3>
         <p class="panel__meta">Commercial</p>
         <p class="panel__text">A single storey turned in a long curve of glass, held under a deep
           flat roof that oversails it. Latticed end pavilions bracket the frontage, and a
@@ -874,7 +893,9 @@
     cards.forEach(c => obs.observe(c));
 
     // ---- Full image ----
-    // These three have no project page yet, so the card opens the photograph.
+    // A card with no page of its own opens its photograph instead, which is
+    // what data-full marks. The cards that do have a page are plain links
+    // and never reach this handler.
     const lightbox   = document.getElementById('lightbox');
     const lightboxImg   = document.getElementById('lightboxImg');
     const lightboxTitle = document.getElementById('lightboxTitle');
