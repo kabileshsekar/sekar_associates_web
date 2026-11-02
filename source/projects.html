@@ -687,6 +687,26 @@
         </span>
       </div>
     </a>
+    <button type="button" class="proj-card" data-category="residential"
+            data-full="../assets/projects/cards/residential/resi_4.webp" data-title="Residence 04">
+      <div class="proj-card__image">
+        <img src="../assets/projects/cards/residential/resi_4.webp" alt="Residence 04" loading="lazy" decoding="async">
+      </div>
+      <div class="proj-card__panel">
+        <span class="panel__num">07</span>
+        <h3 class="panel__name">Residence 04</h3>
+        <p class="panel__meta">Residential</p>
+        <p class="panel__text">Three floors of flats over open parking, held inside a dark grey
+          frame that wraps the corner &mdash; balconies recessed and lit from a cove at the head
+          of each, with a band of coursed stone running the full height beside them.</p>
+        <span class="panel__cta">View full image
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+    </button>
     <button type="button" class="proj-card" data-category="commercial"
             data-full="../assets/projects/cards/commercial/commer_1.webp" data-title="Commercial 01">
       <div class="proj-card__image">
@@ -855,7 +875,7 @@
     <figure class="lightbox__fig">
       <button type="button" class="lightbox__close" id="lightboxClose">Close</button>
       <img class="lightbox__img" id="lightboxImg" src="" alt="">
-      <figcaption class="lightbox__cap"><b id="lightboxTitle"></b>Commercial</figcaption>
+      <figcaption class="lightbox__cap"><b id="lightboxTitle"></b><span id="lightboxMeta"></span></figcaption>
     </figure>
   </dialog>
 
@@ -899,6 +919,7 @@
     const lightbox   = document.getElementById('lightbox');
     const lightboxImg   = document.getElementById('lightboxImg');
     const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxMeta  = document.getElementById('lightboxMeta');
 
     function closeLightbox() {
       lightbox.classList.remove('is-ready');
@@ -911,6 +932,9 @@
         lightboxImg.src = card.dataset.full;
         lightboxImg.alt = card.dataset.title;
         lightboxTitle.textContent = card.dataset.title;
+        // the card's own label, so a residential photograph stops being
+        // captioned Commercial the way the hardcoded word used to do
+        lightboxMeta.textContent = card.querySelector('.panel__meta').textContent;
         lightbox.showModal();
         document.body.classList.add('no-scroll');
         requestAnimationFrame(() => lightbox.classList.add('is-ready'));
