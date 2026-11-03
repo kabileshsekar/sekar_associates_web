@@ -8,6 +8,11 @@
   background: var(--ink, #1a1714);
   color: var(--white, #faf8f5);
   font-family: var(--font-sans, var(--sans, 'DM Sans', system-ui, sans-serif));
+  /* stated here rather than inherited: services.html does not load
+     style.css, so without this its footer falls back to normal and comes
+     out 26px shorter than the identical markup on index. The heading sets
+     its own 1.1 below and is unaffected. */
+  line-height: 1.5;
   padding: 100px 48px 48px;
 }
 .contact__inner {
