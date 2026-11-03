@@ -110,17 +110,19 @@
     .careers-hero__media {
       position: relative; overflow: hidden;
       background: #bdb2a1; margin-top: var(--hdr-h, 88px);
+      /* start, not the grid default of stretch. The copy column's height is
+         set by its text and can exceed a fixed-aspect picture's; stretching
+         would pull the box past the image and show the placeholder colour
+         under it. */
+      align-self: start;
     }
     .careers-hero__media img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      animation: heroDrift 24s ease-in-out infinite alternate;
-    }
-    @keyframes heroDrift {
-      from { transform: scale(1.04) translate3d(0, 1%, 0); }
-      to   { transform: scale(1.13) translate3d(0, -2%, 0); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .careers-hero__media img { animation: none; }
+      /* height:auto, so the picture sets its own box and is never cropped at
+         any width. There is nothing left for object-fit to fit, the box being
+         the image's own ratio. The slow drift that used to sit here is gone
+         too: it scaled from 1.04 to 1.13 and never rested at 1, so it always
+         held between 4 and 13 per cent of the picture outside the frame. */
+      width: 100%; height: auto; display: block;
     }
 
     /* ---- The team ---- */
@@ -380,7 +382,7 @@
       .pg-header     { padding: 18px 24px; }
       .careers-hero  { min-height: 0; grid-template-columns: 1fr; }
       .careers-hero__copy  { padding: calc(var(--hdr-h, 76px) + 56px) 24px 56px; }
-      .careers-hero__media { margin-top: 0; height: 58svh; min-height: 320px; }
+      .careers-hero__media { margin-top: 0; }
       .ethos         { padding: 64px 24px; }
       .band          { min-height: 460px; padding: 64px 24px; }
       .team          { padding: 64px 24px; }
@@ -392,7 +394,6 @@
     @media (max-width: 600px) {
       .pg-header     { padding: 14px 20px; }
       .careers-hero__copy  { padding: calc(var(--hdr-h, 70px) + 44px) 20px 44px; }
-      .careers-hero__media { height: 52svh; min-height: 280px; }
       .careers-hero__foot  { flex-wrap: wrap; gap: 26px 32px; }
       .ethos         { padding: 48px 20px; grid-template-columns: 1fr; gap: 32px; }
       .band          { min-height: 420px; padding: 56px 20px; }
