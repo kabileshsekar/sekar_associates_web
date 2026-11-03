@@ -383,6 +383,17 @@
       /* keep portraits at their desktop size rather than growing in two columns */
       .team__photo { max-width: 340px; }
     }
+
+    /* A portrait screen has height to spare, so a hero told to fill one is
+       mostly empty: on iPad Pro 13 portrait (1032x1376) the content needs
+       about 800px and 100svh left 584px of it blank below the picture. The
+       hero becomes as tall as its content instead. Two columns are kept —
+       1032px is wide enough for them — and the picture keeps its size,
+       since widening it would squeeze the copy until the heading overflows.
+       Same condition the project pages use for this device. */
+    @media (max-width: 1100px), (orientation: portrait) {
+      .careers-hero { min-height: 0; }
+    }
     @media (max-width: 900px) {
       .pg-header     { padding: 18px 24px; }
       .careers-hero  { min-height: 0; grid-template-columns: 1fr; }
