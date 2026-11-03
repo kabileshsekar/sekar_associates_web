@@ -53,7 +53,10 @@
     /* ---- Hero ---- */
     .careers-hero {
       min-height: 100svh;
-      display: grid; grid-template-columns: 1.04fr .96fr;
+      /* auto, not .96fr: the media column takes its width from the picture,
+         which is itself sized by the two maxes below, so the image still
+         fills its column and bleeds off the right edge. */
+      display: grid; grid-template-columns: 1fr auto;
       border-bottom: 1px solid var(--beige-mid);
     }
     .careers-hero__copy {
@@ -122,7 +125,9 @@
          the image's own ratio. The slow drift that used to sit here is gone
          too: it scaled from 1.04 to 1.13 and never rested at 1, so it always
          held between 4 and 13 per cent of the picture outside the frame. */
-      width: 100%; height: auto; display: block;
+      width: auto; height: auto; display: block;
+      max-height: calc(100svh - var(--hdr-h, 88px));
+      max-width: 46vw;
     }
 
     /* ---- The team ---- */
@@ -383,6 +388,9 @@
       .careers-hero  { min-height: 0; grid-template-columns: 1fr; }
       .careers-hero__copy  { padding: calc(var(--hdr-h, 76px) + 56px) 24px 56px; }
       .careers-hero__media { margin-top: 0; }
+      /* one column here, so both caps come off and the picture goes full
+         width again — 46vw of a phone would be 172px */
+      .careers-hero__media img { width: 100%; max-width: none; max-height: none; }
       .ethos         { padding: 64px 24px; }
       .band          { min-height: 460px; padding: 64px 24px; }
       .team          { padding: 64px 24px; }
