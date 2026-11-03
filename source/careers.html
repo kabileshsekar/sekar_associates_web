@@ -58,7 +58,12 @@
     }
     .careers-hero__copy {
       padding: calc(var(--hdr-h, 88px) + 76px) 56px 72px 48px;
-      display: flex; flex-direction: column; justify-content: flex-end;
+      display: flex; flex-direction: column;
+      /* flex-start, not flex-end: the picture is taller than the viewport, so
+         this column has slack, and the auto margin on __foot below is what
+         decides where it goes. justify-content would have nothing left to
+         distribute anyway. */
+      justify-content: flex-start;
     }
     .careers-hero__eyebrow {
       font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
@@ -69,6 +74,11 @@
       content: ""; height: 1px; width: 110px; background: var(--beige-mid);
     }
     .careers-hero__title {
+      /* the second auto margin. Between this and the one on __foot the slack
+         splits in two, putting the heading and its lead in the middle of the
+         picture's height rather than leaving one long gap. The eyebrow's own
+         30px margin-bottom still holds as the minimum above it. */
+      margin-top: auto;
       font-family: var(--font-serif); font-size: clamp(54px, 7.6vw, 118px);
       font-weight: 500; font-style: italic;
       line-height: .98; letter-spacing: .01em; color: var(--ink);
@@ -76,12 +86,18 @@
     .careers-hero__title span { display: block; }
     .careers-hero__title .is-roman { font-style: normal; letter-spacing: -.02em; }
     .careers-hero__lead {
-      margin-top: 36px; max-width: 44ch;
+      /* margin-bottom is the old 52px from __foot, kept here so it survives
+         as a minimum: an auto margin can collapse to nothing, a real one
+         cannot, and flex items never collapse margins into each other. */
+      margin-top: 36px; margin-bottom: 52px; max-width: 44ch;
       font-size: 16px; line-height: 1.95; color: var(--ink-soft); font-weight: 300;
     }
     /* three facts along the bottom, so the hero has a base to sit on */
     .careers-hero__foot {
-      margin-top: 52px; padding-top: 26px; border-top: 1px solid var(--beige-mid);
+      /* auto takes every bit of slack the picture leaves, which pins the rule
+         and the three facts to the foot of the column however tall the
+         image is */
+      margin-top: auto; padding-top: 26px; border-top: 1px solid var(--beige-mid);
       display: flex; gap: clamp(28px, 4vw, 64px); align-items: flex-end;
     }
     .hero-stat__num {
