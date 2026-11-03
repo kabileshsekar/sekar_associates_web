@@ -512,14 +512,6 @@ a { color: inherit; text-decoration: none; }
 /* ============================================================
    SERVICES
    ============================================================ */
-.services { background:var(--beige); padding:80px 48px 120px; border-top:1px solid var(--beige-mid); }
-.services__label { font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:60px; }
-.services__list { list-style:none; display:grid; grid-template-columns:repeat(4,1fr); }
-.services__item { border-top:1px solid var(--beige-mid); padding:28px 32px 28px 0; display:flex; flex-direction:column; gap:14px; transition:padding-left .3s; }
-.services__item:hover { padding-left:10px; }
-.services__num { font-size:10px; letter-spacing:.1em; color:var(--ink-muted); }
-.services__name { font-family:var(--font-serif); font-size:clamp(16px,1.6vw,22px); font-weight:500; line-height:1.2; }
-.services__desc { font-size:13px; line-height:1.65; color:var(--ink-soft); font-weight:300; }
 
 
 /* ============================================================
@@ -535,15 +527,11 @@ a { color: inherit; text-decoration: none; }
   .hero__content { left:24px; bottom:100px; }
   .hero__bottom { padding:16px 24px 24px; flex-wrap:wrap; gap:12px; }
   .hero__tagline { display:none; }
-  .studio-section, .projects, .services { padding-left:24px; padding-right:24px; }
+  .studio-section, .projects { padding-left:24px; padding-right:24px; }
   .studio-section__inner { grid-template-columns:1fr; }
   .studio-section__content { grid-template-columns:1fr; gap:32px; }
   .projects__grid { grid-template-columns:1fr; }
   .projects__grid .project-card:nth-child(2) { margin-top:0; }
-  .services__list { grid-template-columns:1fr 1fr; }
-}
-@media (max-width: 576px) {
-  .services__list { grid-template-columns:1fr; }
 }
 
 /* ============================================================
@@ -653,15 +641,6 @@ body.no-scroll .page > *:not(.mob-menu) {
   pointer-events: none;
 }
 
-
-.services__name a {
-  color: inherit;
-  text-decoration: none;
-}
-.services__name a:hover {
-  color: var(--ink);
-  border-bottom: 1px solid var(--beige-mid);
-}
 
 /* Small phones — must come after the .mob-menu rules above to win.
    Keeps the menu's logo identical in size and position to the header's,
