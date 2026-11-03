@@ -74,11 +74,6 @@
       content: ""; height: 1px; width: 110px; background: var(--beige-mid);
     }
     .careers-hero__title {
-      /* the second auto margin. Between this and the one on __foot the slack
-         splits in two, putting the heading and its lead in the middle of the
-         picture's height rather than leaving one long gap. The eyebrow's own
-         30px margin-bottom still holds as the minimum above it. */
-      margin-top: auto;
       font-family: var(--font-serif); font-size: clamp(54px, 7.6vw, 118px);
       font-weight: 500; font-style: italic;
       line-height: .98; letter-spacing: .01em; color: var(--ink);
@@ -94,9 +89,12 @@
     }
     /* three facts along the bottom, so the hero has a base to sit on */
     .careers-hero__foot {
-      /* auto takes every bit of slack the picture leaves, which pins the rule
-         and the three facts to the foot of the column however tall the
-         image is */
+      /* auto takes every bit of slack the picture leaves, so the label,
+         heading and lead stay together at the top of the column and the
+         rule and the three facts sit on its foot, however tall the image
+         is. One gap, in the one place it reads as deliberate — giving the
+         title an auto margin too only centred it and pushed the heading
+         ~357px clear of the label on a large screen. */
       margin-top: auto; padding-top: 26px; border-top: 1px solid var(--beige-mid);
       display: flex; gap: clamp(28px, 4vw, 64px); align-items: flex-end;
     }
