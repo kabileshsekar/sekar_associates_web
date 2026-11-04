@@ -53,10 +53,11 @@
     /* ---- Hero ---- */
     .careers-hero {
       min-height: 100svh;
-      /* auto, not .96fr: the media column takes its width from the picture,
-         which is itself sized by the two maxes below, so the image still
-         fills its column and bleeds off the right edge. */
-      display: grid; grid-template-columns: 1fr auto;
+      /* a proportion again, not a column sized by the picture: the picture
+         now fills whatever column it is given rather than deciding it. .96fr
+         leaves the copy enough width for the heading at every size - it
+         needs about 653px at 1440, and gets 749. */
+      display: grid; grid-template-columns: 1.04fr .96fr;
       border-bottom: 1px solid var(--beige-mid);
     }
     .careers-hero__copy {
@@ -113,21 +114,18 @@
     .careers-hero__media {
       position: relative; overflow: hidden;
       background: #bdb2a1; margin-top: var(--hdr-h, 88px);
-      /* start, not the grid default of stretch. The copy column's height is
-         set by its text and can exceed a fixed-aspect picture's; stretching
-         would pull the box past the image and show the placeholder colour
-         under it. */
-      align-self: start;
+      /* stretch, the grid default, so the cell is the full height of the
+         row and the picture below can cover it to the bottom */
+      align-self: stretch;
     }
     .careers-hero__media img {
-      /* height:auto, so the picture sets its own box and is never cropped at
-         any width. There is nothing left for object-fit to fit, the box being
-         the image's own ratio. The slow drift that used to sit here is gone
-         too: it scaled from 1.04 to 1.13 and never rested at 1, so it always
-         held between 4 and 13 per cent of the picture outside the frame. */
-      width: auto; height: auto; display: block;
-      max-height: calc(100svh - var(--hdr-h, 88px));
-      max-width: 46vw;
+      /* cover, so the picture fills the column to the side and the bottom.
+         A 1.777 landscape cannot do that at its own ratio in a column
+         taller than it is wide, so this trims the left and right - the
+         empty wall and the window - and keeps the sculpture and the urn.
+         Under 900px the hero is one column and the rule below turns the
+         crop off, since there the picture can run full width whole. */
+      width: 100%; height: 100%; object-fit: cover; display: block;
     }
 
     /* ---- The team ---- */
@@ -401,7 +399,7 @@
       .careers-hero__media { margin-top: 0; }
       /* one column here, so both caps come off and the picture goes full
          width again — 46vw of a phone would be 172px */
-      .careers-hero__media img { width: 100%; max-width: none; max-height: none; }
+      .careers-hero__media img { height: auto; object-fit: fill; }
       .ethos         { padding: 64px 24px; }
       .band          { min-height: 460px; padding: 64px 24px; }
       .team          { padding: 64px 24px; }
