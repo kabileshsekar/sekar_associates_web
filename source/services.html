@@ -216,7 +216,11 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
   color: rgba(255,255,255,.2);
 }
-.el { width: 100%; height: calc(88vh - 120px); }
+/* capped rather than filling the panel: the drawing holds 386px of real
+   detail, so drawn much past that the lines go soft. 480 keeps it near
+   native and still comfortably large. 571 is 480 at the drawing's own
+   ratio, so the box never leaves slack on either axis. */
+.el { width: 100%; max-width: 480px; height: min(calc(88vh - 120px), 571px); margin-inline: auto; }
 .el img {
   /* a definite box and object-fit: contain, because max-width and
      max-height only ever shrink an image - with those alone the drawing
