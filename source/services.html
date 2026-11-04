@@ -197,15 +197,77 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   100% { left: 120%; }
 }
 
+
+/* ---- S02 elevation drawing ------------------------------------------
+   Same vocabulary as the floor plan in S01, but self-contained: the plan's
+   .fl/.fs rules are tied to :nth-child 1-7 and 8-14 of that SVG, so they
+   cannot be shared with a drawing that has a different number of parts.
+   Everything here keys off .go on #s02img, which the observer already
+   sets, so no script change was needed. */
+.s02-draw {
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  padding: 56px; position: relative; overflow: hidden;
+}
+.s02-draw::before {
+  content: 'ELEVATION';
+  position: absolute; top: 28px; left: 32px;
+  font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(255,255,255,.2);
+}
+.el { width: min(330px, 100%); }
+.el svg { width: 100%; height: auto; display: block; }
+
+.el .dim * {
+  stroke: rgba(255,255,255,.1); stroke-width: 1; fill: none;
+  opacity: 0; transition: opacity .5s ease;
+}
+.s02-draw.go .el .dim * { opacity: 1; }
+.el .dim *:nth-child(1) { transition-delay: .00s; }
+.el .dim *:nth-child(2) { transition-delay: .12s; }
+.el .dim *:nth-child(3) { transition-delay: .22s; }
+.el .dim *:nth-child(4) { transition-delay: .32s; }
+.el .dim *:nth-child(5) { transition-delay: .42s; }
+.el .dim *:nth-child(6) { transition-delay: .52s; }
+.el .dim *:nth-child(7) { transition-delay: .62s; }
+.el .dim *:nth-child(8) { transition-delay: .72s; }
+
+.el .snakes * {
+  stroke: var(--accent); stroke-width: 2; fill: none;
+  stroke-dasharray: 36 900; stroke-dashoffset: 0;
+  opacity: 0; transition: opacity .4s ease;
+  filter: drop-shadow(0 0 4px rgba(196,168,130,.8));
+}
+.s02-draw.go .el .snakes * { opacity: 1; }
+.s02-draw.go .el .snakes *:nth-child(1) { animation: snake 4.6s linear infinite  0.0s; transition-delay: .05s; }
+.s02-draw.go .el .snakes *:nth-child(2) { animation: snake 3.2s linear infinite -1.1s; transition-delay: .15s; }
+.s02-draw.go .el .snakes *:nth-child(3) { animation: snake 5.0s linear infinite -0.5s; transition-delay: .25s; }
+.s02-draw.go .el .snakes *:nth-child(4) { animation: snake 2.7s linear infinite -1.8s; transition-delay: .35s; }
+.s02-draw.go .el .snakes *:nth-child(5) { animation: snake 3.9s linear infinite -0.8s; transition-delay: .45s; }
+.s02-draw.go .el .snakes *:nth-child(6) { animation: snake 2.4s linear infinite -1.4s; transition-delay: .55s; }
+.s02-draw.go .el .snakes *:nth-child(7) { animation: snake 4.3s linear infinite -2.2s; transition-delay: .65s; }
+
+.el .acc {
+  stroke: var(--accent); stroke-width: 1; fill: rgba(196,168,130,.07);
+  opacity: 0; transition: opacity .6s ease 1.2s;
+}
+.s02-draw.go .el .acc { opacity: 1; }
+
+.el .dot { fill: var(--accent); opacity: 0; transition: opacity .5s ease 1.6s; }
+.s02-draw.go .el .dot { opacity: 1; animation: pulseDot 2.4s ease-in-out infinite 1.6s; }
+
+.el .lbl {
+  fill: rgba(255,255,255,.28); font-family: sans-serif;
+  font-size: 8.5px; letter-spacing: .08em; text-transform: uppercase;
+  opacity: 0; transition: opacity .7s ease 2s;
+}
+.s02-draw.go .el .lbl { opacity: 1; }
+
 /* ════════════════════════════════════
-   S02 — FURNITURE & OBJECTS
+   S02 — ELEVATION
    ════════════════════════════════════ */
 #s02 { background: var(--white); }
 .s02-wrap { display: grid; grid-template-columns: 1fr 1fr; min-height: 88vh; }
-.s02-img { overflow: hidden; position: relative; }
-.s02-img img { transform: scale(1.07); transition: transform 1.5s cubic-bezier(.16,1,.3,1); }
-.s02-img.go img { transform: scale(1); }
-.s02-img-tag { position: absolute; bottom: 24px; left: 24px; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.55); background: rgba(26,23,20,.4); padding: 6px 12px; border-radius: 2px; backdrop-filter: blur(4px); }
 .s02-right { padding: 96px 68px; display: flex; flex-direction: column; justify-content: center; gap: 44px; }
 
 .process { display: flex; flex-direction: column; border-top: 1px solid var(--bm); }
@@ -297,7 +359,6 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .s01-wrap, .s02-wrap, .s03-wrap { grid-template-columns: 1fr; }
   .s01-left { padding: 64px 24px; border-right: none; border-bottom: 1px solid var(--bm); }
   .s01-right { min-height: 340px; padding: 36px; }
-  .s02-img img { height: 56vw; }
   .s02-right { padding: 52px 24px; }
   .s03-left { padding: 64px 24px; border-right: none; border-bottom: 1px solid rgba(255,255,255,.07); }
   .moodboard { padding: 28px; min-height: 280px; }
@@ -423,9 +484,49 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 <!-- ══ S02 — ELEVATION ══ -->
 <section class="svc" id="s02">
   <div class="s02-wrap">
-    <div class="s02-img" id="s02img">
-      <img src="../assets/projects/cards/residential/resi_4.webp" alt="A residential elevation">
-      <span class="s02-img-tag">Elevation · Residential</span>
+    <div class="s02-draw" id="s02img">
+      <div class="el">
+        <svg viewBox="0 0 440 560" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- dim static lines -->
+          <g class="dim">
+            <line x1="20"  y1="500" x2="420" y2="500"/>
+            <path d="M60,500 V250 H300 V500"/>
+            <path d="M300,500 V190 H380 V500"/>
+            <line x1="50"  y1="380" x2="300" y2="380"/>
+            <path d="M95,245 V185 H290 V245"/>
+            <line x1="70"  y1="320" x2="290" y2="320"/>
+            <path d="M150,500 V410 H210 V500"/>
+            <path d="M300,250 H380 M300,310 H380 M300,370 H380 M300,430 H380 M327,190 V500 M353,190 V500"/>
+          </g>
+
+          <!-- gold strokes travelling the same lines -->
+          <g class="snakes">
+            <line x1="20"  y1="500" x2="420" y2="500"/>
+            <path d="M60,500 V250 H300 V500"/>
+            <path d="M300,500 V190 H380 V500"/>
+            <line x1="50"  y1="380" x2="300" y2="380"/>
+            <path d="M95,245 V185 H290 V245"/>
+            <line x1="70"  y1="320" x2="290" y2="320"/>
+            <path d="M150,500 V410 H210 V500"/>
+          </g>
+
+          <!-- accent: the first floor volume -->
+          <rect class="acc" x="61" y="251" width="238" height="128"/>
+
+          <!-- junctions -->
+          <circle class="dot" cx="60"  cy="380" r="3.5"/>
+          <circle class="dot" cx="300" cy="380" r="3.5"/>
+          <circle class="dot" cx="300" cy="250" r="3.5"/>
+
+          <!-- levels -->
+          <text class="lbl" x="72"  y="462">Ground</text>
+          <text class="lbl" x="72"  y="352">First</text>
+          <text class="lbl" x="104" y="232">Clerestory</text>
+          <text class="lbl" x="306" y="232">Parapet</text>
+        </svg>
+      </div>
+      <div class="fp-scan"></div>
     </div>
     <div class="s02-right">
       <span class="svc-num rv">02</span>
