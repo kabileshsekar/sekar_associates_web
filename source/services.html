@@ -210,24 +210,44 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   display: flex; align-items: center; justify-content: center;
   padding: 56px; position: relative; overflow: hidden;
 }
-.s02-draw::before {
-  content: 'ELEVATION';
-  position: absolute; top: 28px; left: 32px;
-  font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
-  color: rgba(255,255,255,.2);
+/* The sheet. Its border and margin line are the same faint white as the
+   plan's walls, so it reads as drawing furniture and not as a frame. */
+.el { width: 100%; max-width: 470px; margin-inline: auto; }
+.sheet {
+  position: relative;
+  border: 1px solid rgba(255,255,255,.16);
+  padding: 16px 16px 0;
 }
-/* capped rather than filling the panel: the drawing holds 386px of real
-   detail, so drawn much past that the lines go soft. 480 keeps it near
-   native and still comfortably large. 571 is 480 at the drawing's own
-   ratio, so the box never leaves slack on either axis. */
-.el { width: 100%; max-width: 480px; height: min(calc(88vh - 120px), 571px); margin-inline: auto; }
+.sheet::before {
+  content: ''; position: absolute; inset: 7px;
+  border: 1px solid rgba(255,255,255,.06);
+  pointer-events: none;
+}
+.sheet-tb {
+  display: flex; align-items: stretch;
+  border-top: 1px solid rgba(255,255,255,.16);
+  margin: 14px -16px 0;
+}
+.sheet-tb span {
+  flex: 1; padding: 9px 12px;
+  font-size: 8px; letter-spacing: .16em; text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sheet-tb span + span { border-left: 1px solid rgba(255,255,255,.16); }
+.sheet-tb span:last-child { flex: 0 0 auto; color: rgba(255,255,255,.22); }
+
+/* the drawing area follows the drawing's own ratio, so the sheet is never
+   taller than what is on it - a fixed height left a third of the paper
+   blank on a phone, where the drawing is bound by width */
+.el-draw { aspect-ratio: 386 / 459; }
 .el img {
   /* a definite box and object-fit: contain, because max-width and
      max-height only ever shrink an image - with those alone the drawing
      stayed at its natural 386x459 and filled two thirds of the panel.
      contain fills the box on its tighter axis, keeps the ratio and never
      crops. */
-  width: 100%; height: 100%; object-fit: contain;
+  width: 100%; height: 100%; object-fit: contain; display: block;
   filter: invert(1);
   mix-blend-mode: screen;
   opacity: 0;
@@ -459,7 +479,16 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   <div class="s02-wrap">
     <div class="s02-draw" id="s02img">
       <div class="el">
-        <img src="../assets/services/elevation.webp" alt="Street elevation of a narrow three-storey house">
+        <div class="sheet">
+          <div class="el-draw">
+            <img src="../assets/services/elevation.webp" alt="Street elevation of a narrow three-storey house">
+          </div>
+          <div class="sheet-tb">
+            <span>Sekar Associates</span>
+            <span>Elevation</span>
+            <span>NTS</span>
+          </div>
+        </div>
       </div>
     </div>
     <div class="s02-right">
