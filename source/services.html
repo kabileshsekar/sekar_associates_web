@@ -216,9 +216,14 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
   color: rgba(255,255,255,.2);
 }
-.el { position: relative; width: min(330px, 100%); }
+.el { width: 100%; height: calc(88vh - 120px); }
 .el img {
-  width: 100%; height: auto; display: block;
+  /* a definite box and object-fit: contain, because max-width and
+     max-height only ever shrink an image - with those alone the drawing
+     stayed at its natural 386x459 and filled two thirds of the panel.
+     contain fills the box on its tighter axis, keeps the ratio and never
+     crops. */
+  width: 100%; height: 100%; object-fit: contain;
   filter: invert(1);
   mix-blend-mode: screen;
   opacity: 0;
@@ -226,16 +231,6 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   transition: opacity 1s ease, transform 1.4s cubic-bezier(.16,1,.3,1);
 }
 .s02-draw.go .el img { opacity: .72; transform: scale(1); }
-
-/* the ground line, picked out in gold like the plan's walls */
-.el-ground { position: absolute; left: 0; right: 0; bottom: 7.5%; height: 2px; }
-.el-ground line {
-  stroke: var(--accent); stroke-width: 2; fill: none;
-  stroke-dasharray: 36 900;
-  opacity: 0; transition: opacity .5s ease 1.2s;
-  filter: drop-shadow(0 0 4px rgba(196,168,130,.8));
-}
-.s02-draw.go .el-ground line { opacity: 1; animation: snake 4.6s linear infinite; }
 
 /* ════════════════════════════════════
    S02 — ELEVATION
@@ -461,11 +456,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
     <div class="s02-draw" id="s02img">
       <div class="el">
         <img src="../assets/services/elevation.webp" alt="Street elevation of a narrow three-storey house">
-        <svg class="el-ground" viewBox="0 0 400 2" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <line x1="0" y1="1" x2="400" y2="1"/>
-        </svg>
       </div>
-      <div class="fp-scan"></div>
     </div>
     <div class="s02-right">
       <span class="svc-num rv">02</span>
