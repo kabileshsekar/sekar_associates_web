@@ -61,7 +61,11 @@
       border-bottom: 1px solid var(--beige-mid);
     }
     .careers-hero__copy {
-      padding: calc(var(--hdr-h, 88px) + 76px) 56px 72px 48px;
+      /* The space above the label is matched to the space below the facts
+         rather than the other way round, so the bottom is left alone:
+         measured 98px above against 47px below, and the top offset was
+         76px, so 76 - (98 - 47) = 25px. Bottom back to its original 72. */
+      padding: calc(var(--hdr-h, 88px) + 25px) 56px 72px 48px;
       display: flex; flex-direction: column;
       /* flex-start, not flex-end: the picture is taller than the viewport, so
          this column has slack, and the auto margin on __foot below is what
