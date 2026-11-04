@@ -61,11 +61,15 @@
       border-bottom: 1px solid var(--beige-mid);
     }
     .careers-hero__copy {
-      /* The space above the label is matched to the space below the facts
-         rather than the other way round, so the bottom is left alone:
-         measured 98px above against 47px below, and the top offset was
-         76px, so 76 - (98 - 47) = 25px. Bottom back to its original 72. */
-      padding: calc(var(--hdr-h, 88px) + 25px) 56px 72px 48px;
+      /* The pair of auto margins - on __eyebrow and on __foot - centre the
+         label, heading and lead between the header rule and the facts rule;
+         both resolve to the same value, so the free space splits evenly.
+         The 30px is the fixed part: it offsets the lead's own 52px
+         margin-bottom against --hdr-h reading a few px under the header's
+         real height, and was set from the measured difference rather than
+         derived. Checked at 1440, 1920 and 1032: 0px apart at all three.
+         Bottom stays at its original 72. */
+      padding: calc(var(--hdr-h, 88px) + 30px) 56px 72px 48px;
       display: flex; flex-direction: column;
       /* flex-start, not flex-end: the picture is taller than the viewport, so
          this column has slack, and the auto margin on __foot below is what
@@ -74,6 +78,10 @@
       justify-content: flex-start;
     }
     .careers-hero__eyebrow {
+      /* the second auto margin: with the one on __foot it splits the free
+         space in two, which centres the label, heading and lead between the
+         header rule and the facts rule */
+      margin-top: auto;
       font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
       color: var(--ink-muted); margin-bottom: 30px;
       display: flex; align-items: center; gap: 16px;
